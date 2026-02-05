@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+:root {
+  --ink: #0a0a0a;
+  --pearl: #ece7e0;
+}
+
 /* minimal reset */
 * {
   margin: 0;
@@ -9,7 +14,7 @@
 
 html,
 body {
-  background: #ffffff; /* whole page is white */
+  background: var(--pearl);
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
   user-select: none;

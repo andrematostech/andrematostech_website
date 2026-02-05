@@ -86,7 +86,7 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="bg-neutral-950 text-white min-h-screen flex items-center"
+      className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center"
     >
       <div className="w-full flex justify-center">
         <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -106,7 +106,7 @@ export default function About() {
           </div>
 
           <div ref={textRef} className="lg:col-span-7">
-            <Reveal as="p" className="text-xs tracking-[0.25em] text-white/50 uppercase">
+            <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase">
               About
             </Reveal>
 
@@ -114,13 +114,13 @@ export default function About() {
               Portugal-based software developer with a background in IT and multimedia.
             </Reveal>
 
-            <p className="mt-4 text-white/70 leading-relaxed">
+            <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed">
               I work with JavaScript, Python, C#, and Java, using tools like React, Node,
               and .NET. I enjoy turning ideas into clean, functional digital experiences —
               focused on performance, usability, and real-world problem solving.
             </p>
 
-            <p className="mt-4 text-white/70 leading-relaxed">
+            <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed">
               I’ve worked on web design and scalable app projects, always learning and using
               technology to create meaningful user experiences.
             </p>

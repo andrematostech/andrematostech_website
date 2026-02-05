@@ -1,4 +1,5 @@
 import { useActiveSection } from "../hooks/useActiveSection";
+import logoBlack from "../assets/logo_black.png";
 
 export default function Navbar() {
   const active = useActiveSection(["top", "about", "work", "contact"], {
@@ -25,19 +26,34 @@ export default function Navbar() {
 
   const linkClass = (id) =>
     `transition-colors ${
-      active === id ? "text-black font-semibold" : "text-black/500 hover:text-black"
+      active === id ? "text-[color:var(--ink)] font-semibold" : "text-[color:var(--ink)]/60 hover:text-[color:var(--ink)]"
     }`;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#f4f4f4]/80 backdrop-blur-100">
-      <div className="h-13 flex justify-center">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/80 backdrop-blur-100">
+      <div className="h-16 flex justify-center">
         <div className="w-full max-w-[1100px] grid grid-cols-12 items-center">
-          <a href="#top" className="col-span-4 flex items-center gap-2" onClick={(e) => handleNavClick(e, "top")}>
-            <div className="h-9 w-9 bg-black text-white grid place-items-center text-sm font-semibold">
-              AM
-            </div>
-            <span className="text-sm font-semibold">André Matos</span>
-          </a>
+          <div className="col-span-4">
+            <a
+              href="#top"
+              className="inline-flex items-center gap-2 p-0 leading-none"
+              aria-label="Home"
+              onClick={(e) => handleNavClick(e, "top")}
+            >
+              <div className="h-10 w-10">
+                <img
+                  src={logoBlack}
+                  alt="andrematostech logo"
+                  className="block h-full w-full object-contain"
+                  decoding="async"
+                />
+              </div>
+              <span className="leading-none">
+                <span className="block text-[15px] font-semibold">andrematos</span>
+                <span className="block text-[15px] font-semibold">tech</span>
+              </span>
+            </a>
+          </div>
 
           <nav className="col-span-8 flex justify-end gap-10 text-sm">
             <a href="#about" className={linkClass("about")} onClick={(e) => handleNavClick(e, "about")}>About</a>

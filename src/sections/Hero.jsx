@@ -62,18 +62,18 @@ export default function Hero() {
     <section
       id="top"
       ref={wrapRef}
-      className="relative bg-[#f4f4f4] text-black min-h-[calc(100vh-64px)]"
+      className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)]"
     >
       {/* Screen-centered hero */}
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
         <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left */}
-          <div ref={heroCopyRef} className="lg:col-span-6">
-            <p className="text-s tracking-[0.45em] text-black/50 uppercase">
+          <div ref={heroCopyRef} className="lg:col-span-6 flex flex-col gap-4">
+            <p className="text-s font-bold tracking-[0.40em] text-[color:var(--ink)]/50 uppercase">
               Software Developer
             </p>
 
-            <h1 className="mt-4 text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
+            <h1 className=" text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[color:var(--ink)]">
               André Matos
             </h1>
 
@@ -84,7 +84,7 @@ export default function Hero() {
           </div>
 
           {/* Right */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-6 flex flex-col gap-4">
             <div
               ref={heroImageWrapRef}
               className="relative aspect-[4/5] w-full overflow-hidden"
@@ -118,15 +118,15 @@ export default function Hero() {
             ref={wedgeInnerRef}
             className="w-full max-w-[1100px] h-full relative"
           >
-            <div className="absolute left-0 bottom-6 flex items-center gap-3">
+            <div className="absolute left-0 bottom-6 flex items-center gap-6">
               <a
                 href="https://github.com/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="border border-white/15 bg-white/5 p-2 text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors"
               >
-                <FaGithub size={18} />
+                <FaGithub size={25} />
               </a>
 
               <a
@@ -134,9 +134,9 @@ export default function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="border border-white/15 bg-white/5 p-2 text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors"
               >
-                <FaLinkedinIn size={18} />
+                <FaLinkedinIn size={25} />
               </a>
             </div>
           </div>

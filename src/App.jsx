@@ -7,7 +7,7 @@ import Footer from "./sections/Footer";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-[color:var(--pearl)] text-[color:var(--ink)]">
       <Navbar />
       <main className="pt-16">
         <Hero />
