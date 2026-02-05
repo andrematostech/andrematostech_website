@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+/* minimal reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #ffffff; /* whole page is white */
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* Subtle global grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.06; /* tweak 0.03�0.08 */
+  mix-blend-mode: overlay;
+
+  /* SVG turbulence as a data-uri (no file needed) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Optional: reduce grain on mobile for performance */
+@media (max-width: 640px) {
+  body::before {
+    opacity: 0.04;
+  }
+}
