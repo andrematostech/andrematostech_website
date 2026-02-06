@@ -14,7 +14,7 @@ export default function Reveal({
   x = 0,
   duration = 0.9,
   start = "top 85%",
-  once = true,
+  once = true
 }) {
   const wrapRef = useRef(null);
   const innerRef = useRef(null);
@@ -38,8 +38,8 @@ export default function Reveal({
           scrollTrigger: {
             trigger: wrap,
             start,
-            toggleActions: once ? "play none none none" : "play reverse play reverse",
-          },
+            toggleActions: once ? "play none none none" : "play reverse play reverse"
+          }
         }
       );
     }, wrap);
@@ -50,10 +50,14 @@ export default function Reveal({
   const Tag = as;
 
   return (
-    <Tag ref={wrapRef} className={className} style={{ overflow: "hidden" }}>
-      <span ref={innerRef} style={{ display: "inline-block", willChange: "transform,opacity" }}>
+    <Tag ref={wrapRef} className={`${`${className} app_reveal`} app_reveal_tag_001`} style={{ overflow: "hidden" }}>
+      <span
+        ref={innerRef}
+        className="app_reveal_inner"
+        style={{ display: "inline-block", willChange: "transform,opacity" }}>
+        
         {children}
       </span>
-    </Tag>
-  );
+    </Tag>);
+
 }

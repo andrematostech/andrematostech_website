@@ -7,14 +7,14 @@ import WorkPage4 from "./pages/WorkPage4";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/workpage_1" element={<WorkPage1 />} />
-        <Route path="/workpage_2" element={<WorkPage2 />} />
-        <Route path="/workpage_3" element={<WorkPage3 />} />
-        <Route path="/workpage_4" element={<WorkPage4 />} />
+    <BrowserRouter className="">
+      <Routes className="">
+        <Route path="/" element={<Home className="" />} className="" />
+        <Route path="/workpage_1" element={<WorkPage1 className="" />} className="" />
+        <Route path="/workpage_2" element={<WorkPage2 className="" />} className="" />
+        <Route path="/workpage_3" element={<WorkPage3 className="" />} className="" />
+        <Route path="/workpage_4" element={<WorkPage4 className="" />} className="" />
       </Routes>
-    </BrowserRouter>
-  );
+    </BrowserRouter>);
+
 }

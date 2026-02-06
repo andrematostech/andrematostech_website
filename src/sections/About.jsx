@@ -32,8 +32,8 @@ export default function About() {
             trigger: section,
             start: "top 92%",
             end: "top 45%",
-            scrub: 0.7,
-          },
+            scrub: 0.7
+          }
         }
       );
 
@@ -50,8 +50,8 @@ export default function About() {
             trigger: section,
             start: "top 92%",
             end: "top 45%",
-            scrub: 0.7,
-          },
+            scrub: 0.7
+          }
         }
       );
 
@@ -61,11 +61,11 @@ export default function About() {
           trigger: section,
           start: "top top",
           end: "bottom top",
-          scrub: true,
-        },
-      })
-        .to(image, { x: -140, opacity: 0, ease: "none" }, 0)
-        .to(text, { x: 140, opacity: 0, ease: "none" }, 0);
+          scrub: true
+        }
+      }).
+      to(image, { x: -140, opacity: 0, ease: "none" }, 0).
+      to(text, { x: 140, opacity: 0, ease: "none" }, 0);
 
       // Subtle parallax on about image while scrolling inside About (inverse)
       gsap.to(image, {
@@ -75,8 +75,8 @@ export default function About() {
           trigger: section,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
-        },
+          scrub: true
+        }
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -86,47 +86,47 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center"
-    >
-      <div className="w-full flex justify-center">
-        <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-5">
+      className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center app_about app_about_section">
+      
+      <div className="w-full flex justify-center app_about_container">
+        <div className="w-full max-w-[1100px] px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
+          <div className="lg:col-span-5 app_about_media">
             <div
               ref={imageRef}
-              className="aspect-[4/5] w-full overflow-hidden"
-            >
+              className="aspect-[4/5] w-full overflow-hidden app_about_image_wrap">
+              
               <img
                 src={coderImage}
                 alt="Developer at work"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover app_about_image"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" />
+              
             </div>
           </div>
 
-          <div ref={textRef} className="lg:col-span-7">
-            <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase">
+          <div ref={textRef} className="lg:col-span-7 app_about_content">
+            <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_about_kicker">
               About
             </Reveal>
 
-            <Reveal as="h2" className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
+            <Reveal as="h2" className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight app_about_title">
               Portugal-based software developer with a background in IT and multimedia.
             </Reveal>
 
-            <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed">
+            <p className="mt-3 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">
               I work with JavaScript, Python, C#, and Java, using tools like React, Node,
               and .NET. I enjoy turning ideas into clean, functional digital experiences —
               focused on performance, usability, and real-world problem solving.
             </p>
 
-            <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed">
+            <p className="mt-3 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">
               I’ve worked on web design and scalable app projects, always learning and using
               technology to create meaningful user experiences.
             </p>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }

@@ -36,11 +36,11 @@ export default function Hero() {
           trigger: section,
           start: "top top",
           end: "bottom top",
-          scrub: true,
-        },
-      })
-        .to(copy, { x: -140, opacity: 0, ease: "none" }, 0)
-        .to(imageWrap, { x: 140, opacity: 0, ease: "none" }, 0);
+          scrub: true
+        }
+      }).
+      to(copy, { x: -140, opacity: 0, ease: "none" }, 0).
+      to(imageWrap, { x: 140, opacity: 0, ease: "none" }, 0);
 
       // Subtle parallax on hero image while scrolling inside hero
       gsap.to(imageWrap, {
@@ -50,8 +50,8 @@ export default function Hero() {
           trigger: section,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
-        },
+          scrub: true
+        }
       });
     }, wrapRef);
 
@@ -62,71 +62,75 @@ export default function Hero() {
     <section
       id="top"
       ref={wrapRef}
-      className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)]"
-    >
+      className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)] app_hero app_hero_section">
+      
       {/* Screen-centered hero */}
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center">
-        <div className="w-full max-w-[1100px] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center app_hero_frame">
+        <div className="w-full max-w-[1100px] px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_hero_grid">
           {/* Left */}
-          <div ref={heroCopyRef} className="lg:col-span-6 flex flex-col gap-4">
-            <p className="text-s font-bold tracking-[0.40em] text-[color:var(--ink)]/50 uppercase">
+          <div ref={heroCopyRef} className="lg:col-span-6 flex flex-col gap-4 app_hero_copy">
+            <p className="text-[11px] sm:text-s font-bold tracking-[0.30em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle">
               Software Developer
             </p>
 
-            <h1 className=" text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[color:var(--ink)]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[color:var(--ink)] app_hero_title">
               André Matos
             </h1>
 
             {/*
-              I turn ideas into clean, functional digital experiences — focused on
-              performance, usability, and real-world problem solving.
-            </p>*/}
+                I turn ideas into clean, functional digital experiences — focused on
+                performance, usability, and real-world problem solving.
+               </p>*/}
           </div>
 
           {/* Right */}
-          <div className="lg:col-span-6 flex flex-col gap-4">
+          <div className="lg:col-span-6 flex flex-col gap-4 app_hero_media">
             <div
               ref={heroImageWrapRef}
-              className="relative aspect-[4/5] w-full overflow-hidden"
-            >
+              className="relative aspect-[4/5] w-full overflow-hidden app_hero_image_wrap">
+              
               <img
                 src={womanImage}
                 alt="Woman at work"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover app_hero_image"
                 loading="lazy"
-                decoding="async"
-              />
+                decoding="async" />
+              
             </div>
           </div>
         </div>
       </div>
 
       {/* Black wedge (touch bottom) */}
-      <div className="absolute inset-x-0 bottom-0 h-28">
+      <div className="absolute inset-x-0 bottom-0 h-28 app_hero_wedge">
         <svg
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 h-full w-full app_hero_wedge_svg"
           viewBox="0 0 1440 112"
           preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path d="M0,36 L320,36 L580,112 L1440,112 L0,112 Z" fill="#0a0a0a" />
+          aria-hidden="true">
+          
+          <path
+            className="app_hero_wedge_path"
+            d="M0,36 L320,36 L580,112 L1440,112 L0,112 Z"
+            fill="#0a0a0a" />
+          
         </svg>
 
         {/* Keep icons aligned with the same max width as hero (NOT screen edge) */}
-        <div className="relative h-full flex justify-center">
+        <div className="relative h-full flex justify-center app_hero_social">
           <div
             ref={wedgeInnerRef}
-            className="w-full max-w-[1100px] h-full relative"
-          >
-            <div className="absolute left-0 bottom-6 flex items-center gap-6">
+            className="w-full max-w-[1100px] h-full relative app_hero_social_inner">
+            
+            <div className="absolute left-0 bottom-6 flex items-center gap-6 app_hero_social_links">
               <a
                 href="https://github.com/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors"
-              >
-                <FaGithub size={25} />
+                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors app_hero_social_link">
+                
+                <FaGithub size={25} className="" />
               </a>
 
               <a
@@ -134,14 +138,14 @@ export default function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors"
-              >
-                <FaLinkedinIn size={25} />
+                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors app_hero_social_link">
+                
+                <FaLinkedinIn size={25} className="" />
               </a>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }

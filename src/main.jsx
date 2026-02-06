@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 const lenis = new Lenis({
   lerp: 0.08, // lower = more glide
   smoothWheel: true,
-  smoothTouch: false,
+  smoothTouch: false
 });
 
 // expose for anchor navigation
@@ -31,7 +31,7 @@ gsap.ticker.add((time) => {
 gsap.ticker.lagSmoothing(0);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
+  <React.StrictMode className="">
+    <App className="" />
   </React.StrictMode>
 );
