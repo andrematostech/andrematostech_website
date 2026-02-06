@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "../components/Reveal.jsx";
@@ -21,7 +22,7 @@ export default function Work() {
 
     const ctx = gsap.context(() => {
       gsap.to(bg, {
-        y: -80,
+        y: -280,
         ease: "none",
         scrollTrigger: {
           trigger: section,
@@ -30,6 +31,7 @@ export default function Work() {
           scrub: true,
         },
       });
+
     }, sectionRef);
 
     return () => ctx.revert();
@@ -40,21 +42,25 @@ export default function Work() {
       title: "Plate Perfection",
       subtitle: "Restaurant website",
       image: card1,
+      href: "/workpage_1",
     },
     {
       title: "Creative Branding",
       subtitle: "Andre Matos creative branding",
       image: card2,
+      href: "/workpage_2",
     },
     {
       title: "Medical App",
       subtitle: "Find my Medical Spot App",
       image: card3,
+      href: "/workpage_3",
     },
     {
       title: "Portfolio 2026",
       subtitle: "Personal portfolio experience",
       image: card4,
+      href: "/workpage_4",
     },
   ];
 
@@ -66,59 +72,63 @@ export default function Work() {
     >
       <div
         ref={bgRef}
-        className="absolute inset-0"
+        className="absolute inset-x-0 -top-[30%] -bottom-[30%]"
         style={{
           backgroundImage: `url(${workBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          transform: "translateY(0px)",
+          transform: "translateY(0px) scale(1.25)",
+          willChange: "transform",
         }}
       />
       <div className="absolute inset-0 bg-[color:var(--ink)]/70" />
 
       <div className="relative w-full flex justify-center">
-        <div className="w-full max-w-[1100px] py-20">
-          <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase">
+        <div
+          className="w-full max-w-[1100px]"
+          style={{ paddingTop: "40px", paddingBottom: "80px" }}
+        >
+          <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase mt-6">
             Work
           </Reveal>
 
-          <Reveal as="h2" className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">
+          <Reveal as="h2" className="mt-3 text-lg sm:text-xl font-semibold tracking-tight text-[color:var(--pearl)]/80">
             Selected projects
           </Reveal>
 
-          <div className="mt-12 space-y-10">
+          <div className="space-y-10">
+            <div style={{ height: "50px" }} />
             {items.map((item, index) => (
-              <div
+              <Link
                 key={item.title}
-                className="group relative border-t border-[color:var(--pearl)]/15 pt-8 pb-10"
+                to={item.href}
+                className={`work-card group relative block border-t border-[color:var(--pearl)]/15 pt-10 pb-12 ${
+                  index === items.length - 1 ? "border-b border-[color:var(--pearl)]/15" : ""
+                }`}
               >
-                <div className="max-w-[720px]">
-                  <p className="text-sm uppercase tracking-[0.22em] text-[color:var(--pearl)]/55">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-2 text-4xl sm:text-5xl font-semibold tracking-tight">
+                <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-0 scale-y-0 origin-center transition-[opacity,transform] duration-1200 ease-out group-hover:opacity-100 group-hover:scale-y-100 z-0">
+                  <img
+                    src={item.image}
+                    alt={`${item.title} background`}
+                    className="h-full w-full object-cover transition-transform duration-200 ease-out scale-100 group-hover:scale-[1.06]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-[color:var(--ink)]/35" />
+                </div>
+
+                <div
+                  className="mt-1 max-w-[720px] tracking-[0.05em] uppercase relative z-10"
+                  style={{ paddingTop: "32px", paddingBottom: "32px", paddingLeft: "30px" }}
+                >
+                  <h3 className="text-5xl sm:text-6xl font-bold leading-[1.35]">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-[color:var(--pearl)]/70">
+                  <p className="mt-0 text-sm text-[color:var(--pearl)]/75 normal-case" style={{ marginTop: "15px" }}>
                     {item.subtitle}
                   </p>
                 </div>
-
-                <div className="pointer-events-none absolute right-0 top-1/2 hidden w-[320px] -translate-y-1/2 sm:block">
-                  <div className="relative opacity-0 translate-y-6 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0">
-                    <div className="absolute inset-0 translate-y-3 scale-[1.02] blur-2xl bg-[color:var(--pearl)]/10 opacity-60" />
-                    <div className="relative overflow-hidden rounded-xl border border-[color:var(--pearl)]/20 bg-[color:var(--ink)]/80 shadow-2xl">
-                      <img
-                        src={item.image}
-                        alt={`${item.title} preview`}
-                        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:-translate-y-2"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

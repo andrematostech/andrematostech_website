@@ -1,6 +1,51 @@
+import { useState } from "react";
+import emailjs from "emailjs-com";
 import Reveal from "../components/Reveal.jsx";
 
+const SERVICE_ID = "service_5z690ec";
+const TEMPLATE_ID = "template_ryyregq";
+const PUBLIC_KEY = "9-OQDjG5XPZ5hXrRT";
+
 export default function Contact() {
+  const [form, setForm] = useState({ from_name: "", reply_to: "", message: "" });
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const name = form.from_name.trim();
+    const email = form.reply_to.trim();
+    const message = form.message.trim();
+    if (!name || !email || !message) return;
+
+    setLoading(true);
+
+    const toNameInput = e.target.querySelector('input[name="to_name"]');
+    if (toNameInput) {
+      toNameInput.value = "André Matos";
+    }
+
+    emailjs
+      .sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
+      .then(() => {
+        setLoading(false);
+        setSent(true);
+        setForm({ from_name: "", reply_to: "", message: "" });
+        setTimeout(() => setSent(false), 5000);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const isValid =
+    form.from_name.trim() && form.reply_to.trim() && form.message.trim();
+
   return (
     <section
       id="contact"
@@ -19,67 +64,66 @@ export default function Contact() {
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div className="lg:col-span-5">
               <p className="text-[color:var(--pearl)]/70 leading-relaxed">
-                Use the form to send me a message. For now this opens your email client (mailto).
-                Later, we can connect a real form backend.
+                Let’s talk about your project. Fill the form and I’ll get back to you.
               </p>
             </div>
 
             <div className="lg:col-span-7">
-              <form
-                className="border border-[color:var(--pearl)]/10 bg-[color:var(--pearl)]/5 p-6 sm:p-8"
-                method="GET"
-                action="mailto:your@email.com"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <label className="text-sm text-[color:var(--pearl)]/80">
-                    Name
-                    <input
-                      name="name"
-                      className="mt-2 w-full bg-black/30 border border-[color:var(--pearl)]/10 px-4 py-3 text-[color:var(--pearl)] placeholder:text-[color:var(--pearl)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--pearl)]/20"
-                      placeholder="Your name"
-                    />
-                  </label>
-
-                  <label className="text-sm text-[color:var(--pearl)]/80">
-                    Email
-                    <input
-                      name="email"
-                      type="email"
-                      className="mt-2 w-full bg-black/30 border border-[color:var(--pearl)]/10 px-4 py-3 text-[color:var(--pearl)] placeholder:text-[color:var(--pearl)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--pearl)]/20"
-                      placeholder="you@example.com"
-                    />
-                  </label>
-                </div>
-
-                <label className="mt-4 block text-sm text-[color:var(--pearl)]/80">
-                  Message
-                  <textarea
-                    name="body"
-                    rows={5}
-                    className="mt-2 w-full bg-black/30 border border-[color:var(--pearl)]/10 px-4 py-3 text-[color:var(--pearl)] placeholder:text-[color:var(--pearl)]/40 focus:outline-none focus:ring-2 focus:ring-[color:var(--pearl)]/20"
-                    placeholder="Tell me about your project…"
+              <form onSubmit={onSubmit} className="space-y-10">
+                <input type="hidden" name="to_name" value="André Matos" />
+                <label className="block text-sm text-[color:var(--pearl)]/80">
+                  Name
+                  <input
+                    name="from_name"
+                    value={form.from_name}
+                    onChange={onChange}
+                    required
+                    className="mt-3 w-full bg-transparent border-b border-[color:var(--pearl)]/25 pb-3 text-[color:var(--pearl)] placeholder:text-[color:var(--pearl)]/30 focus:outline-none focus:border-[color:var(--pearl)]/60"
                   />
                 </label>
 
-                <div className="mt-6 flex items-center justify-between gap-4">
-                  <p className="text-xs text-[color:var(--pearl)]/50">This will open your default email app.</p>
+                <label className="block text-sm text-[color:var(--pearl)]/80">
+                  Email
+                  <input
+                    name="reply_to"
+                    type="email"
+                    value={form.reply_to}
+                    onChange={onChange}
+                    required
+                    className="mt-3 w-full bg-transparent border-b border-[color:var(--pearl)]/25 pb-3 text-[color:var(--pearl)] placeholder:text-[color:var(--pearl)]/30 focus:outline-none focus:border-[color:var(--pearl)]/60"
+                  />
+                </label>
 
-                  <button
-                    type="submit"
-                    className="bg-[color:var(--pearl)] text-[color:var(--ink)] px-6 py-3 text-sm font-medium hover:bg-[color:var(--pearl)]/90"
-                  >
-                    Send
-                  </button>
-                </div>
+                <label className="block text-sm text-[color:var(--pearl)]/80">
+                  Message
+                  <textarea
+                    name="message"
+                    rows={4}
+                    value={form.message}
+                    onChange={onChange}
+                    required
+                    className="mt-3 w-full bg-transparent border-b border-[color:var(--pearl)]/25 pb-3 text-[color:var(--pearl)] placeholder:text-[color:var(--pearl)]/30 focus:outline-none focus:border-[color:var(--pearl)]/60"
+                  />
+                </label>
+
+                <button
+                  type="submit"
+                  disabled={loading || !isValid}
+                  className="w-full border border-[color:var(--pearl)]/40 py-3 text-sm font-medium text-[color:var(--pearl)] transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--pearl)] hover:text-[color:var(--pearl)]"
+                >
+                  {loading ? "Sending..." : "Send Message"}
+                </button>
               </form>
-
-              <p className="mt-3 text-xs text-[color:var(--pearl)]/50">
-                Replace <span className="text-[color:var(--pearl)]/80">your@email.com</span> with your real email when ready.
-              </p>
             </div>
           </div>
         </div>
       </div>
+
+      {sent && (
+        <div className="fixed bottom-6 right-6 z-50 rounded-md border border-[color:var(--pearl)]/30 bg-[color:var(--ink)]/90 px-4 py-3 text-sm text-[color:var(--pearl)]">
+          Email has been sent
+        </div>
+      )}
     </section>
   );
 }
