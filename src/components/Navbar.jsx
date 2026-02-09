@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
 import { useActiveSection } from "../hooks/useActiveSection";
 import logoBlack from "../assets/logo_black.png";
 
@@ -34,10 +35,13 @@ export default function Navbar() {
     }`;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header">
-      <div className="h-14 sm:h-16 flex justify-center app_nav_bar">
-        <div className="w-full max-w-[1100px] px-4 sm:px-6 grid grid-cols-12 items-center app_nav_inner">
-          <div className="col-span-8 sm:col-span-4 app_nav_brand">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header"
+      style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))" }}
+    >
+      <div className="h-12 sm:h-16 flex justify-center app_nav_bar">
+        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_nav_inner">
+          <div className="col-span-8 sm:col-span-4 app_nav_brand pl-4 sm:pl-0">
             <a
               href="#top"
               className="inline-flex items-center gap-2 p-0 leading-none app_nav_brand_link"
@@ -91,51 +95,55 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="Toggle menu"
-              className="h-9 w-9 border border-[color:var(--ink)]/20 text-[color:var(--ink)] app_nav_menu_button"
+              className="h-10 w-10 text-[color:var(--ink)] app_nav_menu_button"
               onClick={() => setOpen((v) => !v)}
             >
-              <span className="block text-xs app_nav_menu_text">{open ? "Close" : "Menu"}</span>
+              {open ? <FiX size={20} /> : <FiMenu size={20} />}
             </button>
           </div>
         </div>
       </div>
 
-      {open && (
-        <div className="sm:hidden border-t border-[color:var(--ink)]/10 bg-[color:var(--pearl)]/95 app_nav_mobile">
-          <div className="px-4 py-4 flex flex-col gap-4 text-sm app_nav_mobile_inner">
-            <a
-              href="#about"
-              className={`${linkClass("about")} app_nav_link`}
-              onClick={(e) => {
-                handleNavClick(e, "about");
-                setOpen(false);
-              }}
-            >
-              About
-            </a>
-            <a
-              href="#work"
-              className={`${linkClass("work")} app_nav_link`}
-              onClick={(e) => {
-                handleNavClick(e, "work");
-                setOpen(false);
-              }}
-            >
-              Work
-            </a>
-            <a
-              href="#contact"
-              className={`${linkClass("contact")} app_nav_link`}
-              onClick={(e) => {
-                handleNavClick(e, "contact");
-                setOpen(false);
-              }}
-            >
-              Contact
-            </a>
-          </div>
+      <div
+        className={`sm:hidden border-t border-[color:var(--ink)]/10 bg-transparent app_nav_mobile transition-all duration-300 ease-out overflow-hidden ${
+          open ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className={`px-4 pt-14 pb-14 flex flex-col gap-4 text-sm app_nav_mobile_inner transition-transform duration-300 ease-out ${open ? "translate-y-0" : "-translate-y-2"}`}>
+          <div className="h-3" />
+          <a
+            href="#about"
+            className={`${linkClass("about")} app_nav_link`}
+            onClick={(e) => {
+              handleNavClick(e, "about");
+              setOpen(false);
+            }}
+          >
+            About
+          </a>
+          <a
+            href="#work"
+            className={`${linkClass("work")} app_nav_link`}
+            onClick={(e) => {
+              handleNavClick(e, "work");
+              setOpen(false);
+            }}
+          >
+            Work
+          </a>
+          <a
+            href="#contact"
+            className={`${linkClass("contact")} app_nav_link`}
+            onClick={(e) => {
+              handleNavClick(e, "contact");
+              setOpen(false);
+            }}
+          >
+            Contact
+          </a>
+          <div className="h-3" />
         </div>
-      )}
+      </div>
     </header>
   );
 }
