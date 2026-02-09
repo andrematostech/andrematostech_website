@@ -85,6 +85,11 @@ body::before {
     justify-content: space-between;
     padding-right: 0;
   }
+
+  .app_work_nav_inner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @media (min-width: 1110px) {
