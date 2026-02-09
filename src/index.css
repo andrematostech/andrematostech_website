@@ -79,6 +79,10 @@ body::before {
     margin-left: auto;
   }
 
+  .app_nav_mobile {
+    display: block;
+  }
+
   .app_nav_inner {
     display: flex;
     align-items: center;
