@@ -1,15 +1,42 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import emailjs from "emailjs-com";
 import Reveal from "../components/Reveal.jsx";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SERVICE_ID = "service_5z690ec";
 const TEMPLATE_ID = "template_ryyregq";
 const PUBLIC_KEY = "9-OQDjG5XPZ5hXrRT";
 
 export default function Contact() {
+  const sectionRef = useRef(null);
+  const copyRef = useRef(null);
   const [form, setForm] = useState({ from_name: "", reply_to: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const copy = copyRef.current;
+    if (!section || !copy) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(copy, {
+        y: -28,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -49,8 +76,9 @@ export default function Contact() {
   return (
     <section
       id="contact"
+      ref={sectionRef}
       className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center border-t border-[color:var(--pearl)]/10 app_contact app_contact_section">
-      
+
       <div className="w-full flex justify-center app_contact_container">
         <div className="w-full max-w-[1100px] px-[52px] sm:px-6 app_contact_inner">
           <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_contact_kicker">
@@ -62,7 +90,7 @@ export default function Contact() {
           </Reveal>
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 app_contact_grid">
-            <div className="lg:col-span-5 app_contact_copy">
+            <div ref={copyRef} className="lg:col-span-5 app_contact_copy">
               <p className="text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
                 Let’s talk about your project. Fill the form and I’ll get back to you.
               </p>

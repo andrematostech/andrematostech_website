@@ -2,7 +2,7 @@
 
 :root {
   --ink: #0a0a0a;
-  --pearl: #ece7e0;
+  --pearl: #f5f2ee;
 }
 
 /* minimal reset */
@@ -94,6 +94,12 @@ body::before {
     padding-left: 1rem;
     padding-right: 1rem;
   }
+
+  .app_hero_section,
+  .app_about_section,
+  .app_work_section {
+    min-height: 80vh;
+  }
 }
 
 @media (min-width: 1110px) {
@@ -103,5 +109,21 @@ body::before {
 
   .app_nav_menu {
     display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .app_hero_image_wrap {
+    max-width: 860px;
+    margin-left: auto;
+  }
+
+  .app_hero_image {
+    transform: scale(1.36);
+    transform-origin: center right;
+  }
+
+  .app_hero_media {
+    overflow: visible;
   }
 }

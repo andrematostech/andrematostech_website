@@ -66,9 +66,9 @@ export default function Hero() {
       
       {/* Screen-centered hero */}
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-8 sm:px-0 app_hero_frame">
-        <div className="w-full max-w-[1100px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-10 items-center app_hero_grid">
+        <div className="w-full max-w-[1100px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-1 sm:gap-4 items-center app_hero_grid">
           {/* Left */}
-          <div ref={heroCopyRef} className="lg:col-span-6 flex flex-col gap-1 sm:gap-4 app_hero_copy">
+          <div ref={heroCopyRef} className="lg:col-span-6 flex flex-col gap-1 sm:gap-4 app_hero_copy relative z-10 max-w-[500px]">
             <p className="text-[11px] sm:text-s font-bold tracking-[0.30em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle">
               Software Developer
             </p>
@@ -84,10 +84,10 @@ export default function Hero() {
           </div>
 
           {/* Right */}
-          <div className="lg:col-span-6 flex flex-col gap-4 items-end self-end app_hero_media">
+          <div className="lg:col-span-6 flex flex-col gap-4 items-end self-end app_hero_media relative z-0">
             <div
               ref={heroImageWrapRef}
-              className="relative aspect-[4/5] w-full overflow-hidden app_hero_image_wrap">
+              className="relative aspect-[4/5] w-full overflow-visible app_hero_image_wrap">
               
               <img
                 src={womanImage}
