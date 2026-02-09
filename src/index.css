@@ -53,8 +53,14 @@ body::before {
   .app_about_grid,
   .app_work_inner,
   .app_contact_inner,
-  .app_footer_inner {
+  .app_footer_inner,
+  .app_workpage_inner {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .app_hero_social_link svg {
+    width: 20px;
+    height: 20px;
   }
 }
