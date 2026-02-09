@@ -37,7 +37,7 @@ export default function Navbar() {
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header"
-      style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))" }}
+      style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(4px, env(safe-area-inset-right))" }}
     >
       <div className="h-12 sm:h-16 flex justify-center app_nav_bar">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_nav_inner">
@@ -67,7 +67,7 @@ export default function Navbar() {
             </a>
           </div>
 
-          <nav className="hidden sm:flex col-span-8 justify-end gap-8 text-sm app_nav_links">
+          <nav className="col-span-8 justify-end gap-8 text-sm app_nav_links">
             <a
               href="#about"
               className={`${linkClass("about")} app_nav_link`}
@@ -91,7 +91,7 @@ export default function Navbar() {
             </a>
           </nav>
 
-          <div className="col-span-4 sm:hidden flex justify-end">
+          <div className="col-span-4 flex justify-end app_nav_menu">
             <button
               type="button"
               aria-label="Toggle menu"

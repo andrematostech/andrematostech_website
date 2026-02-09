@@ -43,7 +43,7 @@ body::before {
 }
 
 /* Force hero side padding on phones */
-@media (max-width: 639px) {
+@media (max-width: 1109px) {
   .app_hero_frame,
   .app_hero_social {
     padding-left: 1rem;
@@ -62,5 +62,37 @@ body::before {
   .app_hero_social_link svg {
     width: 20px;
     height: 20px;
+  }
+
+  .app_contact_button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .app_nav_links {
+    display: none;
+  }
+
+  .app_nav_menu {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .app_nav_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1110px) {
+  .app_nav_links {
+    display: flex;
+  }
+
+  .app_nav_menu {
+    display: none;
   }
 }

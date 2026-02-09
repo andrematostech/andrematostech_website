@@ -71,7 +71,7 @@ export default function Contact() {
             <div className="lg:col-span-7 app_contact_form_wrap">
               <form onSubmit={onSubmit} className="space-y-10 app_contact_form">
                 <input type="hidden" name="to_name" value="André Matos" className="" />
-                <label className="block text-xs sm:text-sm text-[color:var(--pearl)]/80 app_contact_label">
+                <label className="block text-sm sm:text-base text-[color:var(--pearl)]/80 app_contact_label">
                   Name
                   <input
                     name="from_name"
@@ -82,7 +82,7 @@ export default function Contact() {
                   
                 </label>
 
-                <label className="block text-xs sm:text-sm text-[color:var(--pearl)]/80 app_contact_label">
+                <label className="block text-sm sm:text-base text-[color:var(--pearl)]/80 app_contact_label">
                   Email
                   <input
                     name="reply_to"
@@ -94,7 +94,7 @@ export default function Contact() {
                   
                 </label>
 
-                <label className="block text-xs sm:text-sm text-[color:var(--pearl)]/80 app_contact_label">
+                <label className="block text-sm sm:text-base text-[color:var(--pearl)]/80 app_contact_label">
                   Message
                   <textarea
                     name="message"
@@ -109,7 +109,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={loading || !isValid}
-                  className="w-full border border-[color:var(--pearl)]/40 py-3 text-xs sm:text-sm font-medium text-[color:var(--pearl)] transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--pearl)] hover:text-[color:var(--pearl)] app_contact_button">
+                  className="w-full border border-[color:var(--pearl)]/40 py-8 text-base sm:text-lg font-medium text-[color:var(--pearl)] transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--pearl)] hover:text-[color:var(--pearl)] app_contact_button">
                   
                   {loading ? "Sending..." : "Send Message"}
                 </button>
