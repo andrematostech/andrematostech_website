@@ -52,7 +52,7 @@ export default function Contact() {
       className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center border-t border-[color:var(--pearl)]/10 app_contact app_contact_section">
       
       <div className="w-full flex justify-center app_contact_container">
-        <div className="w-full max-w-[1100px] px-4 sm:px-6 app_contact_inner">
+        <div className="w-full max-w-[1100px] px-[52px] sm:px-6 app_contact_inner">
           <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_contact_kicker">
             Contact
           </Reveal>

@@ -65,8 +65,8 @@ export default function Hero() {
       className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)] app_hero app_hero_section">
       
       {/* Screen-centered hero */}
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center app_hero_frame">
-        <div className="w-full max-w-[1100px] px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_hero_grid">
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-8 sm:px-0 app_hero_frame">
+        <div className="w-full max-w-[1100px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_hero_grid">
           {/* Left */}
           <div ref={heroCopyRef} className="lg:col-span-6 flex flex-col gap-4 app_hero_copy">
             <p className="text-[11px] sm:text-s font-bold tracking-[0.30em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle">
@@ -117,10 +117,10 @@ export default function Hero() {
         </svg>
 
         {/* Keep icons aligned with the same max width as hero (NOT screen edge) */}
-        <div className="relative h-full flex justify-center app_hero_social">
+        <div className="relative h-full flex justify-center px-8 sm:px-0 app_hero_social">
           <div
             ref={wedgeInnerRef}
-            className="w-full max-w-[1100px] h-full relative app_hero_social_inner">
+            className="w-full max-w-[1100px] sm:px-6 h-full relative app_hero_social_inner">
             
             <div className="absolute left-0 bottom-6 flex items-center gap-6 app_hero_social_links">
               <a

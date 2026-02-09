@@ -89,7 +89,7 @@ export default function About() {
       className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center app_about app_about_section">
       
       <div className="w-full flex justify-center app_about_container">
-        <div className="w-full max-w-[1100px] px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
+        <div className="w-full max-w-[1100px] px-[52px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
           <div className="lg:col-span-5 app_about_media">
             <div
               ref={imageRef}

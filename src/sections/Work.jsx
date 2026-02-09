@@ -85,7 +85,7 @@ export default function Work() {
 
       <div className="relative w-full flex justify-center app_work_container">
         <div
-          className="w-full max-w-[1100px] px-4 sm:px-6 app_work_inner"
+          className="w-full max-w-[1100px] px-[52px] sm:px-6 app_work_inner"
           style={{ paddingTop: "40px", paddingBottom: "80px" }}>
           
           <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase mt-6 app_work_kicker">

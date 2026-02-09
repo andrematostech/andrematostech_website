@@ -9,7 +9,7 @@ export default function Footer() {
       style={{ paddingTop: "10px", paddingBottom: "10px" }}>
       
       <div className="w-full flex justify-center app_footer_container">
-        <div className="w-full max-w-[1100px] px-4 sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 app_footer_inner">
+        <div className="w-full max-w-[1100px] px-[52px] sm:px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 app_footer_inner">
           <div className="flex items-center gap-2 app_footer_brand">
             <div className="h-[25px] w-[25px] app_footer_logo">
               <img
