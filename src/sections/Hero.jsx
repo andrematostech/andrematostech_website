@@ -104,51 +104,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Black wedge (touch bottom) */}
-      <div className="absolute inset-x-0 bottom-0 h-28 app_hero_wedge">
-        <svg
-          className="absolute inset-0 h-full w-full app_hero_wedge_svg"
-          viewBox="0 0 1440 112"
-          preserveAspectRatio="none"
-          aria-hidden="true">
-          
-          <path
-            className="app_hero_wedge_path"
-            d="M0,36 L320,36 L580,112 L1440,112 L0,112 Z"
-            fill="#0a0a0a" />
-          
-        </svg>
-
-        {/* Keep icons aligned with the same max width as hero (NOT screen edge) */}
-        <div className="relative h-full flex justify-center px-6 sm:px-0 app_hero_social">
-          <div
-            ref={wedgeInnerRef}
-            className="w-full max-w-[1100px] sm:px-6 h-full relative app_hero_social_inner">
-            
-            <div className="absolute left-0 bottom-6 flex items-center gap-6 app_hero_social_links">
-              <a
-                href="https://github.com/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors app_hero_social_link">
-                
-                <FaGithub size={25} className="" />
-              </a>
-
-              <a
-                href="https://linkedin.com/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="text-[color:var(--pearl)]/90 hover:bg-[color:var(--pearl)]/10 hover:text-[color:var(--pearl)] transition-colors app_hero_social_link">
-                
-                <FaLinkedinIn size={25} className="" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Wedge removed */}
     </section>);
 
 }

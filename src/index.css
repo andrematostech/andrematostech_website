@@ -137,6 +137,7 @@ body::before {
   mask-composite: intersect;
 }
 
+
 /* Contact background: connected network */
 .app_contact_bg_svg {
   opacity: 0.45;
@@ -199,6 +200,23 @@ body::before {
   0% { transform: translateX(-6px) translateY(2px) rotate(-0.3deg); }
   50% { transform: translateX(8px) translateY(-4px) rotate(0.4deg); }
   100% { transform: translateX(-6px) translateY(2px) rotate(-0.3deg); }
+}
+
+/* About social spacing */
+.app_about_social {
+  margin-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .app_about_social {
+    margin-top: 32px;
+  }
+}
+
+/* Keep hero wedge size fixed across breakpoints */
+.app_hero_wedge_svg {
+  width: 1440px;
+  height: 96px;
 }
 
 /* Performance: hint animated elements */

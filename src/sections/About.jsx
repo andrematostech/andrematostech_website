@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "../components/Reveal.jsx";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import coderImage from "../assets/man.png";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -93,9 +94,9 @@ export default function About() {
       ref={sectionRef}
       className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center app_about app_about_section">
       
-      <div className="w-full flex justify-center app_about_container">
+      <div className="w-full flex justify-center app_about_container" style={{ paddingBottom: "40px" }}>
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
-          <div className="lg:col-span-5 app_about_media">
+          <div className="lg:col-span-5 app_about_media overflow-hidden">
             <div
               ref={imageRef}
               className="aspect-[4/5] w-full overflow-hidden app_about_image_wrap">
@@ -129,6 +130,25 @@ export default function About() {
               I’ve worked on web design and scalable app projects, always learning and using
               technology to create meaningful user experiences.
             </p>
+
+            <div className="flex items-center gap-6 app_about_social">
+              <a
+                href="https://github.com/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="GitHub"
+                className="text-[color:var(--pearl)]/80 hover:text-[color:var(--pearl)] transition-colors app_about_social_link">
+                <FaGithub size={22} />
+              </a>
+              <a
+                href="https://linkedin.com/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn"
+                className="text-[color:var(--pearl)]/80 hover:text-[color:var(--pearl)] transition-colors app_about_social_link">
+                <FaLinkedinIn size={22} />
+              </a>
+            </div>
           </div>
         </div>
       </div>
