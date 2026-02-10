@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "../components/Reveal.jsx";
-import coderImage from "../assets/coder.png";
+import coderImage from "../assets/man.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -89,7 +89,7 @@ export default function About() {
       className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center app_about app_about_section">
       
       <div className="w-full flex justify-center app_about_container">
-        <div className="w-full max-w-[1100px] px-[52px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
+        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
           <div className="lg:col-span-5 app_about_media">
             <div
               ref={imageRef}
@@ -98,7 +98,7 @@ export default function About() {
               <img
                 src={coderImage}
                 alt="Developer at work"
-                className="h-full w-full object-cover app_about_image"
+                className="h-full w-full object-contain app_about_image"
                 loading="lazy"
                 decoding="async" />
               

@@ -14,6 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Work() {
   const sectionRef = useRef(null);
   const bgRef = useRef(null);
+  const headerRef = useRef(null);
+  const cardRefs = useRef([]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -31,6 +33,45 @@ export default function Work() {
           scrub: true
         }
       });
+
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current,
+          { x: -140, opacity: 0, y: 12 },
+          {
+            x: 0,
+            opacity: 1,
+            y: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 92%",
+              end: "top 45%",
+              scrub: 0.7
+            }
+          }
+        );
+      }
+
+      if (cardRefs.current.length) {
+        gsap.fromTo(
+          cardRefs.current,
+          { x: 140, opacity: 0, y: 10 },
+          {
+            x: 0,
+            opacity: 1,
+            y: 0,
+            ease: "none",
+            stagger: 0.12,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 92%",
+              end: "top 45%",
+              scrub: 0.7
+            }
+          }
+        );
+      }
 
     }, sectionRef);
 
@@ -85,16 +126,18 @@ export default function Work() {
 
       <div className="relative w-full flex justify-center app_work_container">
         <div
-          className="w-full max-w-[1100px] px-[52px] sm:px-6 app_work_inner"
-          style={{ paddingTop: "40px", paddingBottom: "80px" }}>
+          className="w-full max-w-[1100px] px-6 sm:px-6 app_work_inner"
+          style={{ paddingTop: "80px", paddingBottom: "80px" }}>
           
-          <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase mt-6 app_work_kicker">
-            Work
-          </Reveal>
+          <div ref={headerRef} className="app_work_header">
+            <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase mt-6 app_work_kicker">
+              Work
+            </Reveal>
 
-          <Reveal as="h2" className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-[color:var(--pearl)]/80 app_work_subtitle">
-            Selected projects
-          </Reveal>
+            <Reveal as="h2" className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-[color:var(--pearl)]/80 app_work_subtitle">
+              Selected projects
+            </Reveal>
+          </div>
 
           <div className="space-y-10 app_work_list">
             <div className="app_work_list_spacer" style={{ height: "32px" }} />
@@ -102,6 +145,7 @@ export default function Work() {
             <Link
               key={item.title}
               to={item.href}
+              ref={(el) => { cardRefs.current[index] = el; }}
               className={`${`work-card group relative block border-t border-[color:var(--pearl)]/15 pt-10 pb-12 app_work_card ${
               index === items.length - 1 ? "border-b border-[color:var(--pearl)]/15" : ""}`} app_work_link_010`}>
 
