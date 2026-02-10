@@ -76,8 +76,8 @@ export default function Hero() {
               Software Developer
             </p>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[color:var(--ink)] app_hero_title">
-              André Matos
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[color:var(--ink)] app_hero_title uppercase">
+              ANDRÉ MATOS
             </h1>
 
             {/*

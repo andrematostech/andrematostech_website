@@ -87,7 +87,7 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-right: 0;
+
   }
 
   .app_work_nav_inner {
@@ -139,7 +139,7 @@ body::before {
 
 /* Contact background: connected network */
 .app_contact_bg_svg {
-  opacity: 0.55;
+  opacity: 0.45;
   color: #f5f2ee;
   width: 1200px;
   height: 800px;
@@ -157,17 +157,17 @@ body::before {
 }
 
 .app_contact_bg_dots circle {
-  filter: drop-shadow(0 0 10px rgba(245, 242, 238, 0.55));
-  animation: contactTwinkle 7s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(245, 242, 238, 0.45));
+  animation: contactTwinkle 12s ease-in-out infinite;
 }
 
 .app_contact_bg_dots circle:nth-child(2n) {
-  animation-duration: 9s;
+  animation-duration: 14s;
   opacity: 0.4;
 }
 
 .app_contact_bg_dots circle:nth-child(3n) {
-  animation-delay: 1.8s;
+  animation-delay: 2.6s;
   opacity: 0.55;
 }
 
@@ -178,11 +178,11 @@ body::before {
 
 .app_contact_bg_lines path {
   fill: none;
-  stroke: rgba(245, 242, 238, 0.22);
+  stroke: rgba(245, 242, 238, 0.16);
   stroke-width: 1;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .app_contact_bg_svg {

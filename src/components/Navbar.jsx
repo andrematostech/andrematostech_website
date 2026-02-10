@@ -37,11 +37,11 @@ export default function Navbar() {
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header"
-      style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(4px, env(safe-area-inset-right))" }}
+      style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))" }}
     >
       <div className="h-12 sm:h-16 flex justify-center app_nav_bar">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_nav_inner">
-          <div className="col-span-8 sm:col-span-4 app_nav_brand pl-4 sm:pl-0">
+          <div className="col-span-8 sm:col-span-4 app_nav_brand">
             <a
               href="#top"
               className="inline-flex items-center gap-2 p-0 leading-none app_nav_brand_link"
