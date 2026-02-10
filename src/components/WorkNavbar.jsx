@@ -5,7 +5,7 @@ export default function WorkNavbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/80 backdrop-blur-100 app_work_nav app_work_nav_header">
       <div className="h-14 sm:h-16 flex justify-center app_work_nav_bar">
-        <div className="w-full max-w-[1100px] px-4 sm:px-6 grid grid-cols-12 items-center app_work_nav_inner">
+        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_work_nav_inner">
           <div className="col-span-4 app_work_nav_back">
             <Link
               to="/#work"

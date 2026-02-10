@@ -25,6 +25,9 @@ export default function Contact() {
     if (!section || !copy || !form) return;
 
     const ctx = gsap.context(() => {
+      // Ensure content is visible even if animations fail
+      gsap.set([copy, form], { opacity: 1, x: 0, y: 0 });
+
       // Slide in from sides as Contact enters (like About)
       gsap.fromTo(
         copy,
@@ -34,6 +37,7 @@ export default function Contact() {
           opacity: 1,
           y: 0,
           ease: "none",
+          immediateRender: false,
           scrollTrigger: {
             trigger: section,
             start: "top 92%",
@@ -51,6 +55,7 @@ export default function Contact() {
           opacity: 1,
           y: 0,
           ease: "none",
+          immediateRender: false,
           scrollTrigger: {
             trigger: section,
             start: "top 92%",

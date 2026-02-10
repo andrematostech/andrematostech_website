@@ -13,7 +13,7 @@ export default function WorkPage3() {
       <WorkNavbar className="" />
       <main className="pt-20 flex-1 app_workpage_main">
         <div className="w-full flex justify-center app_workpage_container">
-          <div className="w-full max-w-[1100px] px-4 sm:px-6 py-12 sm:py-16 flex flex-col items-center text-center app_workpage_inner">
+          <div className="w-full max-w-[1100px] px-6 sm:px-6 py-12 sm:py-16 flex flex-col items-center text-center app_workpage_inner">
             <div className="app_workpage_header" style={{ marginTop: "100px" }}>
               <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-center app_workpage_title">
                 Work Page 3

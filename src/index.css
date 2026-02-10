@@ -200,3 +200,17 @@ body::before {
   50% { transform: translateX(8px) translateY(-4px) rotate(0.4deg); }
   100% { transform: translateX(-6px) translateY(2px) rotate(-0.3deg); }
 }
+
+/* Performance: hint animated elements */
+.app_hero_copy,
+.app_hero_media,
+.app_hero_image_wrap,
+.app_about_media,
+.app_about_content,
+.app_work_header,
+.app_work_card,
+.app_contact_copy,
+.app_contact_form_wrap,
+.app_contact_bg_svg {
+  will-change: transform, opacity;
+}

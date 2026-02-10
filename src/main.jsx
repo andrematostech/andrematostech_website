@@ -9,29 +9,48 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 // Smooth scrolling (inertia)
-const lenis = new Lenis({
-  lerp: 0.08, // lower = more glide
-  smoothWheel: true,
-  smoothTouch: false
-});
+let lenis;
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (!prefersReducedMotion) {
+  try {
+    lenis = new Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+      smoothTouch: true
+    });
+  } catch {
+    lenis = null;
+  }
+}
 
 // expose for anchor navigation
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && lenis) {
   window.lenis = lenis;
 }
 
-lenis.on("scroll", ScrollTrigger.update);
+if (lenis) {
+  lenis.on("scroll", ScrollTrigger.update);
+  gsap.ticker.add((time) => {
+    // gsap time is seconds; Lenis expects ms
+    lenis.raf(time * 1000);
+  });
+  gsap.ticker.lagSmoothing(1000, 16);
 
-gsap.ticker.add((time) => {
-  // gsap time is seconds; Lenis expects ms
-  lenis.raf(time * 1000);
-});
-gsap.ticker.lagSmoothing(0);
+  // keep ScrollTrigger in sync after layout shifts
+  ScrollTrigger.addEventListener("refresh", () => lenis.resize());
+  window.addEventListener("load", () => ScrollTrigger.refresh());
+  ScrollTrigger.refresh();
+} else {
+  ScrollTrigger.refresh();
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode className="">
-    <App className="" />
-  </React.StrictMode>
+  <App className="" />
 );

@@ -23,11 +23,14 @@ export default function Hero() {
     if (!section || !copy || !imageWrap) return;
 
     const ctx = gsap.context(() => {
+      // Ensure content is visible even if animations fail
+      gsap.set([copy, imageWrap], { opacity: 1, x: 0, y: 0 });
+
       // Initial on-load (small)
       gsap.fromTo(
         [copy, imageWrap],
         { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.08 }
+        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.08, immediateRender: false }
       );
 
       // Scroll out hero (towards About)
@@ -65,7 +68,7 @@ export default function Hero() {
       className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)] app_hero app_hero_section">
       
       {/* Screen-centered hero */}
-      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-8 sm:px-0 app_hero_frame">
+      <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 sm:px-0 app_hero_frame">
         <div className="w-full max-w-[1100px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-1 sm:gap-4 items-center app_hero_grid">
           {/* Left */}
           <div ref={heroCopyRef} className="lg:col-span-5 flex flex-col gap-1 sm:gap-4 app_hero_copy relative z-10 max-w-[500px]">
@@ -117,7 +120,7 @@ export default function Hero() {
         </svg>
 
         {/* Keep icons aligned with the same max width as hero (NOT screen edge) */}
-        <div className="relative h-full flex justify-center px-8 sm:px-0 app_hero_social">
+        <div className="relative h-full flex justify-center px-6 sm:px-0 app_hero_social">
           <div
             ref={wedgeInnerRef}
             className="w-full max-w-[1100px] sm:px-6 h-full relative app_hero_social_inner">

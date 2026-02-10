@@ -35,9 +35,11 @@ export default function Reveal({
           duration,
           ease: "power3.out",
           delay,
+          immediateRender: false,
           scrollTrigger: {
             trigger: wrap,
             start,
+            invalidateOnRefresh: true,
             toggleActions: once ? "play none none none" : "play reverse play reverse"
           }
         }

@@ -19,6 +19,9 @@ export default function About() {
     if (!section || !image || !text) return;
 
     const ctx = gsap.context(() => {
+      // Ensure content is visible even if animations fail
+      gsap.set([image, text], { opacity: 1, x: 0, y: 0 });
+
       // Slide in from left as About enters (inverse of Hero feel)
       gsap.fromTo(
         image,
@@ -28,6 +31,7 @@ export default function About() {
           opacity: 1,
           y: 0,
           ease: "none",
+          immediateRender: false,
           scrollTrigger: {
             trigger: section,
             start: "top 92%",
@@ -46,6 +50,7 @@ export default function About() {
           opacity: 1,
           y: 0,
           ease: "none",
+          immediateRender: false,
           scrollTrigger: {
             trigger: section,
             start: "top 92%",

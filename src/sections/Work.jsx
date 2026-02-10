@@ -23,6 +23,14 @@ export default function Work() {
     if (!section || !bg) return;
 
     const ctx = gsap.context(() => {
+      // Ensure content is visible even if animations fail
+      if (headerRef.current) {
+        gsap.set(headerRef.current, { opacity: 1, x: 0, y: 0 });
+      }
+      if (cardRefs.current.length) {
+        gsap.set(cardRefs.current, { opacity: 1, x: 0, y: 0 });
+      }
+
       gsap.to(bg, {
         y: -280,
         ease: "none",
@@ -43,6 +51,7 @@ export default function Work() {
             opacity: 1,
             y: 0,
             ease: "none",
+            immediateRender: false,
             scrollTrigger: {
               trigger: section,
               start: "top 92%",
@@ -62,7 +71,8 @@ export default function Work() {
             opacity: 1,
             y: 0,
             ease: "none",
-            stagger: 0.12,
+            stagger: 0.1,
+            immediateRender: false,
             scrollTrigger: {
               trigger: section,
               start: "top 92%",
