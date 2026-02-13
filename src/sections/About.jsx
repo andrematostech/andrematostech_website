@@ -114,22 +114,22 @@ export default function About() {
 
       <div className="absolute inset-0 pointer-events-none app_about_bg" aria-hidden="true" style={{ zIndex: 0 }} />
       
-      <div className="w-full flex justify-center app_about_container pt-16 sm:pt-0" style={{ paddingBottom: "40px", position: "relative", zIndex: 1 }}>
-        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative app_about_grid">
+      <div className="w-full flex justify-center app_about_container" style={{ paddingTop: "30px", paddingBottom: "40px", position: "relative", zIndex: 1 }}>
+        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 items-center relative app_about_grid">
           <div
             ref={lineTopRef}
             className="absolute h-px w-screen app_about_line app_about_line_top"
-            style={{ top: "calc(18% - 150px)", left: "calc(-1 * (100vw - 100%)/2)" }}
+            style={{ top: "calc(18% - 170px)", left: "calc(-1 * (100vw - 100%)/2)" }}
           />
           <div
             ref={lineBottomRef}
             className="absolute h-px w-screen app_about_line app_about_line_bottom"
-            style={{ top: "calc(72% + 170px)", left: "calc(-1 * (100vw - 100%)/2)" }}
+            style={{ top: "calc(72% + 210px)", left: "calc(-1 * (100vw - 100%)/2)" }}
           />
-          <div className="lg:col-span-5 app_about_media relative overflow-visible flex justify-center lg:justify-start pt-8 sm:pt-0">
+          <div className="lg:col-span-5 app_about_media relative overflow-visible flex justify-center lg:justify-start pt-12 sm:pt-0">
             <div
               ref={imageRef}
-              className="relative mx-auto aspect-[4/5] w-full max-w-[320px] sm:max-w-[360px] overflow-hidden app_about_image_wrap">
+              className="relative mx-auto aspect-[4/5] w-full max-w-[320px] sm:max-w-[360px] overflow-hidden mt-2 sm:mt-0 app_about_image_wrap">
               <img
                 src={coderImage}
                 alt="Developer at work"
@@ -158,7 +158,7 @@ export default function About() {
               technology to create meaningful user experiences.
             </p>
 
-            <div className="flex items-center gap-6 app_about_social">
+            <div className="flex items-center gap-6 app_about_social" style={{ marginBottom: "32px" }}>
               <a
                 href="https://github.com/andrematostech"
                 target="_blank"

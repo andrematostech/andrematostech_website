@@ -129,12 +129,14 @@ export default function Hero() {
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 sm:px-0 app_hero_frame">
         <div className="w-full max-w-[1100px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-1 sm:gap-4 items-center app_hero_grid">
           {/* Left */}
-          <div ref={heroCopyRef} className="lg:col-span-5 flex flex-col gap-1 sm:gap-4 app_hero_copy relative z-10 max-w-[500px]">
-            <p className="text-[15px] sm:text-s font-bold tracking-[0.26em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle">
+          <div ref={heroCopyRef} className="lg:col-span-5 flex flex-col app_hero_copy relative z-10 max-w-[500px]" style={{ rowGap: "2px" }}>
+            <p
+              className="text-[16px] sm:text-s font-bold tracking-[0.24em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle"
+              style={{ marginBottom: "-4px" }}>
               Software Developer
             </p>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[color:var(--ink)] app_hero_title uppercase">
+            <h1 className="text-[32px] sm:text-[46px] lg:text-[54px] font-bold tracking-tight text-[color:var(--ink)] app_hero_title uppercase">
               ANDRÉ MATOS
             </h1>
 
