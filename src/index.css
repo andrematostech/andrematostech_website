@@ -137,6 +137,77 @@ body::before {
   mask-composite: intersect;
 }
 
+/* Hero background: code typing */
+.app_hero_bg {
+  overflow: hidden;
+  z-index: 0;
+  background:
+    radial-gradient(900px 540px at 68% 40%, rgba(10, 10, 10, 0.035), transparent 60%),
+    radial-gradient(720px 420px at 28% 70%, rgba(10, 10, 10, 0.025), transparent 60%),
+    linear-gradient(135deg, rgba(245, 242, 238, 0.92), rgba(245, 242, 238, 0.98));
+}
+
+.app_hero_code {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.app_hero_code_lines {
+  width: min(760px, 85vw);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(30, 30, 30, 0.22);
+  letter-spacing: 0.01em;
+  white-space: pre;
+  user-select: none;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+  animation: heroCodeReveal 6s steps(28, end) infinite;
+}
+
+.app_hero_code_lines span {
+  display: block;
+  opacity: 0;
+  animation: heroLineIn 6s linear infinite;
+  animation-delay: calc(var(--i) * 0.18s);
+}
+
+@keyframes heroLineIn {
+  0% { opacity: 0; transform: translateY(-4px); }
+  12% { opacity: 1; transform: translateY(0); }
+  92% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+@keyframes heroCodeReveal {
+  0% { clip-path: inset(0 0 100% 0); }
+  70% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes heroData {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -280; }
+}
+
+@keyframes heroPulse {
+  0%, 100% { transform: scale(0.85); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes heroGlow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes heroDrift {
+  0% { transform: translateY(-12px) translateX(-8px); }
+  50% { transform: translateY(10px) translateX(8px); }
+  100% { transform: translateY(-12px) translateX(-8px); }
+}
+
 
 /* Contact background: connected network */
 .app_contact_bg_svg {

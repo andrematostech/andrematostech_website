@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import womanImage from "../assets/woman_2.png";
+import { heroCodeLines } from "../data/heroCode.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,6 +67,19 @@ export default function Hero() {
       id="top"
       ref={wrapRef}
       className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)] app_hero app_hero_section">
+
+      {/* Circuit board background */}
+      <div className="absolute inset-0 pointer-events-none app_hero_bg" aria-hidden="true">
+        <div className="app_hero_code">
+          <div className="app_hero_code_lines">
+            {heroCodeLines.map((line, index) => (
+              <span key={`${line}-${index}`} style={{ "--i": index }}>
+                {line}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
       
       {/* Screen-centered hero */}
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 sm:px-0 app_hero_frame">
