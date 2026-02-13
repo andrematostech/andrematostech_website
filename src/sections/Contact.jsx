@@ -76,15 +76,34 @@ export default function Contact() {
       }).to(copy, { x: -140, opacity: 0, ease: "none" }, 0).
       to(form, { x: 140, opacity: 0, ease: "none" }, 0);
 
-      // Subtle parallax while scrolling inside Contact
-      gsap.to([copy, form], {
+      // Subtle parallax while scrolling inside Contact (only when scrolling up)
+      const parallaxTween = gsap.to([copy, form], {
         y: 28,
         ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
+        paused: true
+      });
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top bottom",
+        end: "bottom top",
+        onUpdate: (self) => {
+          if (self.direction === -1) {
+            parallaxTween.progress(self.progress);
+          } else {
+            parallaxTween.progress(0);
+          }
+        },
+        onLeave: () => {
+          parallaxTween.progress(0);
+        },
+        onEnter: () => {
+          parallaxTween.progress(0);
+        },
+        onEnterBack: () => {
+          parallaxTween.progress(0);
+        },
+        onLeaveBack: () => {
+          parallaxTween.progress(0);
         }
       });
     }, sectionRef);

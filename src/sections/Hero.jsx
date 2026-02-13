@@ -72,19 +72,46 @@ export default function Hero() {
             viewBox="0 0 1200 700"
             aria-hidden="true"
           >
-            <circle cx="80" cy="120" r="2.2" />
-            <circle cx="220" cy="260" r="1.1" />
-            <circle cx="360" cy="160" r="1.2" />
+            <circle cx="40" cy="80" r="2.2" />
+            <circle cx="180" cy="220" r="1.2" />
+            <circle cx="320" cy="120" r="1.4" />
             <circle cx="520" cy="240" r="2" />
-            <circle cx="680" cy="180" r="1.1" />
-            <circle cx="860" cy="260" r="1.3" />
+            <circle cx="640" cy="90" r="1.1" />
+            <circle cx="820" cy="180" r="1.6" />
             <circle cx="1020" cy="140" r="2.4" />
-            <circle cx="140" cy="420" r="1.2" />
-            <circle cx="300" cy="500" r="2" />
-            <circle cx="520" cy="460" r="1.4" />
-            <circle cx="760" cy="520" r="2.2" />
-            <circle cx="980" cy="460" r="1.3" />
-            <circle cx="1120" cy="560" r="2" />
+            <circle cx="1160" cy="60" r="1.4" />
+            <circle cx="120" cy="420" r="1.4" />
+            <circle cx="260" cy="520" r="2" />
+            <circle cx="520" cy="460" r="1.6" />
+            <circle cx="700" cy="560" r="2.2" />
+            <circle cx="940" cy="460" r="1.4" />
+            <circle cx="1100" cy="620" r="2" />
+            <circle cx="980" cy="320" r="1.1" />
+            <circle cx="760" cy="360" r="1.3" />
+            <circle cx="420" cy="340" r="1.2" />
+            <circle cx="200" cy="320" r="1.1" />
+          </svg>
+          <svg
+            className="app_hero_bg_dots_svg app_hero_bg_dots_svg--alt"
+            viewBox="0 0 1200 700"
+            aria-hidden="true"
+          >
+            <circle cx="90" cy="140" r="1.3" />
+            <circle cx="260" cy="80" r="2.1" />
+            <circle cx="440" cy="200" r="1.2" />
+            <circle cx="620" cy="140" r="1.5" />
+            <circle cx="780" cy="60" r="1.1" />
+            <circle cx="980" cy="220" r="2.3" />
+            <circle cx="1120" cy="120" r="1.4" />
+            <circle cx="160" cy="520" r="1.6" />
+            <circle cx="360" cy="580" r="2.1" />
+            <circle cx="580" cy="500" r="1.2" />
+            <circle cx="760" cy="600" r="1.8" />
+            <circle cx="1040" cy="520" r="1.3" />
+            <circle cx="880" cy="360" r="1.2" />
+            <circle cx="640" cy="360" r="1.1" />
+            <circle cx="420" cy="420" r="1.4" />
+            <circle cx="220" cy="360" r="1.2" />
           </svg>
         </div>
         <div className="app_hero_code">
