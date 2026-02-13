@@ -131,7 +131,7 @@ export default function Hero() {
           {/* Left */}
           <div ref={heroCopyRef} className="lg:col-span-5 flex flex-col app_hero_copy relative z-10 max-w-[500px]" style={{ rowGap: "2px" }}>
             <p
-              className="text-[16px] sm:text-s font-bold tracking-[0.24em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle"
+              className="text-[12px] sm:text-s font-bold tracking-[0.24em] sm:tracking-[0.40em] text-[color:var(--ink)]/50 uppercase app_hero_subtitle"
               style={{ marginBottom: "-4px" }}>
               Software Developer
             </p>
