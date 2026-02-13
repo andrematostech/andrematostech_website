@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Reveal from "../components/Reveal.jsx";
 import workBg from "../assets/work_background.png";
 import card1 from "../assets/card_1.png";
 import card2 from "../assets/card_2.png";
@@ -140,13 +139,11 @@ export default function Work() {
           style={{ paddingTop: "80px", paddingBottom: "80px" }}>
           
           <div ref={headerRef} className="app_work_header">
-            <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase mt-6 app_work_kicker">
-              Work
-            </Reveal>
+            <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/60 uppercase mt-6 app_work_kicker">Work
+            </p>
 
-            <Reveal as="h2" className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-[color:var(--pearl)]/80 app_work_subtitle">
-              Selected projects
-            </Reveal>
+            <h2 className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-[color:var(--pearl)]/80 app_work_subtitle">Selected projects
+            </h2>
           </div>
 
           <div className="space-y-10 app_work_list">
@@ -190,3 +187,5 @@ export default function Work() {
     </section>);
 
 }
+
+

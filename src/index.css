@@ -42,6 +42,12 @@ body::before {
   }
 }
 
+@media (max-width: 640px) {
+  .app_about_section {
+    padding-top: 32px;
+  }
+}
+
 /* Force hero side padding on phones */
 @media (max-width: 1109px) {
   .app_hero_frame,
@@ -100,6 +106,11 @@ body::before {
   .app_work_section {
     min-height: 80vh;
   }
+}
+
+/* Ensure hero fills the viewport to avoid showing the next section */
+.app_hero_section {
+  min-height: 100vh;
 }
 
 @media (min-width: 1110px) {

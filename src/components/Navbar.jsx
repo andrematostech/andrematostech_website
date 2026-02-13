@@ -39,16 +39,17 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header"
       style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))" }}
     >
-      <div className="h-12 sm:h-16 flex justify-center app_nav_bar">
+      <div className="h-8 sm:h-12 flex items-center justify-center app_nav_bar">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_nav_inner">
           <div className="col-span-8 sm:col-span-4 app_nav_brand">
             <a
               href="#top"
               className="inline-flex items-center gap-2 p-0 leading-none app_nav_brand_link"
+              style={{ marginTop: "4px" }}
               aria-label="Home"
               onClick={(e) => handleNavClick(e, "top")}
             >
-              <div className="h-8 w-8 sm:h-10 sm:w-10 app_nav_logo">
+              <div className="h-6 w-6 sm:h-9 sm:w-9 app_nav_logo">
                 <img
                   src={logoBlack}
                   alt="andrematostech logo"
@@ -56,11 +57,11 @@ export default function Navbar() {
                   decoding="async"
                 />
               </div>
-              <span className="leading-none app_nav_brand_text">
-                <span className="block text-[13px] sm:text-[15px] font-semibold app_nav_brand_title">
+              <span className="leading-none mt-[1px] app_nav_brand_text">
+                <span className="block text-[11px] sm:text-[14px] font-semibold app_nav_brand_title">
                   andrematos
                 </span>
-                <span className="block text-[13px] sm:text-[15px] font-semibold app_nav_brand_subtitle">
+                <span className="block text-[11px] sm:text-[14px] font-semibold app_nav_brand_subtitle">
                   tech
                 </span>
               </span>
@@ -95,7 +96,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="Toggle menu"
-              className="h-10 w-10 text-[color:var(--ink)] app_nav_menu_button"
+              className="h-8 w-8 text-[color:var(--ink)] app_nav_menu_button"
               onClick={() => setOpen((v) => !v)}
             >
               {open ? <FiX size={20} /> : <FiMenu size={20} />}

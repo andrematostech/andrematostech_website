@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Reveal from "../components/Reveal.jsx";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import coderImage from "../assets/man.png";
 
@@ -92,14 +91,14 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-center app_about app_about_section">
+      className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-start sm:items-center app_about app_about_section">
       
-      <div className="w-full flex justify-center app_about_container" style={{ paddingBottom: "40px" }}>
+      <div className="w-full flex justify-center app_about_container pt-16 sm:pt-0" style={{ paddingBottom: "40px" }}>
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
-          <div className="lg:col-span-5 app_about_media overflow-hidden">
+          <div className="lg:col-span-5 app_about_media overflow-hidden flex justify-center lg:justify-start pt-8 sm:pt-0">
             <div
               ref={imageRef}
-              className="aspect-[4/5] w-full overflow-hidden app_about_image_wrap">
+              className="mx-auto aspect-[4/5] w-full max-w-[320px] sm:max-w-[360px] overflow-hidden app_about_image_wrap">
               
               <img
                 src={coderImage}
@@ -112,13 +111,11 @@ export default function About() {
           </div>
 
           <div ref={textRef} className="lg:col-span-7 app_about_content">
-            <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_about_kicker">
-              About
-            </Reveal>
+            <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_about_kicker">About
+            </p>
 
-            <Reveal as="h2" className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight app_about_title">
-              Portugal-based software developer with a background in IT and multimedia.
-            </Reveal>
+            <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_about_title">Portugal-based software developer with a background in IT and multimedia.
+            </h2>
 
             <p className="mt-3 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">
               I work with JavaScript, Python, C#, and Java, using tools like React, Node,
@@ -155,3 +152,5 @@ export default function About() {
     </section>);
 
 }
+
+

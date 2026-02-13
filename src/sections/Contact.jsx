@@ -31,11 +31,10 @@ export default function Contact() {
       // Slide in from sides as Contact enters (like About)
       gsap.fromTo(
         copy,
-        { x: -140, opacity: 0, y: 12 },
+        { x: -140, opacity: 0 },
         {
           x: 0,
           opacity: 1,
-          y: 0,
           ease: "none",
           immediateRender: false,
           scrollTrigger: {
@@ -49,11 +48,10 @@ export default function Contact() {
 
       gsap.fromTo(
         form,
-        { x: 140, opacity: 0, y: 12 },
+        { x: 140, opacity: 0 },
         {
           x: 0,
           opacity: 1,
-          y: 0,
           ease: "none",
           immediateRender: false,
           scrollTrigger: {
@@ -65,16 +63,26 @@ export default function Contact() {
         }
       );
 
-      // Scroll out Contact (like Hero)
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
-        }
-      }).to(copy, { x: -140, opacity: 0, ease: "none" }, 0).
+      // Scroll out Contact (only when scrolling up)
+      const scrollOutTl = gsap.timeline({ paused: true }).
+      to(copy, { x: -140, opacity: 0, ease: "none" }, 0).
       to(form, { x: 140, opacity: 0, ease: "none" }, 0);
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        end: "bottom top",
+        onUpdate: (self) => {
+          if (self.direction === -1) {
+            scrollOutTl.progress(self.progress);
+          } else {
+            scrollOutTl.progress(0);
+          }
+        },
+        onLeave: () => scrollOutTl.progress(0),
+        onEnter: () => scrollOutTl.progress(0),
+        onEnterBack: () => scrollOutTl.progress(0),
+        onLeaveBack: () => scrollOutTl.progress(0)
+      });
 
       // Subtle parallax while scrolling inside Contact (only when scrolling up)
       const parallaxTween = gsap.to([copy, form], {
@@ -82,28 +90,39 @@ export default function Contact() {
         ease: "none",
         paused: true
       });
+      let allowParallax = false;
+      const resetY = () => gsap.set([copy, form], { y: 0, overwrite: "auto" });
       ScrollTrigger.create({
         trigger: section,
         start: "top bottom",
         end: "bottom top",
         onUpdate: (self) => {
-          if (self.direction === -1) {
+          if (allowParallax && self.direction === -1) {
             parallaxTween.progress(self.progress);
           } else {
             parallaxTween.progress(0);
+            resetY();
           }
         },
         onLeave: () => {
+          allowParallax = false;
           parallaxTween.progress(0);
+          resetY();
         },
         onEnter: () => {
+          allowParallax = false;
           parallaxTween.progress(0);
+          resetY();
         },
         onEnterBack: () => {
+          allowParallax = true;
           parallaxTween.progress(0);
+          resetY();
         },
         onLeaveBack: () => {
+          allowParallax = false;
           parallaxTween.progress(0);
+          resetY();
         }
       });
     }, sectionRef);
@@ -234,17 +253,17 @@ export default function Contact() {
 
       <div className="relative z-10 w-full flex justify-center app_contact_container">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 app_contact_inner">
-          <Reveal as="p" className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_contact_kicker">
-            Contact
-          </Reveal>
-
-          <Reveal as="h2" className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight app_contact_title">
-            Let’s build something
-          </Reveal>
-
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 app_contact_grid">
             <div ref={copyRef} className="lg:col-span-5 app_contact_copy">
-              <p className="text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
+              <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_contact_kicker">
+                Contact
+              </p>
+
+              <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_contact_title">
+                Let’s build something
+              </h2>
+
+              <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
                 Let’s talk about your project. Fill the form and I’ll get back to you.
               </p>
             </div>
@@ -308,3 +327,9 @@ export default function Contact() {
     </section>);
 
 }
+
+
+
+
+
+
