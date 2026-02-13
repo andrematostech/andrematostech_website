@@ -133,7 +133,7 @@ export default function About() {
 
             <div className="flex items-center gap-6 app_about_social">
               <a
-                href="https://github.com/"
+                href="https://github.com/andrematostech"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"

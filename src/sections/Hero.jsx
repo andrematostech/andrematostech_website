@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import womanImage from "../assets/woman_2.png";
 import { heroCodeLines } from "../data/heroCode.js";
 
@@ -12,9 +11,6 @@ export default function Hero() {
 
   const heroCopyRef = useRef(null);
   const heroImageWrapRef = useRef(null);
-
-  // wedge icons alignment container
-  const wedgeInnerRef = useRef(null);
 
   useEffect(() => {
     const section = wrapRef.current;
@@ -68,8 +64,29 @@ export default function Hero() {
       ref={wrapRef}
       className="relative bg-[color:var(--pearl)] text-[color:var(--ink)] min-h-[calc(100vh-64px)] app_hero app_hero_section">
 
-      {/* Circuit board background */}
+      {/* Code typing background */}
       <div className="absolute inset-0 pointer-events-none app_hero_bg" aria-hidden="true">
+        <div className="app_hero_bg_dots">
+          <svg
+            className="app_hero_bg_dots_svg"
+            viewBox="0 0 1200 700"
+            aria-hidden="true"
+          >
+            <circle cx="80" cy="120" r="2.2" />
+            <circle cx="220" cy="260" r="1.1" />
+            <circle cx="360" cy="160" r="1.2" />
+            <circle cx="520" cy="240" r="2" />
+            <circle cx="680" cy="180" r="1.1" />
+            <circle cx="860" cy="260" r="1.3" />
+            <circle cx="1020" cy="140" r="2.4" />
+            <circle cx="140" cy="420" r="1.2" />
+            <circle cx="300" cy="500" r="2" />
+            <circle cx="520" cy="460" r="1.4" />
+            <circle cx="760" cy="520" r="2.2" />
+            <circle cx="980" cy="460" r="1.3" />
+            <circle cx="1120" cy="560" r="2" />
+          </svg>
+        </div>
         <div className="app_hero_code">
           <div className="app_hero_code_lines">
             {heroCodeLines.map((line, index) => (
@@ -80,7 +97,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      
+
       {/* Screen-centered hero */}
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-6 sm:px-0 app_hero_frame">
         <div className="w-full max-w-[1100px] sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-1 sm:gap-4 items-center app_hero_grid">
@@ -105,14 +122,14 @@ export default function Hero() {
             <div
               ref={heroImageWrapRef}
               className="relative w-full max-w-[360px] overflow-visible app_hero_image_wrap">
-              
+
               <img
                 src={womanImage}
                 alt="Woman at work"
                 className="w-full h-auto object-contain app_hero_image"
                 loading="lazy"
                 decoding="async" />
-              
+
             </div>
           </div>
         </div>
