@@ -309,7 +309,8 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={loading || !isValid}
-                  className="w-full border border-[color:var(--pearl)]/40 py-8 text-base sm:text-lg font-medium text-[color:var(--pearl)] transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--pearl)] hover:text-[color:var(--pearl)] app_contact_button">
+                  className="w-full border border-[color:var(--pearl)]/40 text-sm sm:text-base font-medium text-[color:var(--pearl)] transition-colors disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--pearl)] hover:text-[color:var(--pearl)] app_contact_button"
+                  style={{ paddingTop: "14px", paddingBottom: "14px" }}>
                   
                   {loading ? "Sending..." : "Send Message"}
                 </button>

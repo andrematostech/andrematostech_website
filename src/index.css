@@ -70,11 +70,6 @@ body::before {
     height: 20px;
   }
 
-  .app_contact_button {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    font-size: 1rem;
-  }
 
   .app_nav_links {
     display: none;
@@ -101,11 +96,19 @@ body::before {
     padding-right: 1rem;
   }
 
-  .app_hero_section,
-  .app_about_section,
-  .app_work_section {
-    min-height: 80vh;
-  }
+.app_hero_section,
+.app_about_section,
+.app_work_section {
+  min-height: 80vh;
+}
+}
+
+/* Anchor offset for reduced navbar height */
+.app_hero_section,
+.app_about_section,
+.app_work_section,
+.app_contact_section {
+  scroll-margin-top: 48px;
 }
 
 /* Ensure hero fills the viewport to avoid showing the next section */
@@ -236,6 +239,19 @@ body::before {
   animation-fill-mode: both;
 }
 
+/* About lines */
+.app_about_line {
+  background: rgba(245, 242, 238, 0.45);
+}
+
+.app_about_line_top {
+  opacity: 0.6;
+}
+
+.app_about_line_bottom {
+  opacity: 0.5;
+}
+
 @keyframes heroLineIn {
   0% { opacity: 0; transform: translateY(-4px); }
   4% { opacity: 1; transform: translateY(0); }
@@ -266,6 +282,34 @@ body::before {
 @keyframes heroDotsTwinkle {
   0%, 100% { opacity: 0.35; }
   50% { opacity: 0.85; }
+}
+
+/* About background: noise + edge glow */
+.app_about_bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background: none;
+}
+
+.app_about_bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  animation: aboutNoise 3s steps(2, end) infinite;
+}
+
+@keyframes aboutNoise {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1%, 0.5%); }
+  50% { transform: translate(0.8%, -0.6%); }
+  75% { transform: translate(-0.6%, -0.8%); }
+  100% { transform: translate(0, 0); }
 }
 
 

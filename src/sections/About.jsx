@@ -9,22 +9,28 @@ gsap.registerPlugin(ScrollTrigger);
 export default function About() {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
+  const lineTopRef = useRef(null);
   const textRef = useRef(null);
+  const lineBottomRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const image = imageRef.current;
     const text = textRef.current;
+    const lineTop = lineTopRef.current;
+    const lineBottom = lineBottomRef.current;
 
-    if (!section || !image || !text) return;
+    if (!section || !image || !text || !lineTop || !lineBottom) return;
+    const leftGroup = [image, lineTop];
+    const rightGroup = [text, lineBottom];
 
     const ctx = gsap.context(() => {
       // Ensure content is visible even if animations fail
-      gsap.set([image, text], { opacity: 1, x: 0, y: 0 });
+      gsap.set([...leftGroup, ...rightGroup], { opacity: 1, x: 0, y: 0 });
 
       // Slide in from left as About enters (inverse of Hero feel)
       gsap.fromTo(
-        image,
+        leftGroup,
         { x: -140, opacity: 0, y: 12 },
         {
           x: 0,
@@ -43,7 +49,7 @@ export default function About() {
 
       // Slide in text from right as About enters
       gsap.fromTo(
-        text,
+        rightGroup,
         { x: 140, opacity: 0, y: 12 },
         {
           x: 0,
@@ -69,8 +75,8 @@ export default function About() {
           scrub: true
         }
       }).
-      to(image, { x: -140, opacity: 0, ease: "none" }, 0).
-      to(text, { x: 140, opacity: 0, ease: "none" }, 0);
+      to(leftGroup, { x: -140, opacity: 0, ease: "none" }, 0).
+      to(rightGroup, { x: 140, opacity: 0, ease: "none" }, 0);
 
       // Subtle parallax on about image while scrolling inside About (inverse)
       gsap.to(image, {
@@ -83,6 +89,19 @@ export default function About() {
           scrub: true
         }
       });
+
+      // Lines move slower than content
+      gsap.to([lineTop, lineBottom], {
+        y: -6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 2,
+          invalidateOnRefresh: true
+        }
+      });
     }, sectionRef);
     return () => ctx.revert();
   }, []);
@@ -91,15 +110,26 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-start sm:items-center app_about app_about_section">
+      className="relative overflow-hidden bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen flex items-start sm:items-center app_about app_about_section">
+
+      <div className="absolute inset-0 pointer-events-none app_about_bg" aria-hidden="true" style={{ zIndex: 0 }} />
       
-      <div className="w-full flex justify-center app_about_container pt-16 sm:pt-0" style={{ paddingBottom: "40px" }}>
-        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center app_about_grid">
-          <div className="lg:col-span-5 app_about_media overflow-hidden flex justify-center lg:justify-start pt-8 sm:pt-0">
+      <div className="w-full flex justify-center app_about_container pt-16 sm:pt-0" style={{ paddingBottom: "40px", position: "relative", zIndex: 1 }}>
+        <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center relative app_about_grid">
+          <div
+            ref={lineTopRef}
+            className="absolute h-px w-screen app_about_line app_about_line_top"
+            style={{ top: "calc(18% - 150px)", left: "calc(-1 * (100vw - 100%)/2)" }}
+          />
+          <div
+            ref={lineBottomRef}
+            className="absolute h-px w-screen app_about_line app_about_line_bottom"
+            style={{ top: "calc(72% + 170px)", left: "calc(-1 * (100vw - 100%)/2)" }}
+          />
+          <div className="lg:col-span-5 app_about_media relative overflow-visible flex justify-center lg:justify-start pt-8 sm:pt-0">
             <div
               ref={imageRef}
-              className="mx-auto aspect-[4/5] w-full max-w-[320px] sm:max-w-[360px] overflow-hidden app_about_image_wrap">
-              
+              className="relative mx-auto aspect-[4/5] w-full max-w-[320px] sm:max-w-[360px] overflow-hidden app_about_image_wrap">
               <img
                 src={coderImage}
                 alt="Developer at work"
@@ -110,7 +140,7 @@ export default function About() {
             </div>
           </div>
 
-          <div ref={textRef} className="lg:col-span-7 app_about_content">
+          <div ref={textRef} className="lg:col-span-7 app_about_content relative">
             <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_about_kicker">About
             </p>
 

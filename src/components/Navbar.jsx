@@ -17,7 +17,7 @@ export default function Navbar() {
     const lenis = typeof window !== "undefined" ? window.lenis : null;
     if (lenis && typeof lenis.scrollTo === "function") {
       lenis.scrollTo(target, {
-        offset: -64,
+        offset: -48,
         duration: 1.2,
         easing: (t) => 1 - Math.pow(1 - t, 3)
       });
@@ -39,17 +39,16 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header"
       style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))" }}
     >
-      <div className="h-8 sm:h-12 flex items-center justify-center app_nav_bar">
+      <div className="h-9 sm:h-12 flex items-center justify-center app_nav_bar">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_nav_inner">
-          <div className="col-span-8 sm:col-span-4 app_nav_brand">
+          <div className="col-span-8 sm:col-span-4 app_nav_brand flex items-center">
             <a
               href="#top"
               className="inline-flex items-center gap-2 p-0 leading-none app_nav_brand_link"
-              style={{ marginTop: "4px" }}
               aria-label="Home"
               onClick={(e) => handleNavClick(e, "top")}
             >
-              <div className="h-6 w-6 sm:h-9 sm:w-9 app_nav_logo">
+              <div className="h-7 w-7 sm:h-9 sm:w-9 app_nav_logo">
                 <img
                   src={logoBlack}
                   alt="andrematostech logo"
@@ -58,10 +57,10 @@ export default function Navbar() {
                 />
               </div>
               <span className="leading-none mt-[1px] app_nav_brand_text">
-                <span className="block text-[11px] sm:text-[14px] font-semibold app_nav_brand_title">
+                <span className="block text-[12px] sm:text-[14px] font-semibold app_nav_brand_title">
                   andrematos
                 </span>
-                <span className="block text-[11px] sm:text-[14px] font-semibold app_nav_brand_subtitle">
+                <span className="block text-[12px] sm:text-[14px] font-semibold app_nav_brand_subtitle">
                   tech
                 </span>
               </span>
@@ -96,7 +95,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="Toggle menu"
-              className="h-8 w-8 text-[color:var(--ink)] app_nav_menu_button"
+              className="h-9 w-9 text-[color:var(--ink)] app_nav_menu_button"
               onClick={() => setOpen((v) => !v)}
             >
               {open ? <FiX size={20} /> : <FiMenu size={20} />}
