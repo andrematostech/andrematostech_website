@@ -382,6 +382,14 @@ body::before {
   margin-top: 24px;
 }
 
+.app_about_text {
+  line-height: 1.85;
+}
+
+.app_contact_text {
+  line-height: 1.85;
+}
+
 @media (min-width: 640px) {
   .app_about_social {
     margin-top: 32px;

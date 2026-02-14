@@ -260,11 +260,15 @@ export default function Contact() {
               </p>
 
               <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_contact_title">
-                Let’s build something
+                Open to new opportunities and collaborations.
               </h2>
 
+              <p className="mt-1 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
+                &nbsp;
+              </p>
+
               <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
-                Let’s talk about your project. Fill the form and I’ll get back to you.
+                Feel free to reach out and I'll get back to you as soon as possible
               </p>
             </div>
 
@@ -328,6 +332,7 @@ export default function Contact() {
     </section>);
 
 }
+
 
 
 

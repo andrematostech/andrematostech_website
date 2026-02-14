@@ -144,18 +144,18 @@ export default function About() {
             <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_about_kicker">About
             </p>
 
-            <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_about_title">Portugal-based software developer with a background in IT and multimedia.
+            <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_about_title">Portugal-based software developer working across backend and modern web technologies.
             </h2>
 
-            <p className="mt-3 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">
-              I work with JavaScript, Python, C#, and Java, using tools like React, Node,
-              and .NET. I enjoy turning ideas into clean, functional digital experiences —
-              focused on performance, usability, and real-world problem solving.
+            <p className="mt-1 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">&nbsp;
             </p>
 
             <p className="mt-3 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">
-              I’ve worked on web design and scalable app projects, always learning and using
-              technology to create meaningful user experiences.
+              I build applications using Java, Python, and JavaScript, developing APIs and full-stack solutions.
+            </p>
+
+            <p className="mt-3 text-sm sm:text-base text-[color:var(--pearl)]/70 leading-relaxed app_about_text">
+              I’m particularly interested in system design and AI-driven applications, and I focus on writing clear, maintainable code while continuously improving my technical skills.
             </p>
 
             <div className="flex items-center gap-6 app_about_social" style={{ marginBottom: "32px" }}>
@@ -182,5 +182,7 @@ export default function About() {
     </section>);
 
 }
+
+
 
 
