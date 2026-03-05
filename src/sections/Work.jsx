@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import workBg from "../assets/work_background.png";
-import card1 from "../assets/card_1.png";
+import kivoWorkcard from "../assets/Kivo_workcard.png";
 import card2 from "../assets/card_2.png";
 import card3 from "../assets/card_3.png";
 import card4 from "../assets/card_4.png";
@@ -89,10 +89,10 @@ export default function Work() {
 
   const items = [
   {
-    title: "Plate Perfection",
-    subtitle: "Restaurant website",
-    image: card1,
-    href: "/workpage_1"
+    title: "KIVO",
+    subtitle: "Enterprise Retrieval-Augmented Knowledge Platform",
+    image: kivoWorkcard,
+    href: "/workpage"
   },
   {
     title: "Creative Branding",
