@@ -17,7 +17,7 @@ export default function WorkNavbar() {
 
           <div className="col-span-4 flex justify-center app_work_nav_logo">
             <Link to="/" className="inline-flex items-center gap-2 app_work_nav_logo_link" aria-label="Home">
-              <div className="h-8 w-8 sm:h-10 sm:w-10 app_work_nav_logo_wrap">
+              <div className="h-6 w-6 sm:h-8 sm:w-8 app_work_nav_logo_wrap">
                 <img
                   src={logoBlack}
                   alt="andrematostech logo"

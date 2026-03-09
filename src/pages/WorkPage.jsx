@@ -6,14 +6,36 @@ import WorkNavbar from "../components/WorkNavbar";
 import Footer from "../sections/Footer";
 import kivoLogo from "../assets/KIVO_logo.png";
 import kivoDashboard from "../assets/KIVO_dashboard.png";
+import kivoPhone from "../assets/Kivo_phone1.png";
 
-function MockupFrame({ title, caption, tall = false, imageSrc }) {
+function MockupFrame({ title, caption, tall = false, imageSrc, portrait = false }) {
   return (
     <figure className="w-full">
       <div className="w-full rounded-2xl border border-[color:var(--ink)]/10 bg-[color:var(--ink)]/[0.04] shadow-[0_30px_80px_-50px_rgba(10,10,10,0.45)] overflow-hidden">
-        <div className={`w-full ${imageSrc ? "" : (tall ? "h-[340px] sm:h-[480px]" : "h-[260px] sm:h-[380px]")} overflow-hidden`}>
+        <div
+          className={`w-full overflow-hidden ${
+            imageSrc
+              ? portrait
+                ? "h-[340px] sm:h-[480px] flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8"
+                : tall
+                  ? "h-[340px] sm:h-[480px]"
+                  : "h-[260px] sm:h-[380px]"
+              : tall
+                ? "h-[340px] sm:h-[480px]"
+                : "h-[260px] sm:h-[380px]"
+          }`}>
           {imageSrc ? (
-            <img src={imageSrc} alt={title} className="w-full h-auto object-contain" loading="lazy" decoding="async" />
+            <img
+              src={imageSrc}
+              alt={title}
+              className={
+                portrait
+                  ? "max-h-full w-auto max-w-full object-contain"
+                  : "h-full w-full object-contain"
+              }
+              loading="lazy"
+              decoding="async"
+            />
           ) : (
             <div className="h-full w-full bg-gradient-to-br from-[color:var(--ink)]/5 via-transparent to-[color:var(--ink)]/10" />
           )}
@@ -257,6 +279,8 @@ export default function WorkPage({ title }) {
                   title="Ask AI"
                   caption="Ask AI interface producing grounded responses with source citations."
                   tall
+                  imageSrc={kivoPhone}
+                  portrait
                 />
               </div>
               <div className="flex flex-col gap-6 items-center" data-animate="heading">
