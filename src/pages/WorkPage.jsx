@@ -5,13 +5,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import WorkNavbar from "../components/WorkNavbar";
 import Footer from "../sections/Footer";
 import kivoLogo from "../assets/KIVO_logo.png";
-import kivoDashboard from "../assets/KIVO_dashboard.png";
-import kivoPhone from "../assets/Kivo_phone1.png";
+import kivoHeroImage from "../assets/KIVO_background.png";
+import kivoPhone from "../assets/1-2.png";
 
 function MockupFrame({ title, caption, tall = false, imageSrc, portrait = false }) {
   return (
     <figure className="w-full">
-      <div className="w-full rounded-2xl border border-[color:var(--ink)]/10 bg-[color:var(--ink)]/[0.04] shadow-[0_30px_80px_-50px_rgba(10,10,10,0.45)] overflow-hidden">
+      <div className="w-full rounded-[1.75rem] border border-white/12 bg-white/[0.04] shadow-[0_30px_80px_-50px_rgba(0,8,32,0.85)] overflow-hidden">
         <div
           className={`w-full overflow-hidden ${
             imageSrc
@@ -37,11 +37,11 @@ function MockupFrame({ title, caption, tall = false, imageSrc, portrait = false 
               decoding="async"
             />
           ) : (
-            <div className="h-full w-full bg-gradient-to-br from-[color:var(--ink)]/5 via-transparent to-[color:var(--ink)]/10" />
+            <div className="h-full w-full bg-gradient-to-br from-white/10 via-transparent to-[#5f7dff]/20" />
           )}
         </div>
       </div>
-      <figcaption className="mt-6 text-base text-[color:var(--ink)]/65 leading-relaxed text-center">
+      <figcaption className="mt-6 text-base text-white/62 leading-relaxed text-center">
         {caption}
       </figcaption>
     </figure>
@@ -115,63 +115,61 @@ export default function WorkPage({ title }) {
   return (
     <div
       ref={pageRef}
-      className="min-h-screen bg-[color:var(--pearl)] text-[color:var(--ink)] flex flex-col app_workpage app_workpage_root">
+      className="min-h-screen bg-[#02081d] text-[color:var(--pearl)] flex flex-col app_workpage app_workpage_root">
       <WorkNavbar className="" />
-      <main className="pt-56 flex-1 flex flex-col items-center text-center" style={{ paddingTop: "220px" }}>
-        <section className="w-full flex justify-center text-center text-center">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10 pt-28 sm:pt-36 pb-24">
-            <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-14 items-center">
-              <div className="flex flex-col gap-8">
-                <div className="flex flex-col gap-5 items-center text-center">
-                  <div className="flex items-center justify-center gap-6">
-                    <img src={kivoLogo} alt="KIVO logo" className="h-16 w-16 sm:h-20 sm:w-20 object-contain" loading="lazy" decoding="async" />
+      <main className="pt-40 sm:pt-44 flex-1 flex flex-col items-center text-left">
+        <section
+          className="relative w-full min-h-[100svh] flex items-center justify-center text-left pb-20 sm:pb-24 overflow-hidden bg-[#02081d]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10 pt-14 sm:pt-20">
+            <div className="relative px-2 py-6 sm:px-4 sm:py-8">
+              <div className="relative grid grid-cols-1 items-center gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-0">
+                <div className="flex flex-col items-start text-left gap-5 sm:gap-7 relative z-20 max-w-[640px]">
+                  <img src={kivoLogo} alt="KIVO logo" className="h-10 w-10 sm:h-16 sm:w-16 object-contain" loading="lazy" decoding="async" />
+                  <div className="flex flex-col items-start text-left">
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white" data-animate="heading">
+                      {resolvedTitle}
+                    </h1>
+                    <div className="h-10 sm:h-14" />
+                    <p className="max-w-[270px] sm:max-w-[400px] text-[1.28rem] sm:text-[2rem] leading-[1.18] text-white/92">
+                      <span className="block">Enterprise</span>
+                      <span className="block">Retrieval-Augmented</span>
+                      <span className="block">Generation Platform</span>
+                    </p>
                   </div>
-                  <h1 className="text-5xl sm:text-7xl font-semibold tracking-tight" data-animate="heading">
-                    {resolvedTitle}
-                  </h1>
-                  <p className="text-2xl sm:text-3xl text-[color:var(--ink)]/80 max-w-[720px] mx-auto">
-                    Enterprise Retrieval-Augmented Generation (RAG) Platform
+                  <p className="max-w-[250px] sm:max-w-[400px] text-[16px] text-white/68 leading-relaxed">
+                    AI-powered knowledge retrieval platform combining vector search, grounded generation, and analytics in a unified enterprise dashboard.
                   </p>
-                  <p className="text-lg sm:text-xl text-[color:var(--ink)]/65 max-w-[760px] mx-auto">
-                    Full-stack AI knowledge retrieval system with ingestion, vector search, grounded answers with citations, and observability.
-                  </p>
-                  <div className="flex flex-wrap gap-3 text-sm text-[color:var(--ink)]/70">
-                    {["RAG", "Vector Search", "Citations", "Analytics", "Observability"].map((badge) => (
-                      <span
-                        key={badge}
-                        className="px-3 py-1.5 rounded-full border border-[color:var(--ink)]/15 bg-[color:var(--ink)]/5">
-                        {badge}
-                      </span>
-                    ))}
-                  </div>
                 </div>
-              </div>
 
-              <div data-animate="mockup" data-animate-parallax className="w-full">
-                <div data-animate="parallax">
-                  <MockupFrame
-                    title="KIVO Platform"
-                    caption="System overview dashboard showing ingestion activity, usage, and platform health."
-                    imageSrc={kivoDashboard}
-                    tall
-                  />
+                <div data-animate="mockup" data-animate-parallax className="w-full absolute inset-y-0 right-[-38%] top-[4%] sm:right-[-20%] sm:top-[2%] lg:right-[-15%] lg:w-[100%] pointer-events-none">
+                  <div data-animate="parallax" className="relative flex justify-end h-full items-start lg:items-center">
+                    <div className="relative w-full max-w-[1400px] lg:max-w-none">
+                      <img
+                        src={kivoHeroImage}
+                        alt="KIVO hero visual"
+                        className="w-[196%] max-w-none sm:w-[134%] lg:w-full h-auto object-contain"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="flex flex-col gap-14 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32 bg-[color:var(--pearl)] text-[color:var(--ink)]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="flex flex-col gap-14 items-start">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Overview</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70 max-w-[760px] mx-auto">
+                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70 max-w-[760px]">
                   KIVO is a full-stack knowledge retrieval platform designed to turn organizational documents into a queryable, auditable knowledge system. It combines document ingestion, embedding generation, vector search, and LLM-based answer synthesis to deliver grounded responses with citations.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-[1.1fr_0.9fr] gap-16">
+              <div className="grid grid-cols-1 w-full justify-items-start text-left lg:grid-cols-[1.1fr_0.9fr] gap-16">
                 <div className="flex flex-col gap-8">
                   <div className="rounded-2xl border border-[color:var(--ink)]/10 p-6 bg-[color:var(--ink)]/5">
                     <h3 className="text-xl font-semibold">My Role</h3>
@@ -180,7 +178,7 @@ export default function WorkPage({ title }) {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col gap-6 items-center">
+                <div className="flex flex-col gap-6 items-start text-left">
                   <h3 className="text-xl font-semibold">Core Capabilities</h3>
                   <ul className="space-y-2 text-[color:var(--ink)]/70">
                     <li>Document ingestion pipeline</li>
@@ -197,12 +195,12 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32 bg-[color:var(--ink)]/[0.03]">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="flex flex-col gap-14 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32 bg-[#04123a]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="flex flex-col gap-14 items-start">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Project Goals</h2>
-                <ul className="space-y-2 text-[color:var(--ink)]/70 max-w-[760px] mx-auto">
+                <ul className="space-y-2 text-white/68 max-w-[760px]">
                   <li>Reduce time-to-answer from internal knowledge</li>
                   <li>Enforce grounding + citations to mitigate hallucinations</li>
                   <li>Support multiple knowledge bases and controlled ingestion</li>
@@ -221,12 +219,12 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="flex flex-col gap-14 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="flex flex-col gap-14 items-start">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">System Architecture</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70 max-w-[820px] mx-auto">
+                <p className="text-lg sm:text-xl text-white/68 max-w-[820px]">
                   KIVO is designed as a modular RAG platform: ingestion and chunking feed embedding generation, indexed in a vector database for retrieval, then assembled into a grounded prompt to produce cited answers. Analytics and monitoring close the loop.
                 </p>
               </div>
@@ -239,9 +237,9 @@ export default function WorkPage({ title }) {
                 />
               </div>
 
-              <div className="max-w-[760px] mx-auto">
+              <div className="max-w-[760px]">
                 <h3 className="text-xl font-semibold">Architecture Highlights</h3>
-                <ul className="mt-6 space-y-2 text-[color:var(--ink)]/70 text-center list-none">
+                <ul className="mt-6 space-y-2 text-white/68 text-left list-none">
                   <li>Ingestion ? chunking ? embedding ? indexing</li>
                   <li>Retrieval (top-k + metadata filters)</li>
                   <li>Citation mapping from retrieved chunks to UI references</li>
@@ -252,12 +250,12 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32 bg-[color:var(--ink)]/[0.03]">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-[0.95fr_1.05fr] gap-16 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32 bg-[#06174a]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="grid grid-cols-1 justify-items-start text-left lg:grid-cols-[0.95fr_1.05fr] gap-16 items-center">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Ingestion Management</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70">
+                <p className="text-lg sm:text-xl text-white/68">
                   Documents are ingested per knowledge base, tracked by processing status, and prepared for retrieval through chunking and embedding.
                 </p>
               </div>
@@ -271,9 +269,9 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="grid grid-cols-1 justify-items-start text-left lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center">
               <div data-animate="mockup">
                 <MockupFrame
                   title="Ask AI"
@@ -283,9 +281,9 @@ export default function WorkPage({ title }) {
                   portrait
                 />
               </div>
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Ask AI (Grounded Answers with Citations)</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70">
+                <p className="text-lg sm:text-xl text-white/68">
                   The Ask AI interface retrieves relevant document chunks via vector search and generates answers grounded in retrieved sources. Citations link each claim back to its origin, supporting auditability and trust.
                 </p>
               </div>
@@ -293,12 +291,12 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32 bg-[color:var(--ink)]/[0.03]">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-[0.95fr_1.05fr] gap-16 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32 bg-[#06174a]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="grid grid-cols-1 justify-items-start text-left lg:grid-cols-[0.95fr_1.05fr] gap-16 items-center">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Usage Analytics</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70">
+                <p className="text-lg sm:text-xl text-white/68">
                   Analytics reveal what users ask, which knowledge bases are most active, and how the system performs over time.
                 </p>
               </div>
@@ -312,18 +310,18 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="grid grid-cols-1 justify-items-start text-left lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center">
               <div data-animate="mockup">
                 <MockupFrame
                   title="Monitoring"
                   caption="Latency and system metrics monitoring for reliability."
                 />
               </div>
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Observability &amp; System Metrics</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70">
+                <p className="text-lg sm:text-xl text-white/68">
                   Latency, throughput, and failure modes are monitored to keep the platform reliable under real usage.
                 </p>
               </div>
@@ -331,12 +329,12 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32 bg-[color:var(--ink)]/[0.03]">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-[0.95fr_1.05fr] gap-16 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32 bg-[#06174a]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="grid grid-cols-1 justify-items-start text-left lg:grid-cols-[0.95fr_1.05fr] gap-16 items-center">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Workspace</h2>
-                <p className="text-lg sm:text-xl text-[color:var(--ink)]/70">
+                <p className="text-lg sm:text-xl text-white/68">
                   Built-in tools like announcements/messaging and calendar utilities support collaboration around organizational knowledge workflows.
                 </p>
               </div>
@@ -350,13 +348,13 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="flex flex-col gap-14 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="flex flex-col gap-14 items-start">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Engineering Highlights</h2>
               </div>
-              <div className="grid grid-cols-1 justify-items-center text-center md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 w-full justify-items-start text-left md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
                   "Retrieval strategy (top-k, filtering, ranking)",
                   "Chunking approach and citation mapping",
@@ -366,7 +364,7 @@ export default function WorkPage({ title }) {
                 ].map((item) => (
                   <div
                     key={item}
-                    className="rounded-2xl border border-[color:var(--ink)]/10 bg-[color:var(--ink)]/5 p-6 text-[color:var(--ink)]/70">
+                    className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-white/68">
                     <p className="text-base leading-relaxed">{item}</p>
                   </div>
                 ))}
@@ -375,28 +373,28 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32 bg-[color:var(--ink)]/[0.03]">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="flex flex-col gap-14 items-center">
-              <div className="flex flex-col gap-6 items-center" data-animate="heading">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32 bg-[#06174a]">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="flex flex-col gap-14 items-start">
+              <div className="flex flex-col gap-6 items-start text-left" data-animate="heading">
                 <h2 className="text-4xl sm:text-5xl font-semibold">Tech Stack</h2>
               </div>
-              <div className="grid grid-cols-1 justify-items-center text-center sm:grid-cols-2 gap-8 text-[color:var(--ink)]/70">
+              <div className="grid grid-cols-1 w-full justify-items-start text-left sm:grid-cols-2 gap-8 text-white/68">
                 <div>
-                  <h3 className="text-xl font-semibold text-[color:var(--ink)]">Frontend</h3>
-                  <ul className="mt-5 space-y-2 text-center list-none">
+                  <h3 className="text-xl font-semibold text-white">Frontend</h3>
+                  <ul className="mt-5 space-y-2 text-left list-none">
                     <li>React, Vite, GSAP, UI dashboard patterns</li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-[color:var(--ink)]">Backend</h3>
-                  <ul className="mt-5 space-y-2 text-center list-none">
+                  <h3 className="text-xl font-semibold text-white">Backend</h3>
+                  <ul className="mt-5 space-y-2 text-left list-none">
                     <li>FastAPI/Node, OpenAI embeddings, ChromaDB</li>
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-[color:var(--ink)]">System</h3>
-                  <ul className="mt-5 space-y-2 text-center list-none">
+                  <h3 className="text-xl font-semibold text-white">System</h3>
+                  <ul className="mt-5 space-y-2 text-left list-none">
                     <li>Ingestion pipeline, vector index, analytics/metrics</li>
                   </ul>
                 </div>
@@ -405,20 +403,20 @@ export default function WorkPage({ title }) {
           </div>
         </section>
 
-        <section className="w-full flex justify-center text-center text-center py-24 sm:py-32">
-          <div className="w-full max-w-[1200px] mx-auto px-6 sm:px-10">
-            <div className="rounded-3xl border border-[color:var(--ink)]/10 bg-[color:var(--ink)]/5 p-10 sm:p-14 text-center">
+        <section className="w-full min-h-[100svh] flex items-center justify-center text-left py-24 sm:py-32">
+          <div className="w-full max-w-[1100px] mx-auto px-6 sm:px-10">
+            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-10 sm:p-14 text-left shadow-[0_30px_80px_-50px_rgba(16,36,138,0.9)]">
               <h2 className="text-4xl sm:text-5xl font-semibold">Want to see a demo?</h2>
-              <p className="mt-6 text-[color:var(--ink)]/70 max-w-[640px] mx-auto">
+              <p className="mt-6 text-white/68 max-w-[640px]">
                 Lets walk through the KIVO platform experience, from ingestion to grounded answers and observability.
               </p>
-              <div className="mt-10 flex flex-col sm:flex-row justify-center gap-6">
+              <div className="mt-10 flex flex-col sm:flex-row justify-start gap-6">
                 <Link
                   to="/work"
-                  className="inline-flex items-center justify-center rounded-full border border-[color:var(--ink)]/20 px-6 py-3 text-sm font-medium text-[color:var(--ink)] hover:bg-[color:var(--ink)]/5 transition">
+                  className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white hover:bg-white/[0.05] transition">
                   Back to Work
                 </Link>
-                <button className="inline-flex items-center justify-center rounded-full bg-[color:var(--ink)] text-[color:var(--pearl)] px-6 py-3 text-sm font-medium">
+                <button className="inline-flex items-center justify-center rounded-full bg-[color:var(--pearl)] text-[#04123a] px-6 py-3 text-sm font-medium">
                   Request demo
                 </button>
               </div>

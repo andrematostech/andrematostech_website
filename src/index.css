@@ -20,6 +20,25 @@ body {
   user-select: none;
 }
 
+#root {
+  min-height: 100vh;
+}
+
+.app_route_shell {
+  min-height: 100vh;
+  background: var(--pearl);
+  transition: opacity 650ms ease;
+}
+
+.app_route_shell--fadeIn {
+  opacity: 1;
+}
+
+.app_route_shell--fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* Subtle global grain */
 body::before {
   content: "";
@@ -390,6 +409,258 @@ body::before {
   line-height: 1.85;
 }
 
+.app_work_stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: clamp(2rem, 5vh, 4rem);
+}
+
+.app_work_rail {
+  align-items: stretch;
+}
+
+.app_work_inner {
+  min-height: calc(100vh - 184px);
+}
+
+.app_work_header {
+  flex: 0 0 auto;
+}
+
+.app_work_card_slider {
+  flex: 0 0 240px;
+  width: 240px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: rgba(255, 255, 255, 0.18);
+  border-right-color: transparent;
+  border-radius: 0;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.app_work_card_slider[data-active="true"] {
+  flex-basis: 520px;
+  width: 520px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: rgba(255, 255, 255, 0.22);
+  border-right-color: transparent;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.app_work_card_slider:hover,
+.app_work_card_slider:focus-visible {
+  flex-basis: 520px;
+  width: 520px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: rgba(255, 255, 255, 0.22);
+  border-right-color: transparent;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  backdrop-filter: none;
+  transform: translateY(-6px);
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover),
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) {
+  flex-basis: 240px;
+  width: 240px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: rgba(255, 255, 255, 0.18);
+  border-right-color: transparent;
+  border-radius: 0;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none;
+  backdrop-filter: none;
+  transform: none;
+}
+
+.app_work_card_slider:last-child {
+  border-right-color: rgba(255, 255, 255, 0.18);
+}
+
+.app_work_card_media {
+  filter: saturate(0.8) contrast(1.02) brightness(0.85);
+}
+
+.app_work_card_tint,
+.app_work_card_glow {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.app_work_card_slider[data-active="true"] .app_work_card_tint,
+.app_work_card_slider:hover .app_work_card_tint,
+.app_work_card_slider:focus-visible .app_work_card_tint {
+  opacity: 1;
+}
+
+.app_work_card_slider:hover .app_work_card_media,
+.app_work_card_slider:focus-visible .app_work_card_media,
+.app_work_card_slider[data-active="true"] .app_work_card_media {
+  opacity: 1;
+  transform: scale(1);
+  filter: saturate(1) contrast(1.04) brightness(0.96);
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_media,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_media {
+  opacity: 0;
+  transform: scale(1.06);
+  filter: saturate(0.8) contrast(1.02) brightness(0.85);
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_tint,
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_glow,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_tint,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_glow {
+  opacity: 0;
+}
+
+.app_work_card_spine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  min-width: 42px;
+  transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app_work_card_tag,
+.app_work_card_index {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 400ms ease, transform 500ms ease;
+}
+
+.app_work_card_compact {
+  display: none;
+}
+
+.app_work_card_vertical {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  text-align: center;
+  transform-origin: center;
+  transition: opacity 500ms ease;
+}
+
+.app_work_card_collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app_work_card_collapsed_col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.app_work_card_body {
+  opacity: 0;
+  transform: translateY(-64px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.app_work_card_slider:not([data-active="true"]) .app_work_card_spine {
+  position: absolute;
+  inset: 0;
+  width: auto;
+}
+
+.app_work_card_slider:hover .app_work_card_spine,
+.app_work_card_slider:focus-visible .app_work_card_spine {
+  position: relative;
+  inset: auto;
+}
+
+.app_work_card_slider:hover .app_work_card_body,
+.app_work_card_slider:focus-visible .app_work_card_body,
+.app_work_card_slider[data-active="true"] .app_work_card_body {
+  opacity: 1;
+  transform: translateY(-64px);
+}
+
+.app_work_card_slider:hover .app_work_card_collapsed,
+.app_work_card_slider:focus-visible .app_work_card_collapsed,
+.app_work_card_slider[data-active="true"] .app_work_card_collapsed {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_body,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_body {
+  opacity: 0;
+  transform: translateY(-64px);
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_spine,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_spine {
+  position: absolute;
+  inset: 0;
+  width: auto;
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_collapsed,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_collapsed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.app_work_card_slider[data-active="true"] .app_work_card_vertical {
+  opacity: 0;
+}
+
+.app_work_card_slider:hover .app_work_card_vertical,
+.app_work_card_slider:focus-visible .app_work_card_vertical {
+  opacity: 0;
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_vertical,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_vertical {
+  opacity: 1;
+}
+
+.app_work_card_slider[data-active="true"] .app_work_card_spine,
+.app_work_card_slider:hover .app_work_card_spine,
+.app_work_card_slider:focus-visible .app_work_card_spine {
+  width: 42px;
+}
+
+.app_work_rail:has(.app_work_card_slider:hover) .app_work_card_slider[data-active="true"]:not(:hover) .app_work_card_spine,
+.app_work_rail:has(.app_work_card_slider:focus-visible) .app_work_card_slider[data-active="true"]:not(:focus-visible) .app_work_card_spine {
+  width: 100%;
+}
+
 @media (min-width: 640px) {
   .app_about_social {
     margin-top: 32px;
@@ -408,10 +679,229 @@ body::before {
 .app_hero_image_wrap,
 .app_about_media,
 .app_about_content,
+.app_work_rail,
 .app_work_header,
 .app_work_card,
+.app_work_card_slider,
 .app_contact_copy,
 .app_contact_form_wrap,
 .app_contact_bg_svg {
   will-change: transform, opacity;
+}
+
+@media (max-width: 1023px) {
+  .app_work_inner {
+    min-height: auto;
+  }
+
+  .app_work_stage {
+    overflow: visible;
+    display: block;
+    padding-top: 2rem;
+  }
+
+  .app_work_rail {
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .app_work_card_slider,
+  .app_work_card_slider[data-active="true"],
+  .app_work_card_slider:hover,
+  .app_work_card_slider:focus-visible {
+    width: 100%;
+    flex-basis: auto;
+    min-height: 340px;
+    height: auto;
+    border-radius: 1.5rem;
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 24px 60px -40px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+  }
+
+  .app_work_card_spine {
+    display: none !important;
+  }
+
+  .app_work_card_slider .app_work_card_tint,
+  .app_work_card_slider .app_work_card_media {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .app_work_card_slider .app_work_card_body,
+  .app_work_card_slider[data-active="true"] .app_work_card_body,
+  .app_work_card_slider:hover .app_work_card_body,
+  .app_work_card_slider:focus-visible .app_work_card_body {
+    opacity: 1 !important;
+    transform: none !important;
+    max-width: 100%;
+    gap: 1rem;
+  }
+
+  .app_work_card_collapsed,
+  .app_work_card_tag,
+  .app_work_card_index {
+    display: none !important;
+  }
+
+  .app_work_card_compact {
+    display: none;
+  }
+
+  .app_work_card_media {
+    object-fit: cover;
+    object-position: center top;
+    filter: saturate(0.96) contrast(1.02) brightness(0.92);
+  }
+
+  .app_work_card_slider > .relative.z-10 {
+    padding: 1.25rem;
+  }
+
+  .app_work_card_slider > .relative.z-10 > .flex.h-full.items-end {
+    align-items: flex-end;
+    padding-bottom: 0;
+    height: 100%;
+  }
+
+  .app_work_card_slider .app_work_card_body h3 {
+    font-size: clamp(2rem, 5.5vw, 3.2rem);
+    line-height: 0.96;
+  }
+
+  .app_work_card_slider .app_work_card_body p {
+    max-width: 22rem;
+    font-size: 0.98rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) and (hover: hover) {
+  .app_work_card_slider,
+  .app_work_card_slider[data-active="true"],
+  .app_work_card_slider:hover,
+  .app_work_card_slider:focus-visible {
+    min-height: 180px;
+    border-radius: 0;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: rgba(255, 255, 255, 0.18);
+    border-right-color: rgba(255, 255, 255, 0.18);
+    background-color: transparent !important;
+    background-image: none !important;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .app_work_rail {
+    gap: 0;
+  }
+
+  .app_work_card_slider .app_work_card_media,
+  .app_work_card_slider .app_work_card_tint,
+  .app_work_card_slider .app_work_card_glow,
+  .app_work_card_slider .app_work_card_body,
+  .app_work_card_slider[data-active="true"] .app_work_card_body {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  .app_work_card_slider .app_work_card_compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+    max-width: 22rem;
+    opacity: 1;
+  }
+
+  .app_work_card_compact_title {
+    font-size: clamp(2rem, 6vw, 3rem);
+    line-height: 0.96;
+    font-weight: 600;
+    color: white;
+  }
+
+  .app_work_card_compact_desc {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.72);
+    max-width: 18rem;
+  }
+
+  .app_work_card_slider:hover,
+  .app_work_card_slider:focus-visible {
+    min-height: 340px;
+    border-radius: 1.5rem;
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 24px 60px -40px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    transform: none;
+  }
+
+  .app_work_card_slider:hover .app_work_card_media,
+  .app_work_card_slider:hover .app_work_card_tint,
+  .app_work_card_slider:hover .app_work_card_body,
+  .app_work_card_slider:focus-visible .app_work_card_media,
+  .app_work_card_slider:focus-visible .app_work_card_tint,
+  .app_work_card_slider:focus-visible .app_work_card_body {
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+
+  .app_work_card_slider:hover .app_work_card_body,
+  .app_work_card_slider:focus-visible .app_work_card_body {
+    transform: none !important;
+  }
+
+  .app_work_card_slider:hover .app_work_card_compact,
+  .app_work_card_slider:focus-visible .app_work_card_compact {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .app_work_stage {
+    padding-top: 1.5rem;
+  }
+
+  .app_work_rail {
+    gap: 0.875rem;
+  }
+
+  .app_work_card_slider,
+  .app_work_card_slider[data-active="true"],
+  .app_work_card_slider:hover,
+  .app_work_card_slider:focus-visible {
+    min-height: 300px;
+    border-radius: 1.25rem;
+  }
+
+  .app_work_card_slider > .relative.z-10 {
+    padding: 1rem;
+  }
+
+  .app_work_card_slider .app_work_card_body {
+    padding-left: 0;
+    gap: 0.75rem;
+  }
+
+  .app_work_card_media {
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .app_work_card_slider .app_work_card_body h3 {
+    font-size: clamp(1.9rem, 9vw, 2.85rem);
+  }
+
+  .app_work_card_slider .app_work_card_body p {
+    font-size: 0.92rem;
+  }
 }

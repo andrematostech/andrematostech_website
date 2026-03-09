@@ -13,18 +13,20 @@ export default function Navbar() {
     e.preventDefault();
     const target = document.getElementById(id);
     if (!target) return;
+    const offset = id === "work" ? 40 : -48;
 
     const lenis = typeof window !== "undefined" ? window.lenis : null;
     if (lenis && typeof lenis.scrollTo === "function") {
       lenis.scrollTo(target, {
-        offset: -48,
+        offset,
         duration: 1.2,
         easing: (t) => 1 - Math.pow(1 - t, 3)
       });
       return;
     }
 
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    const top = window.scrollY + target.getBoundingClientRect().top + offset;
+    window.scrollTo({ top, behavior: "smooth" });
   };
 
   const linkClass = (id) =>
