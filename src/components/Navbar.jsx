@@ -3,9 +3,11 @@ import { FiMenu, FiX } from "react-icons/fi";
 import { useActiveSection } from "../hooks/useActiveSection";
 import logoBlack from "../assets/logo_black.png";
 
+const NAV_SECTION_IDS = ["top", "about", "work", "contact"];
+
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const active = useActiveSection(["top", "about", "work", "contact"], {
+  const active = useActiveSection(NAV_SECTION_IDS, {
     offsetPx: 32
   });
 

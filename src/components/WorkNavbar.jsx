@@ -3,12 +3,13 @@ import logoWhite from "../assets/logo_white.png";
 
 export default function WorkNavbar() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#030b24]/72 backdrop-blur-100 app_work_nav app_work_nav_header">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#06174A]/72 backdrop-blur-100 app_work_nav app_work_nav_header">
       <div className="h-14 sm:h-16 flex justify-center app_work_nav_bar">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 grid grid-cols-12 items-center app_work_nav_inner">
           <div className="col-span-4 app_work_nav_back">
             <Link
-              to="/#work"
+              to="/"
+              state={{ scrollTo: "work" }}
               className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white app_work_nav_back_link">
               
               Back

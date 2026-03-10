@@ -31,7 +31,15 @@ export function useActiveSection(sectionIds, { offsetPx = 0 } = {}) {
       setActive(bestId);
     };
 
-    // Observe changes that affect layout/visibility
+    let rafId = 0;
+    const requestCompute = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        computeActive();
+      });
+    };
+
     const observer = new IntersectionObserver(() => computeActive(), {
       root: null,
       threshold: [0, 0.25, 0.5, 0.75, 1],
@@ -39,14 +47,17 @@ export function useActiveSection(sectionIds, { offsetPx = 0 } = {}) {
 
     elements.forEach((el) => observer.observe(el));
 
-    // Also update on resize (center changes)
-    window.addEventListener("resize", computeActive);
-    // Initial
+    window.addEventListener("scroll", requestCompute, { passive: true });
+    window.addEventListener("resize", requestCompute);
     computeActive();
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("resize", computeActive);
+      window.removeEventListener("scroll", requestCompute);
+      window.removeEventListener("resize", requestCompute);
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
     };
   }, [sectionIds, offsetPx]);
 
