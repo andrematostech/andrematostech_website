@@ -16,7 +16,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
     for (let i = 0; i < particleCount; i += 1) {
       const i3 = i * 3;
-      const radius = 1.29 + Math.random() * 0.24;
+      const radius = 1.34 + Math.random() * 0.28;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
 
@@ -105,10 +105,10 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     halo.material.opacity = 0.11 + Math.sin(t * 0.86) * 0.024 * motion;
     innerGlow.material.opacity = 0.095 + Math.sin(t * 0.78) * 0.016 * motion;
 
-    points.rotation.y += (compact ? 0.00145 : 0.0008) * motion;
-    points.rotation.x += (compact ? 0.00062 : 0.00035) * motion;
+    points.rotation.y += (compact ? 0.00435 : 0.0011) * motion;
+    points.rotation.x += (compact ? 0.00186 : 0.00048) * motion;
     points.scale.setScalar(1);
-    points.material.opacity = (compact ? 0.64 : 0.5) + Math.sin(t * 1.8) * (compact ? 0.065 : 0.05) * motion;
+    points.material.opacity = (compact ? 0.72 : 0.58) + Math.sin(t * 1.8) * (compact ? 0.075 : 0.06) * motion;
 
     if (core.material.uniforms?.uTime) {
       core.material.uniforms.uTime.value = t;
@@ -261,7 +261,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             size={compact ? 0.047 : 0.052}
             sizeAttenuation
             transparent
-            opacity={compact ? 0.58 : 0.42}
+            opacity={compact ? 0.68 : 0.5}
             map={particleSprite}
             alphaMap={particleSprite ?? undefined}
             alphaTest={0.01}
