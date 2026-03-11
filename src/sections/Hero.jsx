@@ -130,7 +130,7 @@ export default function Hero() {
             */}
             <div
               ref={heroImageWrapRef}
-              className="pointer-events-auto relative flex w-full items-center justify-center overflow-visible lg:justify-end"
+              className="pointer-events-auto relative flex w-full items-center justify-center overflow-visible lg:translate-x-16 lg:justify-end"
             >
               <HeroOrbCanvas
                 externalPointerRef={heroPointerRef}

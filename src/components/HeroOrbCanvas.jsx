@@ -5,6 +5,7 @@ import * as THREE from "three";
 function OrbScene({ pointer, interaction, reducedMotion, compact }) {
   const groupRef = useRef(null);
   const coreRef = useRef(null);
+  const innerGlowRef = useRef(null);
   const haloRef = useRef(null);
   const pointsRef = useRef(null);
 
@@ -15,7 +16,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
     for (let i = 0; i < particleCount; i += 1) {
       const i3 = i * 3;
-      const radius = 1.26 + Math.random() * 0.22;
+      const radius = 1.29 + Math.random() * 0.24;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(2 * Math.random() - 1);
 
@@ -47,8 +48,8 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     return values;
   }, [particleCount]);
 
-  const coreTexture = useMemo(() => {
-    const size = 768;
+  const particleSprite = useMemo(() => {
+    const size = 128;
     const canvas = document.createElement("canvas");
     canvas.width = size;
     canvas.height = size;
@@ -56,114 +57,62 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
     if (!ctx) return null;
 
-    ctx.fillStyle = "#131313";
+    const gradient = ctx.createRadialGradient(
+      size * 0.5,
+      size * 0.5,
+      0,
+      size * 0.5,
+      size * 0.5,
+      size * 0.5
+    );
+
+    gradient.addColorStop(0, "rgba(255,255,255,1)");
+    gradient.addColorStop(0.45, "rgba(255,255,255,0.95)");
+    gradient.addColorStop(0.72, "rgba(255,255,255,0.4)");
+    gradient.addColorStop(1, "rgba(255,255,255,0)");
+
+    ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, size, size);
 
-    const cols = 7;
-    const rows = 7;
-    const cell = size / cols;
-    const radius = cell * 0.24;
-    ctx.lineWidth = cell * 0.105;
-    ctx.strokeStyle = "#f4f4f4";
-    ctx.globalAlpha = 1;
-
-    const roundedBlob = (x, y, w, h, r, warpA, warpB) => {
-      ctx.beginPath();
-      ctx.moveTo(x + r, y + warpA * 0.12);
-      ctx.bezierCurveTo(
-        x + w * 0.35,
-        y - warpB * 0.18,
-        x + w * 0.72,
-        y + warpA * 0.22,
-        x + w - r * 0.35,
-        y + warpB * 0.1
-      );
-      ctx.arcTo(x + w + warpA * 0.04, y + h * 0.3, x + w - warpB * 0.04, y + h - r, r);
-      ctx.bezierCurveTo(
-        x + w + warpA * 0.12,
-        y + h * 0.65,
-        x + w * 0.7,
-        y + h + warpB * 0.14,
-        x + w * 0.44,
-        y + h - warpA * 0.06
-      );
-      ctx.arcTo(x + w * 0.18, y + h + warpB * 0.06, x + r, y + h - warpA * 0.08, r);
-      ctx.bezierCurveTo(
-        x - warpA * 0.1,
-        y + h * 0.7,
-        x - warpB * 0.08,
-        y + h * 0.35,
-        x + r,
-        y + warpA * 0.12
-      );
-      ctx.closePath();
-    };
-
-    for (let row = 0; row < rows; row += 1) {
-      for (let col = 0; col < cols; col += 1) {
-        const noiseA = Math.sin(row * 0.9 + col * 0.7) * cell * 0.22;
-        const noiseB = Math.cos(col * 0.82 + row * 0.58) * cell * 0.2;
-        const driftX = Math.sin((row + 1) * (col + 1) * 0.18) * cell * 0.14;
-        const driftY = Math.cos((row + 2) * (col + 1) * 0.16) * cell * 0.14;
-        const width = cell * (0.76 + ((row + col) % 3) * 0.08);
-        const height = cell * (0.7 + ((row + col + 1) % 3) * 0.09);
-        const x = col * cell - cell * 0.12 + driftX + noiseA * 0.2;
-        const y = row * cell - cell * 0.12 + driftY + noiseB * 0.2;
-
-        roundedBlob(x, y, width, height, radius, noiseA, noiseB);
-        ctx.stroke();
-      }
-    }
-
-    ctx.globalAlpha = 0.38;
-    for (let i = 0; i < 30; i += 1) {
-      const x = Math.random() * size;
-      const y = Math.random() * size;
-      const r = cell * (0.08 + Math.random() * 0.1);
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, r);
-      gradient.addColorStop(0, "rgba(255,255,255,0.92)");
-      gradient.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
     const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(1.18, 1.18);
-    texture.anisotropy = 8;
+    texture.needsUpdate = true;
     return texture;
   }, []);
 
   useFrame(({ clock }) => {
     const group = groupRef.current;
     const core = coreRef.current;
+    const innerGlow = innerGlowRef.current;
     const halo = haloRef.current;
     const points = pointsRef.current;
 
-    if (!group || !core || !halo || !points) return;
+    if (!group || !core || !innerGlow || !halo || !points) return;
 
     const t = clock.getElapsedTime();
     const motion = reducedMotion ? 0.35 : 1;
-    const breath = 1 + Math.sin(t * 1.2) * 0.035 * motion;
+    const breath = 1 + Math.sin(t * 0.72) * 0.035 * motion;
     const impulse = interaction?.current ?? null;
     const impulseStrength = impulse ? impulse.strength : 0;
     const attribute = points.geometry?.attributes?.position;
 
     group.rotation.y = THREE.MathUtils.lerp(group.rotation.y, pointer.current.x * 0.22, 0.05);
     group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, pointer.current.y * 0.14, 0.05);
-    group.rotation.z += 0.0008 * motion;
+    group.rotation.z += 0.0012 * motion;
 
     core.scale.setScalar(breath);
-    halo.scale.setScalar(1.08 + Math.sin(t * 1.1) * 0.04 * motion);
-    halo.material.opacity = 0.16 + Math.sin(t * 1.4) * 0.035 * motion;
+    innerGlow.scale.setScalar(breath * 0.955);
+    halo.scale.setScalar(1.12 + Math.sin(t * 0.68) * 0.046 * motion);
+    halo.material.opacity = 0.138 + Math.sin(t * 0.86) * 0.03 * motion;
+    innerGlow.material.opacity = 0.138 + Math.sin(t * 0.78) * 0.02 * motion;
 
     points.rotation.y += 0.0008 * motion;
     points.rotation.x += 0.00035 * motion;
     points.scale.setScalar(1);
-    points.material.opacity = 0.7 + Math.sin(t * 1.8) * 0.06 * motion;
+    points.material.opacity = 0.5 + Math.sin(t * 1.8) * 0.05 * motion;
+
+    if (core.material.uniforms?.uTime) {
+      core.material.uniforms.uTime.value = t;
+    }
 
     if (attribute) {
       for (let i = 0; i < particleCount; i += 1) {
@@ -210,37 +159,90 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
   return (
     <>
-      <ambientLight intensity={0.45} />
-      <directionalLight position={[2, 3, 4]} intensity={0.75} color="#5b5b5b" />
-      <pointLight position={[0, 0, 2.8]} intensity={1.15} color="#3f3f3f" />
-      <pointLight position={[-2.4, 1.8, 1.6]} intensity={0.45} color="#8a8a8a" />
+      <ambientLight intensity={0.34} />
+      <directionalLight position={[2, 3, 4]} intensity={0.95} color="#737373" />
+      <pointLight position={[0, 0, 2.8]} intensity={1.2} color="#4e4e4e" />
+      <pointLight position={[-2.4, 1.8, 1.6]} intensity={0.42} color="#9a9a9a" />
 
-      <group ref={groupRef}>
+      <group ref={groupRef} scale={0.92}>
         <mesh ref={haloRef}>
-          <sphereGeometry args={[1.92, 48, 48]} />
+          <sphereGeometry args={[1.9, 48, 48]} />
           <meshBasicMaterial
             color="#1a1a1a"
             transparent
-            opacity={0.09}
+            opacity={0.12}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
         </mesh>
 
         <mesh ref={coreRef}>
-          <sphereGeometry args={[1.1, 64, 64]} />
-          <meshStandardMaterial
-            color="#121212"
-            map={coreTexture}
-            emissive="#404040"
-            emissiveMap={coreTexture}
-            emissiveIntensity={0.14}
-            roughness={0.66}
-            metalness={0.04}
-            bumpMap={coreTexture}
-            bumpScale={0.1}
+          <sphereGeometry args={[1.1, 128, 128]} />
+          <shaderMaterial
             transparent
-            opacity={0.98}
+            uniforms={{
+              uBase: { value: new THREE.Color("#171717") },
+              uCenter: { value: new THREE.Color("#676767") },
+              uLightDir: { value: new THREE.Vector3(0.35, 0.5, 1).normalize() },
+              uTime: { value: 0 }
+            }}
+            vertexShader={`
+              varying vec3 vNormalW;
+              varying vec3 vWorldPosition;
+
+              void main() {
+                vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+                vWorldPosition = worldPosition.xyz;
+                vNormalW = normalize(mat3(modelMatrix) * normal);
+                gl_Position = projectionMatrix * viewMatrix * worldPosition;
+              }
+            `}
+            fragmentShader={`
+              uniform vec3 uBase;
+              uniform vec3 uCenter;
+              uniform vec3 uLightDir;
+              uniform float uTime;
+              varying vec3 vNormalW;
+              varying vec3 vWorldPosition;
+
+              void main() {
+                vec3 N = normalize(vNormalW);
+                vec3 V = normalize(cameraPosition - vWorldPosition);
+                vec3 L = normalize(uLightDir);
+                float phi = atan(N.z, N.x);
+                float theta = acos(clamp(N.y, -1.0, 1.0));
+
+                float lambert = max(dot(N, L), 0.0);
+                float center = pow(max(dot(N, V), 0.0), 1.55);
+                float rim = pow(1.0 - max(dot(N, V), 0.0), 2.7);
+                float fresnel = pow(1.0 - max(dot(N, V), 0.0), 1.45);
+                float swirl = sin(phi * 1.6 + theta * 1.25 - uTime * 0.22);
+                float cloudA = 0.5 + 0.5 * sin(phi * 4.2 + theta * 1.4 + uTime * 0.26 + swirl * 0.45);
+                float cloudB = 0.5 + 0.5 * sin(phi * -3.1 + theta * 2.25 - uTime * 0.21);
+                float nodes = pow(max(0.0, sin(phi * 6.2 - uTime * 0.34) * sin(theta * 5.4 + uTime * 0.28)), 2.2);
+                float field = cloudA * 0.38 + cloudB * 0.34 + nodes * 0.18;
+
+                vec3 color = mix(uBase, uCenter, center * 0.84);
+                color += vec3(0.095) * lambert;
+                color += vec3(0.06, 0.065, 0.072) * fresnel;
+                color -= vec3(0.09) * rim;
+                color += vec3(0.042, 0.047, 0.053) * field * (0.34 + center * 0.82);
+                color += vec3(0.022, 0.024, 0.028) * nodes * (0.5 + fresnel * 0.5);
+
+                gl_FragColor = vec4(color, 0.58);
+              }
+            `}
+          />
+        </mesh>
+
+        <mesh ref={innerGlowRef}>
+          <sphereGeometry args={[1.03, 96, 96]} />
+          <meshBasicMaterial
+            color="#9a9a9a"
+            transparent
+            opacity={0.08}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
           />
         </mesh>
 
@@ -255,10 +257,13 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
           </bufferGeometry>
           <pointsMaterial
             color="#1b1b1b"
-            size={compact ? 0.028 : 0.036}
+            size={compact ? 0.041 : 0.052}
             sizeAttenuation
             transparent
-            opacity={0.5}
+            opacity={0.42}
+            map={particleSprite}
+            alphaMap={particleSprite ?? undefined}
+            alphaTest={0.01}
             depthWrite={false}
           />
         </points>
