@@ -96,14 +96,14 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     const attribute = points.geometry?.attributes?.position;
 
     group.rotation.y = THREE.MathUtils.lerp(group.rotation.y, pointer.current.x * 0.22, 0.05);
-    group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, pointer.current.y * 0.14, 0.05);
+    group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, pointer.current.y * -0.14, 0.05);
     group.rotation.z += 0.0012 * motion;
 
     core.scale.setScalar(breath);
     innerGlow.scale.setScalar(breath * 0.955);
     halo.scale.setScalar(1.12 + Math.sin(t * 0.68) * 0.046 * motion);
-    halo.material.opacity = 0.138 + Math.sin(t * 0.86) * 0.03 * motion;
-    innerGlow.material.opacity = 0.138 + Math.sin(t * 0.78) * 0.02 * motion;
+    halo.material.opacity = 0.11 + Math.sin(t * 0.86) * 0.024 * motion;
+    innerGlow.material.opacity = 0.095 + Math.sin(t * 0.78) * 0.016 * motion;
 
     points.rotation.y += 0.0008 * motion;
     points.rotation.x += 0.00035 * motion;
@@ -170,16 +170,17 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
           <meshBasicMaterial
             color="#1a1a1a"
             transparent
-            opacity={0.12}
+            opacity={0.1}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
         </mesh>
 
-        <mesh ref={coreRef}>
+        <mesh ref={coreRef} renderOrder={2}>
           <sphereGeometry args={[1.1, 128, 128]} />
           <shaderMaterial
             transparent
+            depthWrite={false}
             uniforms={{
               uBase: { value: new THREE.Color("#171717") },
               uCenter: { value: new THREE.Color("#676767") },
@@ -229,24 +230,24 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
                 color += vec3(0.042, 0.047, 0.053) * field * (0.34 + center * 0.82);
                 color += vec3(0.022, 0.024, 0.028) * nodes * (0.5 + fresnel * 0.5);
 
-                gl_FragColor = vec4(color, 0.58);
+                gl_FragColor = vec4(color, 0.48);
               }
             `}
           />
         </mesh>
 
-        <mesh ref={innerGlowRef}>
+        <mesh ref={innerGlowRef} renderOrder={1}>
           <sphereGeometry args={[1.03, 96, 96]} />
           <meshBasicMaterial
             color="#9a9a9a"
             transparent
-            opacity={0.08}
+            opacity={0.06}
             blending={THREE.AdditiveBlending}
             depthWrite={false}
           />
         </mesh>
 
-        <points ref={pointsRef}>
+        <points ref={pointsRef} renderOrder={3}>
           <bufferGeometry>
             <bufferAttribute
               attach="attributes-position"
