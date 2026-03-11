@@ -13,21 +13,15 @@ import kivoAnalytics from "../assets/kivo_analytics.png";
 import kivoMobile from "../assets/kivo_mobile.png";
 import kivoUtilities from "../assets/kivo_utilities.png";
 
-function MockupFrame({ title, caption, tall = false, imageSrc, portrait = false, light = false }) {
+function MockupFrame({ title, imageSrc, portrait = false }) {
   return (
     <figure className="w-full lg:max-w-[calc(100%-260px)]">
       <div className="w-full overflow-hidden">
         <div
           className={`w-full overflow-hidden ${
-            imageSrc
-              ? portrait
-                ? "h-[380px] sm:h-[560px] flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8"
-                : tall
-                  ? "h-[360px] sm:h-[520px]"
-                  : "h-[340px] sm:h-[480px]"
-              : tall
-                ? "h-[360px] sm:h-[520px]"
-                : "h-[340px] sm:h-[480px]"
+            portrait
+              ? "flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8"
+              : ""
           }`}>
           {imageSrc ? (
             <img
@@ -35,8 +29,8 @@ function MockupFrame({ title, caption, tall = false, imageSrc, portrait = false,
               alt={title}
               className={
                 portrait
-                  ? "max-h-full w-auto max-w-full object-contain"
-                  : "h-full w-full object-contain"
+                  ? "max-h-[380px] sm:max-h-[560px] w-auto max-w-full object-contain"
+                  : "block h-auto w-full object-contain"
               }
               loading="lazy"
               decoding="async"
@@ -132,7 +126,7 @@ export default function WorkPage({ title }) {
                       <span className="block">Generation Platform</span>
                     </p>
                   </div>
-                  <p className="max-w-[250px] sm:max-w-[400px] text-[16px] text-white/68 leading-relaxed">
+                  <p className="max-w-[250px] sm:max-w-95 text-[16px] text-white/68 leading-relaxed">
                     AI-powered knowledge retrieval platform combining vector search, grounded generation, and analytics in a unified enterprise dashboard.
                   </p>
                 </div>
