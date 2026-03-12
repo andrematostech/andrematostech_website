@@ -2,6 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+function seededNoise(index, seed) {
+  const value = Math.sin(index * 127.1 + seed * 311.7) * 43758.5453123;
+  return value - Math.floor(value);
+}
+
 function OrbScene({ pointer, interaction, reducedMotion, compact }) {
   const groupRef = useRef(null);
   const coreRef = useRef(null);
@@ -16,9 +21,9 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
     for (let i = 0; i < particleCount; i += 1) {
       const i3 = i * 3;
-      const radius = 1.34 + Math.random() * 0.28;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
+      const radius = 1.34 + seededNoise(i, 1) * 0.28;
+      const theta = seededNoise(i, 2) * Math.PI * 2;
+      const phi = Math.acos(2 * seededNoise(i, 3) - 1);
 
       values[i3] = radius * Math.sin(phi) * Math.cos(theta);
       values[i3 + 1] = radius * Math.cos(phi);
@@ -32,7 +37,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     const values = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount; i += 1) {
-      values[i] = Math.random() * Math.PI * 2;
+      values[i] = seededNoise(i, 4) * Math.PI * 2;
     }
 
     return values;
@@ -42,7 +47,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     const values = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount; i += 1) {
-      values[i] = 0.055 + Math.random() * 0.06;
+      values[i] = 0.055 + seededNoise(i, 5) * 0.06;
     }
 
     return values;
@@ -258,7 +263,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
           </bufferGeometry>
           <pointsMaterial
             color={compact ? "#141414" : "#1b1b1b"}
-            size={compact ? 0.047 : 0.052}
+            size={compact ? 0.052 : 0.052}
             sizeAttenuation
             transparent
             opacity={compact ? 0.68 : 0.5}
