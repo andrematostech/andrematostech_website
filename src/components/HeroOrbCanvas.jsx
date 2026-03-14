@@ -305,16 +305,16 @@ export default function HeroOrbCanvas({ externalPointerRef = null, interactionRe
   return (
     <div
       className="relative mx-auto aspect-square w-full max-w-[420px] sm:max-w-[560px] lg:max-w-[760px]"
-      style={{ backgroundColor: "#F4F2EE" }}
+      style={{ backgroundColor: "var(--pearl)" }}
     >
       <div className="pointer-events-none absolute inset-[18%] rounded-full bg-[radial-gradient(circle,rgba(13,13,13,0.18)_0%,rgba(13,13,13,0.08)_42%,rgba(244,242,238,0)_72%)] blur-3xl" />
       <Canvas
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 5.2], fov: 34 }}
         gl={{ alpha: true, antialias: true, premultipliedAlpha: false }}
-        style={{ background: "#F4F2EE", display: "block" }}
+        style={{ background: "var(--pearl)", display: "block" }}
         onCreated={({ gl }) => {
-          gl.setClearColor(0xffffff, 0);
+          gl.setClearColor(new THREE.Color("#f5f2ee"), 0);
         }}
       >
         <OrbScene

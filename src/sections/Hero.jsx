@@ -59,7 +59,7 @@ export default function Hero() {
     <section
       id="top"
       ref={wrapRef}
-      className="relative min-h-[calc(100vh-64px)] bg-[#F4F2EE] text-[color:var(--ink)] app_hero app_hero_section"
+      className="relative min-h-[calc(100vh-64px)] bg-[color:var(--pearl)] text-[color:var(--ink)] app_hero app_hero_section"
     >
       {/* Previous hero background kept for reference.
       <div className="absolute inset-0 pointer-events-none app_hero_bg" aria-hidden="true">
