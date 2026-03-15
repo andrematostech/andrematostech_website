@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
-import WorkPage from "./pages/WorkPage";
-import WorkPage2 from "./pages/WorkPage2";
-import WorkPage3 from "./pages/WorkPage3";
-import WorkPage4 from "./pages/WorkPage4";
+import ProjectPage from "./pages/ProjectPage";
+import ProjectPage2 from "./pages/ProjectPage2";
+import ProjectPage3 from "./pages/ProjectPage3";
+import ProjectPage4 from "./pages/ProjectPage4";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -12,10 +12,14 @@ function AnimatedRoutes() {
   const [transitionStage, setTransitionStage] = useState("fadeIn");
 
   useEffect(() => {
-    if (location.pathname !== displayLocation.pathname) {
+    if (location.pathname === displayLocation.pathname) return;
+
+    const frame = window.requestAnimationFrame(() => {
       setTransitionStage("fadeOut");
-    }
-  }, [location, displayLocation]);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.pathname, displayLocation.pathname]);
 
   useEffect(() => {
     if (transitionStage !== "fadeOut") return;
@@ -33,13 +37,14 @@ function AnimatedRoutes() {
     <div
       className={`app_route_shell ${
         transitionStage === "fadeOut" ? "app_route_shell--fadeOut" : "app_route_shell--fadeIn"
-      }`}>
-      <Routes location={displayLocation} className="">
-        <Route path="/" element={<Home className="" />} className="" />
-        <Route path="/workpage" element={<WorkPage className="" />} className="" />
-        <Route path="/workpage_2" element={<WorkPage2 className="" />} className="" />
-        <Route path="/workpage_3" element={<WorkPage3 className="" />} className="" />
-        <Route path="/workpage_4" element={<WorkPage4 className="" />} className="" />
+      }`}
+    >
+      <Routes location={displayLocation}>
+        <Route path="/" element={<Home />} />
+        <Route path="/projectpage" element={<ProjectPage />} />
+        <Route path="/projectpage_2" element={<ProjectPage2 />} />
+        <Route path="/projectpage_3" element={<ProjectPage3 />} />
+        <Route path="/projectpage_4" element={<ProjectPage4 />} />
       </Routes>
     </div>
   );
@@ -47,8 +52,8 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter className="">
+    <BrowserRouter>
       <AnimatedRoutes />
-    </BrowserRouter>);
-
+    </BrowserRouter>
+  );
 }

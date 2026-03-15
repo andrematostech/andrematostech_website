@@ -39,6 +39,48 @@ body {
   pointer-events: none;
 }
 
+.app_hero_scroll_arrow {
+  position: relative;
+  width: 24px;
+  height: 40px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  opacity: 0.82;
+}
+
+.app_hero_scroll_arrow span {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 4px;
+  height: 11px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: translateX(-50%);
+  animation: heroScrollArrow 1.6s ease-in-out infinite;
+}
+
+@keyframes heroScrollArrow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.28;
+    transform: translate(-50%, 11px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 14px);
+  }
+}
+
 /* Subtle global grain */
 body::before {
   content: "";
@@ -133,6 +175,17 @@ body::before {
 /* Ensure hero fills the viewport to avoid showing the next section */
 .app_hero_section {
   min-height: 100vh;
+}
+
+@media (max-width: 1023px) {
+  .app_hero_grid {
+    min-height: calc(100vh - 64px);
+  }
+
+  .app_hero_grid > .app_hero_copy {
+    max-width: 100%;
+    padding-top: 3rem;
+  }
 }
 
 @media (min-width: 1110px) {
@@ -260,7 +313,7 @@ body::before {
 
 /* About lines */
 .app_about_line {
-  background: rgba(245, 242, 238, 0.45);
+  background: rgba(10, 10, 10, 0.16);
 }
 
 .app_about_line_top {
@@ -316,8 +369,8 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.12;
-  mix-blend-mode: screen;
+  opacity: 0.08;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
   background-repeat: repeat;
   animation: aboutNoise 3s steps(2, end) infinite;

@@ -21,7 +21,7 @@ const items = [
     image: kivoWorkcard,
     tabletImage: kivoWorkcardTablet,
     phoneImage: kivoWorkcardPhone,
-    href: "/workpage"
+    href: "/projectpage"
   },
   {
     title: "Creative Branding",
@@ -29,7 +29,7 @@ const items = [
     collapsedSubtitle: "Brand identity",
     meta: "Brand system",
     image: card2,
-    href: "/workpage_2"
+    href: "/projectpage_2"
   },
   {
     title: "Medical App",
@@ -37,7 +37,7 @@ const items = [
     collapsedSubtitle: "Health product",
     meta: "Product design",
     image: card3,
-    href: "/workpage_3"
+    href: "/projectpage_3"
   },
   {
     title: "Portfolio 2026",
@@ -45,11 +45,11 @@ const items = [
     collapsedSubtitle: "Portfolio build",
     meta: "Frontend build",
     image: card4,
-    href: "/workpage_4"
+    href: "/projectpage_4"
   }
 ];
 
-export default function Work() {
+export default function Projects() {
   const sectionRef = useRef(null);
   const bgRef = useRef(null);
   const headerRef = useRef(null);
@@ -182,10 +182,10 @@ export default function Work() {
 
   return (
     <section
-      id="work"
+      id="projects"
       ref={sectionRef}
-      className="relative bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen border-t border-[color:var(--pearl)]/10 overflow-hidden app_work app_work_section"
-      style={{ "--work-expand": 0 }}>
+      className="relative z-[2] bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen border-t border-[color:var(--pearl)]/10 overflow-hidden app_work app_work_section"
+      style={{ "--project-expand": 0 }}>
       <div
         ref={bgRef}
         className="absolute inset-x-0 -top-[30%] -bottom-[30%] app_work_bg"
@@ -207,7 +207,7 @@ export default function Work() {
           style={{ paddingTop: "92px", paddingBottom: "92px" }}>
           <div ref={headerRef} className="max-w-[760px] app_work_header">
             <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/55 uppercase mt-6 app_work_kicker">
-              Work
+              Projects
             </p>
             <h2 className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-[color:var(--pearl)]/80 app_work_title">
               Selected projects

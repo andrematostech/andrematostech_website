@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import WorkNavbar from "../components/WorkNavbar";
+import ProjectNavbar from "../components/ProjectNavbar";
 import Footer from "../sections/Footer";
 import kivoLogo from "../assets/KIVO_logo.png";
 import kivoHeroLaptop from "../assets/kivo_hero_laptop.png";
@@ -42,7 +42,7 @@ function MockupFrame({ title, imageSrc, portrait = false }) {
   );
 }
 
-export default function WorkPage({ title }) {
+export default function ProjectPage({ title }) {
   const pageRef = useRef(null);
   const resolvedTitle = title || "KIVO";
 
@@ -106,7 +106,7 @@ export default function WorkPage({ title }) {
     <div
       ref={pageRef}
       className="min-h-screen bg-[#06174A] text-[color:var(--pearl)] flex flex-col app_workpage app_workpage_root">
-      <WorkNavbar className="" />
+      <ProjectNavbar />
       <main className="pt-40 sm:pt-44 flex-1 flex flex-col items-center text-left">
         <section
           className="relative w-full min-h-[100svh] flex items-center justify-center text-left pb-20 sm:pb-24 overflow-hidden bg-[#06174A]">
@@ -402,7 +402,7 @@ export default function WorkPage({ title }) {
         </section>
 
       </main>
-      <Footer className="" />
+      <Footer />
     </div>
   );
 }

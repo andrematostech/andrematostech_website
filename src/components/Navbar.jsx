@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useActiveSection } from "../hooks/useActiveSection";
-import logoBlack from "../assets/logo_black.png";
+import logoWhite from "../assets/logo_white.png";
 
-const NAV_SECTION_IDS = ["top", "about", "work", "contact"];
+const NAV_SECTION_IDS = ["top", "about", "projects", "contact"];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Navbar() {
     e.preventDefault();
     const target = document.getElementById(id);
     if (!target) return;
-    const offset = id === "work" ? 40 : -48;
+    const offset = id === "projects" ? 40 : id === "about" ? 0 : -48;
 
     const lenis = typeof window !== "undefined" ? window.lenis : null;
     if (lenis && typeof lenis.scrollTo === "function") {
@@ -34,13 +34,13 @@ export default function Navbar() {
   const linkClass = (id) =>
     `transition-colors ${
       active === id
-        ? "text-[color:var(--ink)] font-semibold"
-        : "text-[color:var(--ink)]/60 hover:text-[color:var(--ink)]"
+        ? "text-[color:var(--pearl)] font-semibold"
+        : "text-[color:var(--pearl)]/60 hover:text-[color:var(--pearl)]"
     }`;
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--pearl)]/90 backdrop-blur-100 app_nav app_nav_header"
+      className="fixed top-0 left-0 right-0 z-50 bg-[color:var(--ink)]/76 backdrop-blur-100 app_nav app_nav_header"
       style={{ paddingLeft: "max(12px, env(safe-area-inset-left))", paddingRight: "max(12px, env(safe-area-inset-right))" }}
     >
       <div className="h-9 sm:h-12 flex items-center justify-center app_nav_bar">
@@ -48,23 +48,23 @@ export default function Navbar() {
           <div className="col-span-8 sm:col-span-4 app_nav_brand flex items-center">
             <a
               href="#top"
-              className="inline-flex items-center gap-2 p-0 leading-none app_nav_brand_link"
+              className="inline-flex items-center gap-1.5 p-0 leading-none app_nav_brand_link"
               aria-label="Home"
               onClick={(e) => handleNavClick(e, "top")}
             >
-              <div className="h-7 w-7 sm:h-9 sm:w-9 app_nav_logo">
+              <div className="h-6 w-6 sm:h-8 sm:w-8 app_nav_logo">
                 <img
-                  src={logoBlack}
+                  src={logoWhite}
                   alt="andrematostech logo"
                   className="block h-full w-full object-contain app_nav_logo_img"
                   decoding="async"
                 />
               </div>
-              <span className="leading-none mt-[1px] app_nav_brand_text">
-                <span className="block text-[12px] sm:text-[14px] font-semibold app_nav_brand_title">
+              <span className="mt-[1px] leading-none text-[color:var(--pearl)]/48 app_nav_brand_text">
+                <span className="block text-[11px] sm:text-[13px] font-semibold app_nav_brand_title">
                   andrematos
                 </span>
-                <span className="block text-[12px] sm:text-[14px] font-semibold app_nav_brand_subtitle">
+                <span className="block text-[11px] sm:text-[13px] font-semibold app_nav_brand_subtitle">
                   tech
                 </span>
               </span>
@@ -80,11 +80,11 @@ export default function Navbar() {
               About
             </a>
             <a
-              href="#work"
-              className={`${linkClass("work")} app_nav_link`}
-              onClick={(e) => handleNavClick(e, "work")}
+              href="#projects"
+              className={`${linkClass("projects")} app_nav_link`}
+              onClick={(e) => handleNavClick(e, "projects")}
             >
-              Work
+              Projects
             </a>
             <a
               href="#contact"
@@ -99,7 +99,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="Toggle menu"
-              className="h-9 w-9 text-[color:var(--ink)] app_nav_menu_button"
+              className="h-9 w-9 text-[color:var(--pearl)] app_nav_menu_button"
               onClick={() => setOpen((v) => !v)}
             >
               {open ? <FiX size={20} /> : <FiMenu size={20} />}
@@ -109,7 +109,7 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`sm:hidden border-t border-[color:var(--ink)]/10 bg-transparent app_nav_mobile transition-all duration-300 ease-out overflow-hidden ${
+        className={`sm:hidden border-t border-[color:var(--pearl)]/10 bg-transparent app_nav_mobile transition-all duration-300 ease-out overflow-hidden ${
           open ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -126,14 +126,14 @@ export default function Navbar() {
             About
           </a>
           <a
-            href="#work"
-            className={`${linkClass("work")} app_nav_link`}
+            href="#projects"
+            className={`${linkClass("projects")} app_nav_link`}
             onClick={(e) => {
-              handleNavClick(e, "work");
+              handleNavClick(e, "projects");
               setOpen(false);
             }}
           >
-            Work
+            Projects
           </a>
           <a
             href="#contact"

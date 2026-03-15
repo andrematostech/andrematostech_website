@@ -1,22 +1,22 @@
 import { useEffect } from "react";
-import WorkNavbar from "../components/WorkNavbar";
+import ProjectNavbar from "../components/ProjectNavbar";
 import Footer from "../sections/Footer";
-import card2 from "../assets/card_2.png";
+import card3 from "../assets/card_3.png";
 
-export default function WorkPage2() {
+export default function ProjectPage3() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
 
   return (
     <div className="min-h-screen bg-[color:var(--pearl)] text-[color:var(--ink)] flex flex-col app_workpage app_workpage_root">
-      <WorkNavbar className="" />
+      <ProjectNavbar />
       <main className="pt-20 flex-1 app_workpage_main">
         <div className="w-full flex justify-center app_workpage_container">
           <div className="w-full max-w-[1100px] px-6 sm:px-6 py-12 sm:py-16 flex flex-col items-center text-center app_workpage_inner">
             <div className="app_workpage_header" style={{ marginTop: "100px" }}>
               <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-center app_workpage_title">
-                Work Page 2
+                Project Page 3
               </h1>
               <p
                 className="mx-auto max-w-[720px] text-[color:var(--ink)]/70 text-base leading-relaxed text-center app_workpage_desc"
@@ -33,8 +33,8 @@ export default function WorkPage2() {
             <div className="flex flex-col items-center w-full app_workpage_body" style={{ marginTop: "30px" }}>
               <div className="w-full h-[260px] sm:h-[420px] border border-[color:var(--ink)]/10 bg-[color:var(--ink)]/5 overflow-hidden app_workpage_image app_workpage_image_primary">
                 <img
-                  src={card2}
-                  alt="Work page 2 preview"
+                  src={card3}
+                  alt="Project page 3 preview"
                   className="h-full w-full object-cover app_workpage_image_img"
                   loading="lazy"
                   decoding="async" />
@@ -57,7 +57,7 @@ export default function WorkPage2() {
           </div>
         </div>
       </main>
-      <Footer className="" />
+      <Footer />
     </div>);
 
 }

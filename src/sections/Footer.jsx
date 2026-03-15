@@ -6,30 +6,30 @@ export default function Footer() {
   return (
     <footer
       className="bg-[color:var(--ink)] text-[color:var(--pearl)] border-t border-[color:var(--pearl)]/10 app_footer app_footer_section"
-      style={{ paddingTop: "10px", paddingBottom: "10px" }}>
-      
+      style={{ paddingTop: "10px", paddingBottom: "10px" }}
+    >
       <div className="w-full flex justify-center app_footer_container">
         <div className="w-full max-w-[1100px] px-6 sm:px-6 flex flex-row items-center justify-between gap-2 sm:gap-6 app_footer_inner">
           <div className="flex items-center gap-2 app_footer_brand">
             <div className="h-[26px] w-[26px] app_footer_logo">
               <img
                 src={logoWhite}
-                alt="André Matos logo"
+                alt="Andre Matos logo"
                 className="block h-full w-full object-contain app_footer_logo_img"
-                decoding="async" />
-              
+                decoding="async"
+              />
             </div>
             <div className="app_footer_brand_text">
-              <p className="text-[11px] sm:text-xs font-semibold app_footer_brand_name">André Matos</p>
+              <p className="text-[11px] sm:text-xs font-semibold app_footer_brand_name">Andr&eacute; Matos</p>
               <p className="text-[11px] sm:text-xs text-[color:var(--pearl)]/60 app_footer_brand_role">Software Developer</p>
             </div>
           </div>
 
           <p className="text-[11px] sm:text-xs text-[color:var(--pearl)]/50 app_footer_copy">
-            © {year} André Matos. 
+            &copy; {year} Andr&eacute; Matos.
           </p>
         </div>
       </div>
-    </footer>);
-
+    </footer>
+  );
 }

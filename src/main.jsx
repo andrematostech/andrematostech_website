@@ -52,5 +52,5 @@ if (lenis) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <App className="" />
+  <App />
 );

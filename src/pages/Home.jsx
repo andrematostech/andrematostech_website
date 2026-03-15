@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Hero from "../sections/Hero";
 import About from "../sections/About";
-import Work from "../sections/Work";
+import Projects from "../sections/Projects";
 import Contact from "../sections/Contact";
 import Footer from "../sections/Footer";
 
@@ -17,7 +17,7 @@ export default function Home() {
     const target = document.getElementById(targetId);
     if (!target) return;
 
-    const offset = targetId === "work" ? 40 : -48;
+    const offset = targetId === "projects" ? 40 : targetId === "about" ? 0 : -48;
     const lenis = typeof window !== "undefined" ? window.lenis : null;
 
     if (lenis && typeof lenis.scrollTo === "function") {
@@ -37,10 +37,10 @@ export default function Home() {
     <div className="min-h-screen bg-[color:var(--pearl)] text-[color:var(--ink)] app_home app_home_root">
       <Navbar />
       <main className="pt-14 sm:pt-16 app_home_main">
-        <Hero className="" />
-        <About className="" />
-        <Work className="" />
-        <Contact className="" />
+        <Hero />
+        <About />
+        <Projects />
+        <Contact />
       </main>
       <Footer />
     </div>);
