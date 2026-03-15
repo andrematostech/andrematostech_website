@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import DeferredProjectsSection from "../components/DeferredProjectsSection";
 import Hero from "../sections/Hero";
 import About from "../sections/About";
-import Projects from "../sections/Projects";
 import Contact from "../sections/Contact";
 import Footer from "../sections/Footer";
 
@@ -39,7 +39,7 @@ export default function Home() {
       <main className="pt-14 sm:pt-16 app_home_main">
         <Hero />
         <About />
-        <Projects />
+        <DeferredProjectsSection />
         <Contact />
       </main>
       <Footer />

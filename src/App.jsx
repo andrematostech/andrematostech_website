@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
-import ProjectPage from "./pages/ProjectPage";
-import ProjectPage2 from "./pages/ProjectPage2";
-import ProjectPage3 from "./pages/ProjectPage3";
-import ProjectPage4 from "./pages/ProjectPage4";
+
+const ProjectPage = lazy(() => import("./pages/ProjectPage"));
+const ProjectPage2 = lazy(() => import("./pages/ProjectPage2"));
+const ProjectPage3 = lazy(() => import("./pages/ProjectPage3"));
+const ProjectPage4 = lazy(() => import("./pages/ProjectPage4"));
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -39,13 +40,15 @@ function AnimatedRoutes() {
         transitionStage === "fadeOut" ? "app_route_shell--fadeOut" : "app_route_shell--fadeIn"
       }`}
     >
-      <Routes location={displayLocation}>
-        <Route path="/" element={<Home />} />
-        <Route path="/projectpage" element={<ProjectPage />} />
-        <Route path="/projectpage_2" element={<ProjectPage2 />} />
-        <Route path="/projectpage_3" element={<ProjectPage3 />} />
-        <Route path="/projectpage_4" element={<ProjectPage4 />} />
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen bg-[color:var(--ink)]" />}>
+        <Routes location={displayLocation}>
+          <Route path="/" element={<Home />} />
+          <Route path="/projectpage" element={<ProjectPage />} />
+          <Route path="/projectpage_2" element={<ProjectPage2 />} />
+          <Route path="/projectpage_3" element={<ProjectPage3 />} />
+          <Route path="/projectpage_4" element={<ProjectPage4 />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }

@@ -124,11 +124,11 @@ export default function About() {
           </div>
 
           <div ref={textRef} className="lg:col-span-7 app_about_content relative">
-            <p className="text-xs tracking-[0.25em] text-[color:var(--ink)]/46 uppercase app_about_kicker">
+            <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-[color:var(--ink)]/46 sm:text-[14px] sm:leading-[1.7] app_about_kicker">
               About
             </p>
 
-            <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_about_title">
+            <h2 className="mt-5 text-lg sm:text-xl font-bold tracking-tight app_about_title">
               Portugal-based software developer working across backend and modern web technologies.
             </h2>
 
@@ -136,11 +136,11 @@ export default function About() {
               &nbsp;
             </p>
 
-            <p className="mt-3 text-sm sm:text-base text-[color:var(--ink)]/68 leading-relaxed app_about_text">
+            <p className="mt-5 text-sm sm:text-base text-[color:var(--ink)]/68 leading-relaxed app_about_text">
               I build applications using Java, Python, and JavaScript, developing APIs and full-stack solutions.
             </p>
 
-            <p className="mt-3 text-sm sm:text-base text-[color:var(--ink)]/68 leading-relaxed app_about_text">
+            <p className="mt-4 text-sm sm:text-base text-[color:var(--ink)]/68 leading-relaxed app_about_text">
               I&apos;m particularly interested in system design and AI-driven applications, and I focus on writing
               clear, maintainable code while continuously improving my technical skills.
             </p>

@@ -17,13 +17,17 @@ const prefersReducedMotion =
   typeof window !== "undefined" &&
   window.matchMedia &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isCompactViewport =
+  typeof window !== "undefined" &&
+  window.matchMedia &&
+  window.matchMedia("(max-width: 1024px)").matches;
 
 if (!prefersReducedMotion) {
   try {
     lenis = new Lenis({
-      lerp: 0.1,
+      lerp: isCompactViewport ? 0.085 : 0.1,
       smoothWheel: true,
-      smoothTouch: true
+      smoothTouch: false
     });
   } catch {
     lenis = null;

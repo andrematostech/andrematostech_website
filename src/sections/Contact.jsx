@@ -277,15 +277,15 @@ export default function Contact() {
         <div className="w-full max-w-[1100px] px-6 sm:px-6 app_contact_inner">
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 app_contact_grid">
             <div ref={copyRef} className="lg:col-span-5 app_contact_copy">
-              <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/50 uppercase app_contact_kicker">
+              <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-[color:var(--pearl)]/50 sm:text-[14px] sm:leading-[1.7] app_contact_kicker">
                 Contact
               </p>
 
-              <h2 className="mt-3 text-base sm:text-lg font-semibold tracking-tight app_contact_title">
+              <h2 className="mt-5 text-lg sm:text-xl font-bold tracking-tight app_contact_title">
                 Open to new opportunities and collaborations.
               </h2>
 
-              <p className="mt-4 text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
+              <p className="mt-6 text-[color:var(--pearl)]/70 leading-relaxed app_contact_text">
                 Feel free to reach out and I&apos;ll get back to you as soon as possible.
               </p>
             </div>

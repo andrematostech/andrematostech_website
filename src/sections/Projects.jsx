@@ -49,7 +49,7 @@ const items = [
   }
 ];
 
-export default function Projects() {
+export default function Projects({ sectionId = "projects" }) {
   const sectionRef = useRef(null);
   const bgRef = useRef(null);
   const headerRef = useRef(null);
@@ -182,7 +182,7 @@ export default function Projects() {
 
   return (
     <section
-      id="projects"
+      id={sectionId || undefined}
       ref={sectionRef}
       className="relative z-[2] bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen border-t border-[color:var(--pearl)]/10 overflow-hidden app_work app_work_section"
       style={{ "--project-expand": 0 }}>
@@ -206,10 +206,10 @@ export default function Projects() {
           className="w-full max-w-[1400px] px-6 sm:px-6 flex flex-col app_work_inner"
           style={{ paddingTop: "92px", paddingBottom: "92px" }}>
           <div ref={headerRef} className="max-w-[760px] app_work_header">
-            <p className="text-xs tracking-[0.25em] text-[color:var(--pearl)]/55 uppercase mt-6 app_work_kicker">
+            <p className="mt-6 text-[13px] font-bold uppercase tracking-[0.22em] text-[color:var(--pearl)]/55 sm:text-[14px] sm:leading-[1.7] app_work_kicker">
               Projects
             </p>
-            <h2 className="mt-2 text-base sm:text-lg font-semibold tracking-tight text-[color:var(--pearl)]/80 app_work_title">
+            <h2 className="mt-5 text-lg sm:text-xl font-bold tracking-tight text-[color:var(--pearl)]/80 app_work_title">
               Selected projects
             </h2>
           </div>
@@ -258,14 +258,14 @@ export default function Projects() {
                         <div className="app_work_card_collapsed">
                           <div className="app_work_card_collapsed_col app_work_card_collapsed_col_title">
                             <span
-                              className="text-[1.85rem] sm:text-[2.2rem] font-semibold uppercase tracking-[0.22em] text-white/90 app_work_card_vertical"
+                              className="text-[2.3rem] sm:text-[2.75rem] font-extrabold uppercase tracking-[0.1em] text-white/90 app_work_card_vertical"
                               style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
                               {item.title}
                             </span>
                           </div>
                           <div className="app_work_card_collapsed_col app_work_card_collapsed_col_desc">
                             <p
-                              className="text-[0.9rem] sm:text-[1.05rem] leading-relaxed text-white/62 app_work_card_collapsed_desc"
+                              className="text-[1rem] sm:text-[1.15rem] leading-relaxed text-white/66 app_work_card_collapsed_desc"
                               style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
                               {item.collapsedSubtitle}
                             </p>
@@ -274,10 +274,10 @@ export default function Projects() {
                       </div>
 
                       <div className="flex-1 self-end pl-4 sm:pl-6 max-w-[26rem] flex flex-col gap-8 sm:gap-10 app_work_card_body">
-                        <h3 className="text-[2.75rem] sm:text-[3.6rem] lg:text-[4.75rem] font-semibold leading-[0.88] text-white">
+                        <h3 className="text-[3.25rem] sm:text-[4.2rem] lg:text-[5.45rem] font-extrabold leading-[0.88] tracking-[-0.03em] text-white">
                           {item.title}
                         </h3>
-                        <p className="max-w-[21rem] text-sm sm:text-[0.96rem] leading-relaxed text-white/72">
+                        <p className="max-w-[23rem] text-[1rem] sm:text-[1.08rem] leading-relaxed text-white/76">
                           {item.subtitle}
                         </p>
                       </div>

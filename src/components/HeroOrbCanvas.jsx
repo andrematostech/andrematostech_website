@@ -8,7 +8,7 @@ function seededNoise(index, seed) {
 }
 
 function createSpriteTexture() {
-  const size = 128;
+  const size = 96;
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
@@ -34,6 +34,9 @@ function createSpriteTexture() {
   ctx.fillRect(0, 0, size, size);
 
   const texture = new THREE.CanvasTexture(canvas);
+  texture.generateMipmaps = false;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
   texture.needsUpdate = true;
   return texture;
 }
@@ -101,6 +104,79 @@ function sampleParticleData(data, step) {
   return { positions, phases, settles };
 }
 
+function buildClosestConnectionPairs(data, ratio, seed) {
+  const total = data.positions.length / 3;
+  const targetCount = Math.max(2, Math.floor(total * ratio));
+  const candidateIndices = Array.from({ length: total }, (_, index) => index);
+
+  candidateIndices.sort(
+    (a, b) => seededNoise(a, seed) - seededNoise(b, seed)
+  );
+
+  const selected = candidateIndices.slice(0, targetCount);
+  const selectedSet = new Set(selected);
+  const usedPairs = new Set();
+  const pairs = [];
+
+  selected.forEach((source) => {
+    const sx = data.positions[source * 3];
+    const sy = data.positions[source * 3 + 1];
+    const sz = data.positions[source * 3 + 2];
+    let closest = -1;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    selectedSet.forEach((target) => {
+      if (target === source) return;
+      const key =
+        source < target ? `${source}:${target}` : `${target}:${source}`;
+      if (usedPairs.has(key)) return;
+
+      const tx = data.positions[target * 3];
+      const ty = data.positions[target * 3 + 1];
+      const tz = data.positions[target * 3 + 2];
+      const dx = sx - tx;
+      const dy = sy - ty;
+      const dz = sz - tz;
+      const distance = dx * dx + dy * dy + dz * dz;
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closest = target;
+      }
+    });
+
+    if (closest !== -1) {
+      const key =
+        source < closest ? `${source}:${closest}` : `${closest}:${source}`;
+      usedPairs.add(key);
+      pairs.push([source, closest]);
+    }
+  });
+
+  return pairs;
+}
+
+const wrapperGlows = [
+  {
+    className:
+      "pointer-events-none absolute left-[52%] top-[43%] h-[63%] w-[63%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[42px]",
+    background:
+      "radial-gradient(circle at center,rgba(132,188,255,0.3) 0%,rgba(132,188,255,0.22) 18%,rgba(102,164,255,0.14) 40%,rgba(52,100,212,0.06) 62%,rgba(10,15,32,0) 84%)"
+  },
+  {
+    className:
+      "pointer-events-none absolute left-[49%] top-[57%] h-[24%] w-[24%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[28px]",
+    background:
+      "radial-gradient(circle at center,rgba(52,100,212,0.34) 0%,rgba(102,164,255,0.22) 28%,rgba(102,164,255,0.1) 52%,rgba(10,15,32,0) 80%)"
+  },
+  {
+    className:
+      "pointer-events-none absolute left-1/2 top-[80%] h-[3.5%] w-[32%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[24px] sm:top-[83%] lg:top-[87%]",
+    background:
+      "radial-gradient(ellipse at center,rgba(132,188,255,0.78) 0%,rgba(132,188,255,0.58) 22%,rgba(102,164,255,0.34) 42%,rgba(52,100,212,0.12) 62%,rgba(10,15,32,0) 84%)"
+  }
+];
+
 function OrbScene({ pointer, interaction, reducedMotion, compact }) {
   const groupRef = useRef(null);
   const coreRef = useRef(null);
@@ -111,7 +187,18 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
   const orbitalParticlesBRef = useRef(null);
   const orbitalParticlesCRef = useRef(null);
   const orbitalParticlesLargeRef = useRef(null);
+  const connectionLinesRef = useRef(null);
+  const connectionMaterialRef = useRef(null);
   const impulseRef = useRef({ strength: 0, x: 0, y: 0, z: 0 });
+  const connectionStateRef = useRef({
+    activeUntil: 0,
+    pairs: [],
+    seed: 0,
+    nextRefreshAt: 0,
+    visibleFrom: 0
+  });
+  const pointerVectorRef = useRef(new THREE.Vector2(0, 0));
+  const clickSeedRef = useRef(0);
   const autonomousTiltRef = useRef({
     x: 0,
     y: 0,
@@ -122,7 +209,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
   const shellParticleCount = compact ? 8 : 14;
   const ambientParticleCount = compact ? 5 : 9;
-  const orbitalParticleCount = compact ? 54 : 78;
+  const orbitalParticleCount = compact ? 46 : 66;
 
   const shellParticleData = useMemo(
     () => buildHaloPositions(shellParticleCount, 1.24, 1.5, 0),
@@ -133,15 +220,15 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     [ambientParticleCount]
   );
   const orbitalParticleDataA = useMemo(
-    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.48, 1.72, 31),
+    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.36, 1.56, 31),
     [orbitalParticleCount]
   );
   const orbitalParticleDataB = useMemo(
-    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.58, 1.86, 37),
+    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.44, 1.68, 37),
     [orbitalParticleCount]
   );
   const orbitalParticleDataC = useMemo(
-    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.72, 2.04, 41),
+    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.54, 1.82, 41),
     [orbitalParticleCount]
   );
   const orbitalParticleLargeData = useMemo(
@@ -149,6 +236,10 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     [orbitalParticleDataC]
   );
   const particleSprite = useMemo(() => createSpriteTexture(), []);
+  const connectionPositions = useMemo(
+    () => new Float32Array(Math.max(1, Math.floor(orbitalParticleCount * 0.24)) * 6),
+    [orbitalParticleCount]
+  );
 
   useFrame(({ clock }) => {
     const group = groupRef.current;
@@ -160,6 +251,8 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     const orbitalParticlesB = orbitalParticlesBRef.current;
     const orbitalParticlesC = orbitalParticlesCRef.current;
     const orbitalParticlesLarge = orbitalParticlesLargeRef.current;
+    const connectionLines = connectionLinesRef.current;
+    const connectionMaterial = connectionMaterialRef.current;
 
     if (
       !group ||
@@ -170,7 +263,9 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       !orbitalParticlesA ||
       !orbitalParticlesB ||
       !orbitalParticlesC ||
-      !orbitalParticlesLarge
+      !orbitalParticlesLarge ||
+      !connectionLines ||
+      !connectionMaterial
     ) {
       return;
     }
@@ -179,6 +274,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     const motion = reducedMotion ? 0.3 : 1;
     const externalImpulse = interaction?.current ?? null;
     const impulse = impulseRef.current;
+    const connectionState = connectionStateRef.current;
     const autonomousTilt = autonomousTiltRef.current;
 
     if (
@@ -194,6 +290,20 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       impulse.x = externalImpulse.x;
       impulse.y = externalImpulse.y;
       impulse.z = externalImpulse.z;
+    }
+
+    if (t >= connectionState.nextRefreshAt || !connectionState.pairs.length) {
+      clickSeedRef.current += 1;
+      connectionState.seed = clickSeedRef.current * 577 + t * 113;
+      connectionState.visibleFrom = t;
+      connectionState.activeUntil = t + 1.9;
+      connectionState.pairs = buildClosestConnectionPairs(
+        orbitalParticleDataC,
+        0.24,
+        connectionState.seed
+      );
+      connectionState.nextRefreshAt =
+        connectionState.activeUntil + 0.55 + seededNoise(clickSeedRef.current, 97) * 0.45;
     }
 
     const pulse = 1 + Math.sin(t * 0.9) * 0.03 * motion;
@@ -234,11 +344,9 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
     core.scale.setScalar(pulse);
     shell.scale.setScalar(shellPulse);
-    core.rotation.x =
-      coreDriftX + autonomousTilt.x * 0.18 + Math.sin(t * 8.2) * impulseStrength * 0.04;
-    core.rotation.y =
-      coreDriftY + autonomousTilt.y * 0.18 + Math.cos(t * 7.6) * impulseStrength * 0.045;
-    core.rotation.z = coreDriftZ + Math.sin(t * 9.1) * impulseStrength * 0.026;
+    core.rotation.x = coreDriftX + autonomousTilt.x * 0.18;
+    core.rotation.y = coreDriftY + autonomousTilt.y * 0.18;
+    core.rotation.z = coreDriftZ;
 
     orbitalParticlesA.rotation.x = 0.82 + Math.sin(t * 0.18) * 0.05;
     orbitalParticlesA.rotation.y += 0.0012 * motion;
@@ -251,15 +359,14 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     orbitalParticlesLarge.rotation.y += 0.0006 * motion;
 
     core.material.uniforms.uTime.value = t;
-    core.material.uniforms.uPointer.value.lerp(
-      new THREE.Vector2(pointer.current.x, pointer.current.y),
-      0.08
-    );
-    core.material.uniforms.uImpulse.value = impulseStrength;
-    core.material.uniforms.uImpulseDir.value.set(impulse.x, impulse.y, impulse.z);
+    pointerVectorRef.current.set(pointer.current.x, pointer.current.y);
+    core.material.uniforms.uPointer.value.lerp(pointerVectorRef.current, 0.08);
+    core.material.uniforms.uImpulse.value = 0;
+    core.material.uniforms.uImpulseDir.value.set(0, 0, 0);
 
     shell.material.uniforms.uTime.value = t;
-    shell.material.uniforms.uImpulse.value = impulseStrength;
+    shell.material.uniforms.uImpulse.value = 0;
+    shell.material.uniforms.uImpulseDir.value.set(0, 0, 0);
 
     shellParticles.material.opacity = 0.58 + Math.sin(t * 1.4) * 0.05 * motion;
     ambientParticles.material.opacity = 0.24 + Math.sin(t * 1.0) * 0.04 * motion;
@@ -279,7 +386,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
         const nz = bz / baseLength;
         const cellWave = Math.sin(t * 1.55 + phase) * 0.045 * motion;
         const alignment = nx * impulse.x + ny * impulse.y + nz * impulse.z;
-        const response = THREE.MathUtils.smoothstep(alignment, 0.42, 0.98) * impulseStrength * 0.22;
+        const response = THREE.MathUtils.smoothstep(alignment, 0.3, 0.94) * impulseStrength * 0.055;
 
         shellAttribute.array[i3] = THREE.MathUtils.lerp(
           shellAttribute.array[i3],
@@ -323,13 +430,13 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     }
 
     const orbitalSets = [
-      [orbitalParticlesA, orbitalParticleDataA, 0.03, 0.95],
-      [orbitalParticlesB, orbitalParticleDataB, 0.035, 0.78],
-      [orbitalParticlesC, orbitalParticleDataC, 0.028, 1.08],
-      [orbitalParticlesLarge, orbitalParticleLargeData, 0.024, 1.02]
+      [orbitalParticlesA, orbitalParticleDataA, 0.03, 0.95, 0.08, 1.2],
+      [orbitalParticlesB, orbitalParticleDataB, 0.035, 0.78, 0.11, 1.2],
+      [orbitalParticlesC, orbitalParticleDataC, 0.028, 1.08, 0.14, 1.2],
+      [orbitalParticlesLarge, orbitalParticleLargeData, 0.024, 1.02, 0.17, 1.2]
     ];
 
-    orbitalSets.forEach(([points, data, driftScale, speedScale]) => {
+    orbitalSets.forEach(([points, data, driftScale, speedScale, impulseScale, settleBoost]) => {
       const positionAttribute = points.geometry?.attributes?.position;
 
       if (!positionAttribute) return;
@@ -340,27 +447,34 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
         const by = data.positions[i3 + 1];
         const bz = data.positions[i3 + 2];
         const phase = data.phases[i];
-        const settle = data.settles[i];
+        const settle = data.settles[i] * settleBoost;
         const drift = Math.sin(t * speedScale + phase) * driftScale * motion;
         const depthDrift = Math.cos(t * (speedScale * 0.8) + phase) * driftScale * 0.75 * motion;
         const length = Math.sqrt(bx * bx + by * by + bz * bz) || 1;
         const nx = bx / length;
         const ny = by / length;
         const nz = bz / length;
+        const alignment = nx * impulse.x + ny * impulse.y + nz * impulse.z;
+        const impulseWave = Math.sin(t * 3.8 + phase * 0.55) * 0.5 + 0.5;
+        const disturbance =
+          THREE.MathUtils.smoothstep(alignment, 0.18, 0.92) *
+          impulseStrength *
+          impulseScale *
+          impulseWave;
 
         positionAttribute.array[i3] = THREE.MathUtils.lerp(
           positionAttribute.array[i3],
-          bx + nx * drift,
+          bx + nx * (drift + disturbance),
           settle
         );
         positionAttribute.array[i3 + 1] = THREE.MathUtils.lerp(
           positionAttribute.array[i3 + 1],
-          by + ny * drift,
+          by + ny * (drift + disturbance),
           settle
         );
         positionAttribute.array[i3 + 2] = THREE.MathUtils.lerp(
           positionAttribute.array[i3 + 2],
-          bz + nz * drift + depthDrift,
+          bz + nz * (drift + disturbance) + depthDrift + disturbance * 0.18,
           settle
         );
       }
@@ -368,7 +482,65 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       positionAttribute.needsUpdate = true;
     });
 
-    impulse.strength = Math.max(0, impulse.strength * 0.93 - 0.008);
+    const connectionAttribute = connectionLines.geometry?.attributes?.position;
+    if (connectionAttribute) {
+      if (connectionState.pairs.length && t <= connectionState.activeUntil) {
+        let cursor = 0;
+        const sourcePositions = orbitalParticlesC.geometry?.attributes?.position?.array;
+
+        if (sourcePositions) {
+          const cycleDuration = Math.max(0.001, connectionState.activeUntil - connectionState.visibleFrom);
+          const progress = THREE.MathUtils.clamp(
+            (t - connectionState.visibleFrom) / cycleDuration,
+            0,
+            1
+          );
+
+          connectionState.pairs.forEach(([a, b], pairIndex) => {
+            const aIndex = a * 3;
+            const bIndex = b * 3;
+            const ax = sourcePositions[aIndex];
+            const ay = sourcePositions[aIndex + 1];
+            const az = sourcePositions[aIndex + 2];
+            const bx = sourcePositions[bIndex];
+            const by = sourcePositions[bIndex + 1];
+            const bz = sourcePositions[bIndex + 2];
+            const revealDelay = seededNoise(pairIndex + a + b, connectionState.seed) * 0.1;
+            const localProgress = THREE.MathUtils.clamp(
+              (progress - revealDelay) / Math.max(0.001, 0.46 - revealDelay),
+              0,
+              1
+            );
+            const headProgress = THREE.MathUtils.smoothstep(localProgress, 0.01, 0.24);
+            const tailProgress =
+              THREE.MathUtils.smoothstep(localProgress, 0.26, 0.31) * 0.96;
+
+            if (headProgress - tailProgress <= 0.008) return;
+
+            connectionAttribute.array[cursor] = THREE.MathUtils.lerp(ax, bx, tailProgress);
+            connectionAttribute.array[cursor + 1] = THREE.MathUtils.lerp(ay, by, tailProgress);
+            connectionAttribute.array[cursor + 2] = THREE.MathUtils.lerp(az, bz, tailProgress);
+            connectionAttribute.array[cursor + 3] = THREE.MathUtils.lerp(ax, bx, headProgress);
+            connectionAttribute.array[cursor + 4] = THREE.MathUtils.lerp(ay, by, headProgress);
+            connectionAttribute.array[cursor + 5] = THREE.MathUtils.lerp(az, bz, headProgress);
+            cursor += 6;
+          });
+
+          connectionLines.geometry.setDrawRange(0, cursor / 3);
+          connectionAttribute.needsUpdate = true;
+          const fadeIn = THREE.MathUtils.smoothstep(progress, 0, 0.1);
+          const fadeOut = 1 - THREE.MathUtils.smoothstep(progress, 0.42, 0.58);
+          const alphaEnvelope = Math.min(fadeIn, fadeOut);
+          const travelGlow = 0.95 + Math.sin(progress * Math.PI) * 0.55;
+          connectionMaterial.opacity = alphaEnvelope * travelGlow * 0.24;
+        }
+      } else {
+        connectionLines.geometry.setDrawRange(0, 0);
+        connectionMaterial.opacity = 0;
+      }
+    }
+
+    impulse.strength = Math.max(0, impulse.strength * 0.95 - 0.005);
   });
 
   return (
@@ -379,23 +551,26 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       <pointLight position={[0, -1.8, 2.6]} intensity={0.9} color="#255ff2" />
       <pointLight position={[0.4, 0.2, 1.2]} intensity={0.52} color="#b7e5ff" />
 
-      <group ref={groupRef} scale={compact ? 0.58 : 0.64}>
+      <group ref={groupRef} scale={compact ? 0.55 : 0.61}>
         <mesh ref={shellRef} renderOrder={1}>
-          <icosahedronGeometry args={[1.3, 42]} />
+          <icosahedronGeometry args={[1.255, compact ? 18 : 24]} />
           <shaderMaterial
             transparent
             depthWrite={false}
             uniforms={{
               uTime: { value: 0 },
-              uImpulse: { value: 0 }
+              uImpulse: { value: 0 },
+              uImpulseDir: { value: new THREE.Vector3(0, 0, 0) }
             }}
             vertexShader={`
               uniform float uTime;
               uniform float uImpulse;
+              uniform vec3 uImpulseDir;
               varying vec3 vNormalW;
               varying vec3 vWorldPosition;
               varying float vWave;
               varying float vRidge;
+              varying float vBlob;
 
               float waveField(vec3 p) {
                 float waveA = sin(p.y * 7.4 + uTime * 1.1);
@@ -405,17 +580,25 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
               }
 
               void main() {
+                vec3 n = normalize(position);
                 vec3 displaced = position;
-                float field = waveField(normalize(position));
-                float ridge = abs(sin((position.x - position.y + position.z) * 10.0 + uTime * 0.75));
+                float field = waveField(n);
+                float ridge = 0.5 + 0.5 * sin((position.x - position.y + position.z) * 4.8 + uTime * 0.48);
+                float membrane = 0.5 + 0.5 * sin((position.x * 3.4 + position.y * 2.9 - position.z * 3.1) - uTime * 0.42);
                 float ripple = sin(length(position.xy) * 14.0 - uTime * 1.8) * 0.01;
-                float displacement = field * 0.052 + ridge * 0.042 + ripple + uImpulse * 0.03;
+                float alignment = max(dot(n, normalize(uImpulseDir + vec3(0.0001))), 0.0);
+                float blobMask = smoothstep(0.02, 0.82, alignment);
+                blobMask = pow(blobMask, 1.35);
+                float blobWave = sin(alignment * 5.2 - uTime * 1.1) * 0.5 + 0.5;
+                float blobShock = blobMask * mix(0.48, 1.0, blobWave);
+                float displacement = field * 0.052 + ridge * 0.026 + membrane * 0.022 + ripple + blobShock * uImpulse * 0.036;
                 displaced += normal * displacement;
                 vec4 worldPosition = modelMatrix * vec4(displaced, 1.0);
                 vWorldPosition = worldPosition.xyz;
                 vNormalW = normalize(mat3(modelMatrix) * normal);
                 vWave = field;
                 vRidge = ridge;
+                vBlob = blobShock;
                 gl_Position = projectionMatrix * viewMatrix * worldPosition;
               }
             `}
@@ -425,20 +608,23 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
               varying vec3 vWorldPosition;
               varying float vWave;
               varying float vRidge;
+              varying float vBlob;
 
               void main() {
                 vec3 N = normalize(vNormalW);
                 vec3 V = normalize(cameraPosition - vWorldPosition);
                 float fresnel = pow(1.0 - max(dot(N, V), 0.0), 2.2);
                 float pulse = 0.5 + 0.5 * sin(vWave * 10.0 + uTime * 1.35);
-                float panel = smoothstep(0.38, 0.88, vRidge);
+                float membraneFill = smoothstep(0.22, 0.9, vRidge);
                 vec3 base = vec3(0.022, 0.12, 0.28);
-                vec3 steel = vec3(0.32, 0.5, 0.76) * panel * 0.22;
-                vec3 glow = vec3(0.2, 0.68, 1.0) * (0.08 + fresnel * 0.22);
-                vec3 tech = vec3(0.78, 0.9, 1.0) * pow(pulse, 2.2) * 0.04;
-                vec3 color = base + glow + tech;
+                vec3 steel = vec3(0.28, 0.46, 0.72) * membraneFill * 0.31;
+                vec3 glow = vec3(0.2, 0.68, 1.0) * (0.26 + fresnel * 0.58);
+                vec3 tech = vec3(0.78, 0.9, 1.0) * pow(pulse, 2.2) * 0.045;
+                vec3 fill = vec3(0.12, 0.22, 0.42) * membraneFill * 0.2;
+                vec3 blobLight = vec3(0.56, 0.78, 1.0) * vBlob * 0.12;
+                vec3 color = base + glow + tech + fill + blobLight;
                 color += steel;
-                float alpha = 0.045 + fresnel * 0.075 + panel * 0.02 + pulse * 0.008;
+                float alpha = 0.094 + fresnel * 0.124 + membraneFill * 0.066 + pulse * 0.013 + vBlob * 0.016;
                 gl_FragColor = vec4(color, alpha);
               }
             `}
@@ -446,7 +632,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
         </mesh>
 
         <mesh ref={coreRef} renderOrder={2}>
-          <icosahedronGeometry args={[1.1, 48]} />
+          <icosahedronGeometry args={[1.1, compact ? 20 : 28]} />
           <shaderMaterial
             transparent
             depthWrite={false}
@@ -482,13 +668,17 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
                 float tide = sin(length(n.xy) * 1.9 + field * 0.8 + uTime * 0.09);
                 float pointerLift = dot(n.xy, uPointer) * 0.022;
                 float impulseMask = max(dot(n, normalize(uImpulseDir + vec3(0.0001))), 0.0);
-                float displacement = field * 0.009 + cell * 0.002 + tide * 0.003 + band * 0.003 + pointerLift + impulseMask * uImpulse * 0.038;
+                float blobMask = smoothstep(0.02, 0.8, impulseMask);
+                blobMask = pow(blobMask, 1.45);
+                float blobWave = sin(impulseMask * 5.0 - uTime * 0.95) * 0.5 + 0.5;
+                float blobShock = blobMask * mix(0.44, 1.0, blobWave);
+                float displacement = field * 0.009 + cell * 0.002 + tide * 0.003 + band * 0.003 + pointerLift + blobShock * uImpulse * 0.05;
                 vec3 displaced = position + normal * displacement;
                 vec4 worldPosition = modelMatrix * vec4(displaced, 1.0);
                 vWorldPosition = worldPosition.xyz;
                 vNormalW = normalize(mat3(modelMatrix) * normal);
                 vCell = cell;
-                vPulse = impulseMask;
+                vPulse = blobShock;
                 vBand = band;
                 gl_Position = projectionMatrix * viewMatrix * worldPosition;
               }
@@ -569,7 +759,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             size={compact ? 0.06 : 0.072}
             sizeAttenuation
             transparent
-            opacity={0.48}
+            opacity={0.55}
             map={particleSprite}
             alphaMap={particleSprite ?? undefined}
             alphaTest={0.01}
@@ -592,7 +782,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             size={compact ? 0.048 : 0.058}
             sizeAttenuation
             transparent
-            opacity={0.34}
+            opacity={0.39}
             map={particleSprite}
             alphaMap={particleSprite ?? undefined}
             alphaTest={0.01}
@@ -615,7 +805,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             size={compact ? 0.04 : 0.048}
             sizeAttenuation
             transparent
-            opacity={0.26}
+            opacity={0.3}
             map={particleSprite}
             alphaMap={particleSprite ?? undefined}
             alphaTest={0.01}
@@ -638,7 +828,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             size={compact ? 0.08 : 0.096}
             sizeAttenuation
             transparent
-            opacity={0.32}
+            opacity={0.37}
             map={particleSprite}
             alphaMap={particleSprite ?? undefined}
             alphaTest={0.01}
@@ -646,6 +836,25 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             blending={THREE.AdditiveBlending}
           />
         </points>
+
+        <lineSegments ref={connectionLinesRef} renderOrder={3}>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              count={connectionPositions.length / 3}
+              array={connectionPositions}
+              itemSize={3}
+            />
+          </bufferGeometry>
+          <lineBasicMaterial
+            ref={connectionMaterialRef}
+            color="#9dd7ff"
+            transparent
+            opacity={0}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </lineSegments>
 
         <points ref={shellParticlesRef} renderOrder={4}>
           <bufferGeometry>
@@ -697,7 +906,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
   );
 }
 
-export default function HeroOrbCanvas({ externalPointerRef = null, interactionRef = null }) {
+export default function HeroOrbCanvas({ active = true, externalPointerRef = null, interactionRef = null }) {
   const localPointerRef = useRef({ x: 0, y: 0 });
   const [reducedMotion, setReducedMotion] = useState(false);
   const [compact, setCompact] = useState(false);
@@ -728,18 +937,32 @@ export default function HeroOrbCanvas({ externalPointerRef = null, interactionRe
 
   return (
     <div className="relative mx-auto h-full min-h-[420px] w-full max-w-none overflow-visible bg-transparent sm:min-h-[560px] lg:min-h-[720px]">
-      <div className="pointer-events-none absolute left-1/2 top-[98%] h-[3.5%] w-[32%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(132,188,255,0.34)_0%,rgba(102,164,255,0.2)_34%,rgba(52,100,212,0.08)_58%,rgba(10,15,32,0)_82%)] blur-[24px]" />
+      {wrapperGlows.map((glow, index) => (
+        <div
+          key={index}
+          className={glow.className}
+          style={{ background: glow.background }}
+        />
+      ))}
       <div
         className="absolute inset-[-6%] sm:inset-[-8%] lg:inset-[-10%]"
         style={{
-          WebkitMaskImage: "radial-gradient(circle at center, black 0%, black 57%, transparent 78%)",
-          maskImage: "radial-gradient(circle at center, black 0%, black 57%, transparent 78%)"
+          WebkitMaskImage: "radial-gradient(circle at center, black 0%, black 62%, rgba(0,0,0,0.88) 70%, transparent 84%)",
+          maskImage: "radial-gradient(circle at center, black 0%, black 62%, rgba(0,0,0,0.88) 70%, transparent 84%)"
         }}
       >
         <Canvas
-          dpr={[1, 1.75]}
+          frameloop={active ? "always" : "never"}
+          dpr={mobile ? [1, 1.1] : compact ? [1, 1.2] : [1, 1.35]}
           camera={{ position: [0, 0, mobile ? 5.5 : compact ? 5.35 : 5.25], fov: mobile ? 38 : compact ? 36 : 34 }}
-          gl={{ alpha: true, antialias: true, premultipliedAlpha: false }}
+          gl={{
+            alpha: true,
+            antialias: !compact,
+            premultipliedAlpha: false,
+            powerPreference: "high-performance",
+            stencil: false
+          }}
+          performance={{ min: 0.8 }}
           style={{
             backgroundColor: "transparent",
             backgroundImage: "none",

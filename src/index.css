@@ -18,6 +18,13 @@ body {
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
   user-select: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 #root {
@@ -46,6 +53,10 @@ body {
   border: 1px solid currentColor;
   border-radius: 999px;
   opacity: 0.82;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 18px rgba(132, 188, 255, 0.16);
+  backdrop-filter: blur(2px);
 }
 
 .app_hero_scroll_arrow span {
@@ -58,6 +69,7 @@ body {
   background: currentColor;
   transform: translateX(-50%);
   animation: heroScrollArrow 1.6s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(132, 188, 255, 0.18);
 }
 
 @keyframes heroScrollArrow {
