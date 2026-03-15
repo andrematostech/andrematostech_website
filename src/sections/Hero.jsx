@@ -157,7 +157,7 @@ export default function Hero() {
           heroInteractionRef.current.z = z;
         }}
       >
-        <div className="relative grid min-h-[calc(100vh-64px)] w-full max-w-[1100px] grid-cols-1 items-center gap-8 px-0 sm:px-6 lg:grid-cols-[0.44fr_0.56fr] app_hero_grid">
+        <div className="relative grid min-h-[calc(100vh-64px)] w-full max-w-[1100px] grid-cols-1 items-start gap-8 px-0 sm:px-6 lg:grid-cols-[0.44fr_0.56fr] lg:items-center app_hero_grid">
           <div
             ref={heroImageWrapRef}
             className="pointer-events-none fixed inset-0 z-[1] flex h-screen w-screen items-center justify-center overflow-visible lg:justify-end"
@@ -171,13 +171,13 @@ export default function Hero() {
 
           <div
             ref={heroCopyRef}
-            className="relative z-10 flex max-w-[560px] flex-col gap-[0.85rem] self-center pt-28 lg:mt-[34vh] lg:pt-0 app_hero_copy"
+            className="relative z-10 flex max-w-[560px] flex-col gap-[0.52rem] sm:gap-[0.72rem] self-start pt-52 max-md:absolute max-md:left-6 max-md:top-[56%] max-md:max-w-[calc(100%-3rem)] max-md:pt-0 md:absolute md:left-6 md:top-[52%] md:max-w-[420px] md:pt-0 lg:left-6 lg:top-[57%] lg:max-w-[560px] xl:top-[55%] app_hero_copy"
           >
-            <p className="max-w-[22rem] text-[13px] font-bold uppercase tracking-[0.22em] text-[color:var(--pearl)]/44 sm:text-[14px] sm:leading-[1.7]">
+            <p className="max-w-[22rem] text-[10px] font-bold uppercase tracking-[0.16em] leading-[1.6] text-[color:var(--pearl)]/44 sm:text-[12px] sm:tracking-[0.18em] md:text-[clamp(12px,1.35vw,14px)] md:tracking-[0.2em] md:leading-[1.65]">
               AI Software Developer
             </p>
 
-            <h1 className="app_hero_title text-[31px] font-black uppercase leading-[0.92] tracking-[0.04em] text-[color:var(--pearl)] whitespace-nowrap sm:text-[43px] lg:text-[54px]">
+            <h1 className="app_hero_title text-[29px] sm:text-[43px] md:text-[38px] lg:text-[54px] font-bold uppercase leading-[0.92] tracking-[0.025em] text-[color:var(--pearl)] whitespace-nowrap">
               Andr&eacute; Matos
             </h1>
           </div>

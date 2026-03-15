@@ -159,19 +159,19 @@ function buildClosestConnectionPairs(data, ratio, seed) {
 const wrapperGlows = [
   {
     className:
-      "pointer-events-none absolute left-[52%] top-[43%] h-[63%] w-[63%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[42px]",
+      "pointer-events-none absolute left-[52%] top-[45%] h-[68%] w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[52px] sm:top-[44%] sm:h-[66%] sm:w-[84%] sm:blur-[48px] lg:top-[43%] lg:h-[63%] lg:w-[63%] lg:blur-[42px]",
     background:
       "radial-gradient(circle at center,rgba(132,188,255,0.3) 0%,rgba(132,188,255,0.22) 18%,rgba(102,164,255,0.14) 40%,rgba(52,100,212,0.06) 62%,rgba(10,15,32,0) 84%)"
   },
   {
     className:
-      "pointer-events-none absolute left-[49%] top-[57%] h-[24%] w-[24%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[28px]",
+      "pointer-events-none absolute left-[49%] top-[58%] h-[24%] w-[46%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[34px] sm:top-[58%] sm:h-[22%] sm:w-[38%] sm:blur-[32px] lg:top-[57%] lg:h-[24%] lg:w-[24%] lg:blur-[28px]",
     background:
       "radial-gradient(circle at center,rgba(52,100,212,0.34) 0%,rgba(102,164,255,0.22) 28%,rgba(102,164,255,0.1) 52%,rgba(10,15,32,0) 80%)"
   },
   {
     className:
-      "pointer-events-none absolute left-1/2 top-[80%] h-[3.5%] w-[32%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[24px] sm:top-[83%] lg:top-[87%]",
+      "pointer-events-none absolute left-1/2 top-[82%] h-[2.2%] w-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[24px] sm:top-[84%] sm:h-[3.4%] sm:w-[50%] sm:blur-[26px] lg:top-[87%] lg:h-[3.5%] lg:w-[32%] lg:blur-[24px]",
     background:
       "radial-gradient(ellipse at center,rgba(132,188,255,0.78) 0%,rgba(132,188,255,0.58) 22%,rgba(102,164,255,0.34) 42%,rgba(52,100,212,0.12) 62%,rgba(10,15,32,0) 84%)"
   }
@@ -198,6 +198,8 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     visibleFrom: 0
   });
   const pointerVectorRef = useRef(new THREE.Vector2(0, 0));
+  const particleTickRef = useRef(0);
+  const lineTickRef = useRef(0);
   const clickSeedRef = useRef(0);
   const autonomousTiltRef = useRef({
     x: 0,
@@ -207,9 +209,9 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     nextShiftAt: 0
   });
 
-  const shellParticleCount = compact ? 8 : 14;
-  const ambientParticleCount = compact ? 5 : 9;
-  const orbitalParticleCount = compact ? 46 : 66;
+  const shellParticleCount = compact ? 6 : 11;
+  const ambientParticleCount = compact ? 4 : 7;
+  const orbitalParticleCount = compact ? 34 : 52;
 
   const shellParticleData = useMemo(
     () => buildHaloPositions(shellParticleCount, 1.24, 1.5, 0),
@@ -241,7 +243,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     [orbitalParticleCount]
   );
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     const group = groupRef.current;
     const core = coreRef.current;
     const shell = shellRef.current;
@@ -276,6 +278,8 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     const impulse = impulseRef.current;
     const connectionState = connectionStateRef.current;
     const autonomousTilt = autonomousTiltRef.current;
+    const particleStep = compact ? 1 / 22 : 1 / 28;
+    const lineStep = compact ? 1 / 16 : 1 / 22;
 
     if (
       externalImpulse &&
@@ -306,8 +310,8 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
         connectionState.activeUntil + 0.55 + seededNoise(clickSeedRef.current, 97) * 0.45;
     }
 
-    const pulse = 1 + Math.sin(t * 0.9) * 0.03 * motion;
-    const shellPulse = 1 + Math.sin(t * 0.75 + 0.8) * 0.02 * motion;
+    const pulse = 1 + Math.sin(t * 1.08) * 0.032 * motion;
+    const shellPulse = 1 + Math.sin(t * 0.92 + 0.8) * 0.022 * motion;
     const impulseStrength = impulse.strength;
     const baseSwayX = Math.sin(t * 0.32) * 0.06 + Math.cos(t * 0.18 + 0.6) * 0.03;
     const baseSwayY = Math.cos(t * 0.28 + 0.3) * 0.07 + Math.sin(t * 0.16 + 1.1) * 0.028;
@@ -340,7 +344,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       pointer.current.y * -0.14 + autonomousTilt.x + baseSwayX,
       0.032
     );
-    group.rotation.z += 0.0007 * motion;
+    group.rotation.z += 0.00095 * motion;
 
     core.scale.setScalar(pulse);
     shell.scale.setScalar(shellPulse);
@@ -371,8 +375,21 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     shellParticles.material.opacity = 0.58 + Math.sin(t * 1.4) * 0.05 * motion;
     ambientParticles.material.opacity = 0.24 + Math.sin(t * 1.0) * 0.04 * motion;
 
+    particleTickRef.current += delta;
+    lineTickRef.current += delta;
+    const shouldUpdateParticles = reducedMotion || particleTickRef.current >= particleStep;
+    const shouldUpdateLines = reducedMotion || lineTickRef.current >= lineStep;
+
+    if (shouldUpdateParticles) {
+      particleTickRef.current = 0;
+    }
+
+    if (shouldUpdateLines) {
+      lineTickRef.current = 0;
+    }
+
     const shellAttribute = shellParticles.geometry?.attributes?.position;
-    if (shellAttribute) {
+    if (shellAttribute && shouldUpdateParticles) {
       for (let i = 0; i < shellParticleCount; i += 1) {
         const i3 = i * 3;
         const bx = shellParticleData.positions[i3];
@@ -409,7 +426,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     }
 
     const ambientAttribute = ambientParticles.geometry?.attributes?.position;
-    if (ambientAttribute) {
+    if (ambientAttribute && shouldUpdateParticles) {
       for (let i = 0; i < ambientParticleCount; i += 1) {
         const i3 = i * 3;
         const bx = ambientParticleData.positions[i3];
@@ -436,55 +453,57 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       [orbitalParticlesLarge, orbitalParticleLargeData, 0.024, 1.02, 0.17, 1.2]
     ];
 
-    orbitalSets.forEach(([points, data, driftScale, speedScale, impulseScale, settleBoost]) => {
-      const positionAttribute = points.geometry?.attributes?.position;
+    if (shouldUpdateParticles) {
+      orbitalSets.forEach(([points, data, driftScale, speedScale, impulseScale, settleBoost]) => {
+        const positionAttribute = points.geometry?.attributes?.position;
 
-      if (!positionAttribute) return;
+        if (!positionAttribute) return;
 
-      for (let i = 0; i < data.phases.length; i += 1) {
-        const i3 = i * 3;
-        const bx = data.positions[i3];
-        const by = data.positions[i3 + 1];
-        const bz = data.positions[i3 + 2];
-        const phase = data.phases[i];
-        const settle = data.settles[i] * settleBoost;
-        const drift = Math.sin(t * speedScale + phase) * driftScale * motion;
-        const depthDrift = Math.cos(t * (speedScale * 0.8) + phase) * driftScale * 0.75 * motion;
-        const length = Math.sqrt(bx * bx + by * by + bz * bz) || 1;
-        const nx = bx / length;
-        const ny = by / length;
-        const nz = bz / length;
-        const alignment = nx * impulse.x + ny * impulse.y + nz * impulse.z;
-        const impulseWave = Math.sin(t * 3.8 + phase * 0.55) * 0.5 + 0.5;
-        const disturbance =
-          THREE.MathUtils.smoothstep(alignment, 0.18, 0.92) *
-          impulseStrength *
-          impulseScale *
-          impulseWave;
+        for (let i = 0; i < data.phases.length; i += 1) {
+          const i3 = i * 3;
+          const bx = data.positions[i3];
+          const by = data.positions[i3 + 1];
+          const bz = data.positions[i3 + 2];
+          const phase = data.phases[i];
+          const settle = data.settles[i] * settleBoost;
+          const drift = Math.sin(t * speedScale + phase) * driftScale * motion;
+          const depthDrift = Math.cos(t * (speedScale * 0.8) + phase) * driftScale * 0.75 * motion;
+          const length = Math.sqrt(bx * bx + by * by + bz * bz) || 1;
+          const nx = bx / length;
+          const ny = by / length;
+          const nz = bz / length;
+          const alignment = nx * impulse.x + ny * impulse.y + nz * impulse.z;
+          const impulseWave = Math.sin(t * 3.8 + phase * 0.55) * 0.5 + 0.5;
+          const disturbance =
+            THREE.MathUtils.smoothstep(alignment, 0.18, 0.92) *
+            impulseStrength *
+            impulseScale *
+            impulseWave;
 
-        positionAttribute.array[i3] = THREE.MathUtils.lerp(
-          positionAttribute.array[i3],
-          bx + nx * (drift + disturbance),
-          settle
-        );
-        positionAttribute.array[i3 + 1] = THREE.MathUtils.lerp(
-          positionAttribute.array[i3 + 1],
-          by + ny * (drift + disturbance),
-          settle
-        );
-        positionAttribute.array[i3 + 2] = THREE.MathUtils.lerp(
-          positionAttribute.array[i3 + 2],
-          bz + nz * (drift + disturbance) + depthDrift + disturbance * 0.18,
-          settle
-        );
-      }
+          positionAttribute.array[i3] = THREE.MathUtils.lerp(
+            positionAttribute.array[i3],
+            bx + nx * (drift + disturbance),
+            settle
+          );
+          positionAttribute.array[i3 + 1] = THREE.MathUtils.lerp(
+            positionAttribute.array[i3 + 1],
+            by + ny * (drift + disturbance),
+            settle
+          );
+          positionAttribute.array[i3 + 2] = THREE.MathUtils.lerp(
+            positionAttribute.array[i3 + 2],
+            bz + nz * (drift + disturbance) + depthDrift + disturbance * 0.18,
+            settle
+          );
+        }
 
-      positionAttribute.needsUpdate = true;
-    });
+        positionAttribute.needsUpdate = true;
+      });
+    }
 
     const connectionAttribute = connectionLines.geometry?.attributes?.position;
     if (connectionAttribute) {
-      if (connectionState.pairs.length && t <= connectionState.activeUntil) {
+      if (connectionState.pairs.length && t <= connectionState.activeUntil && shouldUpdateLines) {
         let cursor = 0;
         const sourcePositions = orbitalParticlesC.geometry?.attributes?.position?.array;
 
@@ -534,7 +553,7 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
           const travelGlow = 0.95 + Math.sin(progress * Math.PI) * 0.55;
           connectionMaterial.opacity = alphaEnvelope * travelGlow * 0.24;
         }
-      } else {
+      } else if (t > connectionState.activeUntil) {
         connectionLines.geometry.setDrawRange(0, 0);
         connectionMaterial.opacity = 0;
       }
