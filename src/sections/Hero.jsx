@@ -61,8 +61,7 @@ export default function Hero() {
             scrub: true
           }
         })
-        .to(copyItems[0], { x: -120, y: -60, opacity: 0, ease: "none" }, 0)
-        .to(copyItems[1], { x: -180, y: -120, opacity: 0, ease: "none" }, 0);
+        .to(copyItems, { x: -150, y: -88, opacity: 0, ease: "none" }, 0);
 
       gsap.to(imageWrap, {
         opacity: 0,
@@ -171,13 +170,13 @@ export default function Hero() {
 
           <div
             ref={heroCopyRef}
-            className="relative z-10 flex max-w-[560px] flex-col gap-[0.52rem] sm:gap-[0.72rem] self-start pt-52 max-md:absolute max-md:left-6 max-md:top-[56%] max-md:max-w-[calc(100%-3rem)] max-md:pt-0 md:absolute md:left-6 md:top-[52%] md:max-w-[420px] md:pt-0 lg:left-6 lg:top-[57%] lg:max-w-[560px] xl:top-[55%] app_hero_copy"
+            className="relative z-10 flex max-w-[560px] flex-col gap-[0.52rem] sm:gap-[0.72rem] self-start pt-52 absolute left-0 top-[56%] max-w-[calc(100%-0.25rem)] pt-0 sm:left-1 sm:max-w-[calc(100%-0.5rem)] md:absolute md:left-1 md:top-[52%] md:max-w-[420px] md:pt-0 lg:left-6 lg:top-[57%] lg:max-w-[560px] xl:top-[55%] app_hero_copy"
           >
-            <p className="max-w-[22rem] text-[10px] font-bold uppercase tracking-[0.16em] leading-[1.6] text-[color:var(--pearl)]/44 sm:text-[12px] sm:tracking-[0.18em] md:text-[clamp(12px,1.35vw,14px)] md:tracking-[0.2em] md:leading-[1.65]">
+            <p className="max-w-[22rem] text-[9px] font-bold uppercase tracking-[0.15em] leading-[1.55] text-[color:var(--pearl)]/44 sm:text-[12px] sm:tracking-[0.18em] md:text-[clamp(12px,1.35vw,14px)] md:tracking-[0.2em] md:leading-[1.65]">
               AI Software Developer
             </p>
 
-            <h1 className="app_hero_title text-[29px] sm:text-[43px] md:text-[38px] lg:text-[54px] font-bold uppercase leading-[0.92] tracking-[0.025em] text-[color:var(--pearl)] whitespace-nowrap">
+            <h1 className="app_hero_title text-[25px] sm:text-[43px] md:text-[38px] lg:text-[54px] font-bold uppercase leading-[0.92] tracking-[0.025em] text-[color:var(--pearl)] whitespace-nowrap">
               Andr&eacute; Matos
             </h1>
           </div>

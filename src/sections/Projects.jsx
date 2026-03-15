@@ -274,7 +274,7 @@ export default function Projects({ sectionId = "projects" }) {
                       </div>
 
                       <div className="flex-1 self-end pl-4 sm:pl-6 max-w-[26rem] flex flex-col gap-8 sm:gap-10 app_work_card_body">
-                        <h3 className="text-[3.25rem] sm:text-[4.2rem] lg:text-[5.45rem] font-extrabold leading-[0.88] tracking-[-0.03em] text-white">
+                        <h3 className="text-[3rem] sm:text-[3.85rem] lg:text-[5rem] font-extrabold leading-[0.88] tracking-[0.015em] text-white">
                           {item.title}
                         </h3>
                         <p className="max-w-[23rem] text-[1rem] sm:text-[1.08rem] leading-relaxed text-white/76">

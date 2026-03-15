@@ -132,15 +132,15 @@ export default function About() {
               Portugal-based software developer working across backend and modern web technologies.
             </h2>
 
-            <p className="mt-1 text-sm sm:text-base text-[color:var(--ink)]/70 leading-relaxed app_about_text">
+            <p className="mt-1 text-[17px] leading-[28px] text-[color:var(--ink)]/70 app_about_text">
               &nbsp;
             </p>
 
-            <p className="mt-5 text-sm sm:text-base text-[color:var(--ink)]/68 leading-relaxed app_about_text">
+            <p className="mt-5 text-[17px] leading-[28px] text-[color:var(--ink)]/68 app_about_text">
               I build applications using Java, Python, and JavaScript, developing APIs and full-stack solutions.
             </p>
 
-            <p className="mt-4 text-sm sm:text-base text-[color:var(--ink)]/68 leading-relaxed app_about_text">
+            <p className="mt-4 text-[17px] leading-[28px] text-[color:var(--ink)]/68 app_about_text">
               I&apos;m particularly interested in system design and AI-driven applications, and I focus on writing
               clear, maintainable code while continuously improving my technical skills.
             </p>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function DeferredProjectsSection() {
+export default function DeferredProjectsSection({ eager = false }) {
   const hostRef = useRef(null);
   const [ProjectsSection, setProjectsSection] = useState(null);
   const hasStartedRef = useRef(false);
@@ -22,6 +22,13 @@ export default function DeferredProjectsSection() {
     };
 
     const node = hostRef.current;
+    if (eager) {
+      load();
+      return () => {
+        cancelled = true;
+      };
+    }
+
     if (node && "IntersectionObserver" in window) {
       observer = new IntersectionObserver(
         (entries) => {
@@ -53,10 +60,10 @@ export default function DeferredProjectsSection() {
         window.clearTimeout(timeoutId);
       }
     };
-  }, []);
+  }, [eager]);
 
   if (ProjectsSection) {
-    return <ProjectsSection sectionId={null} />;
+    return <ProjectsSection sectionId="projects" />;
   }
 
   return (

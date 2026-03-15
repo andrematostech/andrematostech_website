@@ -28,7 +28,9 @@ function AnimatedRoutes() {
     const timeout = window.setTimeout(() => {
       setDisplayLocation(location);
       setTransitionStage("fadeIn");
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      if (!location.state?.scrollTo) {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
     }, 650);
 
     return () => window.clearTimeout(timeout);

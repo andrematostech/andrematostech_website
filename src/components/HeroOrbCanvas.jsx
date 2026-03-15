@@ -156,6 +156,24 @@ function buildClosestConnectionPairs(data, ratio, seed) {
   return pairs;
 }
 
+function buildConnectionItems(data, ratio, seed, startTime, maxItems) {
+  const pairs = buildClosestConnectionPairs(data, ratio, seed)
+    .map((pair, index) => ({
+      pair,
+      noise: seededNoise(pair[0] + pair[1] + index, seed + 29)
+    }))
+    .sort((a, b) => a.noise - b.noise)
+    .map(({ pair }) => pair)
+    .slice(0, maxItems);
+
+  return pairs.map(([a, b], index) => ({
+    a,
+    b,
+    startAt: startTime + seededNoise(index + a + b, seed) * 0.18,
+    duration: 1.28 + seededNoise(index + a + b, seed + 17) * 0.4
+  }));
+}
+
 const wrapperGlows = [
   {
     className:
@@ -171,9 +189,9 @@ const wrapperGlows = [
   },
   {
     className:
-      "pointer-events-none absolute left-1/2 top-[82%] h-[2.2%] w-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[24px] sm:top-[84%] sm:h-[3.4%] sm:w-[50%] sm:blur-[26px] lg:top-[87%] lg:h-[3.5%] lg:w-[32%] lg:blur-[24px]",
+      "pointer-events-none absolute left-1/2 top-[82%] h-[2.8%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[28px] sm:top-[84%] sm:h-[4%] sm:w-[68%] sm:blur-[30px] lg:top-[87%] lg:h-[3.8%] lg:w-[40%] lg:blur-[28px]",
     background:
-      "radial-gradient(ellipse at center,rgba(132,188,255,0.78) 0%,rgba(132,188,255,0.58) 22%,rgba(102,164,255,0.34) 42%,rgba(52,100,212,0.12) 62%,rgba(10,15,32,0) 84%)"
+      "radial-gradient(ellipse at center,rgba(132,188,255,0.92) 0%,rgba(132,188,255,0.7) 20%,rgba(102,164,255,0.44) 40%,rgba(52,100,212,0.16) 60%,rgba(10,15,32,0) 82%)"
   }
 ];
 
@@ -191,11 +209,9 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
   const connectionMaterialRef = useRef(null);
   const impulseRef = useRef({ strength: 0, x: 0, y: 0, z: 0 });
   const connectionStateRef = useRef({
-    activeUntil: 0,
-    pairs: [],
+    items: [],
     seed: 0,
-    nextRefreshAt: 0,
-    visibleFrom: 0
+    nextRefreshAt: 0
   });
   const pointerVectorRef = useRef(new THREE.Vector2(0, 0));
   const particleTickRef = useRef(0);
@@ -296,18 +312,15 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
       impulse.z = externalImpulse.z;
     }
 
-    if (t >= connectionState.nextRefreshAt || !connectionState.pairs.length) {
+    if (t >= connectionState.nextRefreshAt || !connectionState.items.length) {
       clickSeedRef.current += 1;
       connectionState.seed = clickSeedRef.current * 577 + t * 113;
-      connectionState.visibleFrom = t;
-      connectionState.activeUntil = t + 1.9;
-      connectionState.pairs = buildClosestConnectionPairs(
-        orbitalParticleDataC,
-        0.24,
-        connectionState.seed
-      );
-      connectionState.nextRefreshAt =
-        connectionState.activeUntil + 0.55 + seededNoise(clickSeedRef.current, 97) * 0.45;
+      const connectionBurstCount = compact ? 1 : 2;
+      connectionState.items = [
+        ...connectionState.items.filter((item) => t <= item.startAt + item.duration),
+        ...buildConnectionItems(orbitalParticleDataC, 0.06, connectionState.seed, t, connectionBurstCount)
+      ].slice(-(compact ? 2 : 3));
+      connectionState.nextRefreshAt = t + 0.88 + seededNoise(clickSeedRef.current, 97) * 0.26;
     }
 
     const pulse = 1 + Math.sin(t * 1.08) * 0.032 * motion;
@@ -503,36 +516,35 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
 
     const connectionAttribute = connectionLines.geometry?.attributes?.position;
     if (connectionAttribute) {
-      if (connectionState.pairs.length && t <= connectionState.activeUntil && shouldUpdateLines) {
+      if (connectionState.items.length && shouldUpdateLines) {
         let cursor = 0;
         const sourcePositions = orbitalParticlesC.geometry?.attributes?.position?.array;
 
         if (sourcePositions) {
-          const cycleDuration = Math.max(0.001, connectionState.activeUntil - connectionState.visibleFrom);
-          const progress = THREE.MathUtils.clamp(
-            (t - connectionState.visibleFrom) / cycleDuration,
-            0,
-            1
-          );
+          let activeCount = 0;
 
-          connectionState.pairs.forEach(([a, b], pairIndex) => {
-            const aIndex = a * 3;
-            const bIndex = b * 3;
+          connectionState.items = connectionState.items.filter((item) => t <= item.startAt + item.duration);
+
+          connectionState.items.forEach((item) => {
+            const progress = THREE.MathUtils.clamp(
+              (t - item.startAt) / Math.max(0.001, item.duration),
+              0,
+              1
+            );
+
+            if (progress <= 0 || progress >= 1) return;
+
+            const aIndex = item.a * 3;
+            const bIndex = item.b * 3;
             const ax = sourcePositions[aIndex];
             const ay = sourcePositions[aIndex + 1];
             const az = sourcePositions[aIndex + 2];
             const bx = sourcePositions[bIndex];
             const by = sourcePositions[bIndex + 1];
             const bz = sourcePositions[bIndex + 2];
-            const revealDelay = seededNoise(pairIndex + a + b, connectionState.seed) * 0.1;
-            const localProgress = THREE.MathUtils.clamp(
-              (progress - revealDelay) / Math.max(0.001, 0.46 - revealDelay),
-              0,
-              1
-            );
-            const headProgress = THREE.MathUtils.smoothstep(localProgress, 0.01, 0.24);
-            const tailProgress =
-              THREE.MathUtils.smoothstep(localProgress, 0.26, 0.31) * 0.96;
+            const travelProgress = THREE.MathUtils.smootherstep(progress, 0.04, 0.62);
+            const headProgress = travelProgress * 0.92;
+            const tailProgress = THREE.MathUtils.smootherstep(progress, 0.22, 0.5) * 0.8;
 
             if (headProgress - tailProgress <= 0.008) return;
 
@@ -543,17 +555,14 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
             connectionAttribute.array[cursor + 4] = THREE.MathUtils.lerp(ay, by, headProgress);
             connectionAttribute.array[cursor + 5] = THREE.MathUtils.lerp(az, bz, headProgress);
             cursor += 6;
+            activeCount += 1;
           });
 
           connectionLines.geometry.setDrawRange(0, cursor / 3);
           connectionAttribute.needsUpdate = true;
-          const fadeIn = THREE.MathUtils.smoothstep(progress, 0, 0.1);
-          const fadeOut = 1 - THREE.MathUtils.smoothstep(progress, 0.42, 0.58);
-          const alphaEnvelope = Math.min(fadeIn, fadeOut);
-          const travelGlow = 0.95 + Math.sin(progress * Math.PI) * 0.55;
-          connectionMaterial.opacity = alphaEnvelope * travelGlow * 0.24;
+          connectionMaterial.opacity = activeCount ? 0.11 : 0;
         }
-      } else if (t > connectionState.activeUntil) {
+      } else {
         connectionLines.geometry.setDrawRange(0, 0);
         connectionMaterial.opacity = 0;
       }
