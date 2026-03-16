@@ -22,11 +22,10 @@ export default function About() {
 
     const ctx = gsap.context(() => {
       gsap.set([...leftGroup, ...rightGroup], { opacity: 1, x: 0, y: 0 });
-      gsap.set(section, { backgroundColor: "rgba(248, 246, 242, 0)" });
 
       gsap.fromTo(
         leftGroup,
-        { x: -140, opacity: 0, y: 12 },
+        { x: -160, opacity: 0, y: 0 },
         {
           x: 0,
           opacity: 1,
@@ -35,16 +34,16 @@ export default function About() {
           immediateRender: false,
           scrollTrigger: {
             trigger: section,
-            start: "top 92%",
-            end: "top 45%",
-            scrub: 0.7
+            start: "top 28%",
+            end: "top 12%",
+            scrub: 0.4
           }
         }
       );
 
       gsap.fromTo(
         rightGroup,
-        { x: 140, opacity: 0, y: 12 },
+        { x: 0, opacity: 0, y: 156 },
         {
           x: 0,
           opacity: 1,
@@ -53,9 +52,9 @@ export default function About() {
           immediateRender: false,
           scrollTrigger: {
             trigger: section,
-            start: "top 92%",
-            end: "top 45%",
-            scrub: 0.7
+            start: "top 28%",
+            end: "top 12%",
+            scrub: 0.4
           }
         }
       );
@@ -81,17 +80,6 @@ export default function About() {
           scrub: true
         }
       });
-
-      gsap.to(section, {
-        backgroundColor: "rgba(248, 246, 242, 1)",
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 62%",
-          end: "top -8%",
-          scrub: true
-        }
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -101,7 +89,8 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative overflow-hidden text-[color:var(--ink)] min-h-screen flex items-start sm:items-center app_about app_about_section"
+      className="relative overflow-hidden min-h-screen flex items-start sm:items-center bg-[color:var(--ink)] text-[color:var(--pearl)] app_about app_about_section"
+      style={{ backgroundColor: "#0a0a0a" }}
     >
       <div
         className="w-full flex justify-center app_about_container"
@@ -124,25 +113,22 @@ export default function About() {
           </div>
 
           <div ref={textRef} className="lg:col-span-7 app_about_content relative">
-            <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-[color:var(--ink)]/46 sm:text-[14px] sm:leading-[1.7] app_about_kicker">
+            <p className="text-[13px] font-bold uppercase tracking-[0.22em] text-[color:var(--pearl)]/46 sm:text-[14px] sm:leading-[1.7] app_about_kicker">
               About
             </p>
 
-            <h2 className="mt-5 text-lg sm:text-xl font-bold tracking-tight app_about_title">
-              Portugal-based software developer working across backend and modern web technologies.
+            <h2 className="mt-5 text-lg sm:text-xl font-bold tracking-tight text-[color:var(--pearl)] app_about_title">
+              Portugal-based AI software developer focused on building intelligent applications and scalable systems.
             </h2>
 
-            <p className="mt-1 text-[17px] leading-[28px] text-[color:var(--ink)]/70 app_about_text">
-              &nbsp;
+            <p className="mt-5 text-[17px] leading-[28px] text-[color:var(--pearl)]/68 app_about_text">
+              I work across backend and modern web technologies using Python, JavaScript, and Java, developing APIs,
+              data pipelines, and AI-driven tools.
             </p>
 
-            <p className="mt-5 text-[17px] leading-[28px] text-[color:var(--ink)]/68 app_about_text">
-              I build applications using Java, Python, and JavaScript, developing APIs and full-stack solutions.
-            </p>
-
-            <p className="mt-4 text-[17px] leading-[28px] text-[color:var(--ink)]/68 app_about_text">
-              I&apos;m particularly interested in system design and AI-driven applications, and I focus on writing
-              clear, maintainable code while continuously improving my technical skills.
+            <p className="mt-4 text-[17px] leading-[28px] text-[color:var(--pearl)]/68 app_about_text">
+              I&apos;m particularly interested in system design, AI applications, and building products that combine
+              strong engineering with thoughtful user experience.
             </p>
 
             <div className="flex items-center gap-6 app_about_social" style={{ marginBottom: "32px" }}>
@@ -151,18 +137,18 @@ export default function About() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="text-[color:var(--ink)]/72 hover:text-[color:var(--ink)] transition-colors app_about_social_link"
+                className="text-[color:var(--pearl)]/72 transition-[color,filter,transform] duration-300 hover:text-[color:var(--pearl)] hover:[filter:drop-shadow(0_0_10px_rgba(132,188,255,0.34))] hover:scale-[1.03] app_about_social_link"
               >
-                <FaGithub size={22} />
+                <FaGithub size={24} />
               </a>
               <a
                 href="https://www.linkedin.com/in/andrematostech/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="text-[color:var(--ink)]/72 hover:text-[color:var(--ink)] transition-colors app_about_social_link"
+                className="text-[color:var(--pearl)]/72 transition-[color,filter,transform] duration-300 hover:text-[color:var(--pearl)] hover:[filter:drop-shadow(0_0_10px_rgba(132,188,255,0.34))] hover:scale-[1.03] app_about_social_link"
               >
-                <FaLinkedinIn size={22} />
+                <FaLinkedinIn size={24} />
               </a>
             </div>
           </div>

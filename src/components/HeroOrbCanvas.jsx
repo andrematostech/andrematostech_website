@@ -238,15 +238,15 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
     [ambientParticleCount]
   );
   const orbitalParticleDataA = useMemo(
-    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.36, 1.56, 31),
+    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.42, 1.64, 31),
     [orbitalParticleCount]
   );
   const orbitalParticleDataB = useMemo(
-    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.44, 1.68, 37),
+    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.52, 1.76, 37),
     [orbitalParticleCount]
   );
   const orbitalParticleDataC = useMemo(
-    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.54, 1.82, 41),
+    () => buildOrbitalParticlePositions(orbitalParticleCount, 1.64, 1.96, 41),
     [orbitalParticleCount]
   );
   const orbitalParticleLargeData = useMemo(
@@ -725,47 +725,39 @@ function OrbScene({ pointer, interaction, reducedMotion, compact }) {
                 vec3 V = normalize(cameraPosition - vWorldPosition);
                 float fresnel = pow(1.0 - max(dot(N, V), 0.0), 2.2);
                 float lambert = max(dot(N, normalize(vec3(0.38, 0.44, 1.0))), 0.0);
-                float pattern = smoothstep(0.28, 0.76, 0.5 + 0.5 * vCell);
-                float bandMask = smoothstep(0.28, 0.86, vBand);
-                float innerPulse = 0.5 + 0.5 * sin(uTime * 0.42 + vCell * 1.1);
+                float pattern = smoothstep(0.36, 0.72, 0.5 + 0.5 * vCell);
+                float bandMask = smoothstep(0.42, 0.82, vBand);
+                float innerPulse = 0.5 + 0.5 * sin(uTime * 0.34 + vCell * 0.8);
                 vec2 flowUv = vWorldPosition.xy * 0.9;
-                float drift = 0.5 + 0.5 * sin(flowUv.x * 2.8 + flowUv.y * 2.2 + uTime * 0.34);
-                float driftTwo = 0.5 + 0.5 * sin(flowUv.y * 3.1 - flowUv.x * 1.7 - uTime * 0.28);
+                float drift = 0.5 + 0.5 * sin(flowUv.x * 1.8 + flowUv.y * 1.5 + uTime * 0.18);
+                float driftTwo = 0.5 + 0.5 * sin(flowUv.y * 2.1 - flowUv.x * 1.2 - uTime * 0.15);
                 float radial = length(vWorldPosition.xy) / 1.12;
                 float angle = atan(vWorldPosition.y, vWorldPosition.x + 0.0001);
                 float centerMask = 1.0 - smoothstep(0.0, 0.92, length(vWorldPosition.xy) / 1.12);
-                float centerVoid = 1.0 - smoothstep(0.0, 0.58, length(vWorldPosition.xy) / 1.12);
-                float pulseSeedA = sin(uTime * 1.8 + sin(uTime * 0.62) * 2.1);
-                float pulseSeedB = sin(uTime * 1.22 + cos(uTime * 0.48) * 1.7);
-                float randomPulse = 0.58 + 0.42 * smoothstep(0.28, 1.0, 0.5 + 0.5 * (pulseSeedA * 0.62 + pulseSeedB * 0.38));
-                float surgeMask = smoothstep(0.8, 0.96, randomPulse);
-                float redCoreMask = centerVoid * (0.7 + centerMask * 0.3);
-                float branchWave = sin(angle * 3.2 + uTime * 0.82 + radial * 4.8);
-                float branchWaveTwo = sin(angle * 5.0 - uTime * 0.64 - radial * 6.2);
-                float branchField = branchWave * 0.6 + branchWaveTwo * 0.4;
-                float branchMask = smoothstep(0.54, 0.9, 0.5 + 0.5 * branchField);
-                float branchFade =
-                  smoothstep(0.0, 0.08, radial) *
-                  (1.0 - smoothstep(0.44, 0.66, radial));
-                float organicGrowth = branchMask * branchFade * surgeMask;
+                float centerVoid = 1.0 - smoothstep(0.0, 0.64, length(vWorldPosition.xy) / 1.12);
+                float pulseSeedA = sin(uTime * 1.6 + sin(uTime * 0.62) * 2.1);
+                float pulseSeedB = sin(uTime * 1.08 + cos(uTime * 0.48) * 1.7);
+                float pulseMix = 0.5 + 0.5 * (pulseSeedA * 0.62 + pulseSeedB * 0.38);
+                float randomPulse = smoothstep(0.42, 0.98, pulseMix);
+                float redCoreMask = smoothstep(0.34, 0.02, radial) * (0.84 + centerMask * 0.36);
 
-                vec3 base = mix(vec3(0.04, 0.08, 0.18), vec3(0.1, 0.18, 0.34), lambert * 0.6);
-                vec3 body = vec3(0.2, 0.38, 0.84) * pattern * 0.16;
-                vec3 flow = vec3(0.16, 0.3, 0.7) * drift * 0.14 + vec3(0.28, 0.46, 0.92) * driftTwo * 0.08;
-                vec3 midGlow = vec3(0.14, 0.34, 0.76) * bandMask * 0.08;
-                vec3 rim = vec3(0.64, 0.86, 1.0) * (fresnel * 0.58 + innerPulse * 0.06);
-                vec3 voidTint = vec3(0.01, 0.03, 0.09) * centerVoid * 0.9;
-                vec3 redCore = vec3(1.0, 0.12, 0.1) * randomPulse * redCoreMask * 0.48;
-                vec3 organicRays = vec3(1.0, 0.26, 0.18) * organicGrowth * 0.045;
+                vec3 base = mix(vec3(0.012, 0.04, 0.1), vec3(0.04, 0.09, 0.18), lambert * 0.42);
+                vec3 body = vec3(0.14, 0.28, 0.62) * pattern * 0.055;
+                vec3 flow = vec3(0.08, 0.16, 0.34) * drift * 0.05 + vec3(0.1, 0.2, 0.44) * driftTwo * 0.03;
+                vec3 midGlow = vec3(0.08, 0.18, 0.42) * bandMask * 0.03;
+                vec3 rim = vec3(0.34, 0.62, 1.0) * (fresnel * 0.86 + innerPulse * 0.035);
+                vec3 voidTint = vec3(0.0, 0.01, 0.03) * centerVoid * 0.5;
+                vec3 redCoreBase = vec3(0.82, 0.08, 0.06) * redCoreMask * 0.22;
+                vec3 redCorePulse = vec3(1.0, 0.14, 0.12) * redCoreMask * randomPulse * 0.72;
+                vec3 redCore = redCoreBase + redCorePulse;
                 vec3 color = base + body + rim;
                 color += flow * centerMask;
                 color += midGlow;
                 color -= voidTint;
                 color += redCore;
-                color += organicRays;
-                color += vec3(0.9, 0.96, 1.0) * bandMask * vPulse * (0.026 + uImpulse * 0.04);
-                float centerAlphaFade = pow(centerVoid, 1.15) * 0.18;
-                float alpha = 0.78 + fresnel * 0.11 - centerAlphaFade;
+                color += vec3(0.82, 0.9, 1.0) * bandMask * vPulse * (0.012 + uImpulse * 0.02);
+                float centerAlphaFade = pow(centerVoid, 1.02) * 0.2;
+                float alpha = 0.72 + fresnel * 0.15 - centerAlphaFade;
 
                 gl_FragColor = vec4(color, alpha);
               }

@@ -63,16 +63,17 @@ export default function Hero() {
         })
         .to(copyItems, { x: -150, y: -88, opacity: 0, ease: "none" }, 0);
 
-      gsap.to(imageWrap, {
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: about,
-          start: "bottom 86%",
-          end: "bottom 52%",
-          scrub: true
-        }
-      });
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: about,
+            start: "top bottom",
+            end: "bottom 52%",
+            scrub: true
+          }
+        })
+        .to(imageWrap, { opacity: 0.4, ease: "none" }, 0)
+        .to(imageWrap, { opacity: 0, ease: "none" }, 0.72);
     }, wrapRef);
 
     return () => ctx.revert();
