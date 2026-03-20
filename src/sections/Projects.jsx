@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import workBg from "../assets/work_background.png";
+import ProjectsAtmosphere from "../components/ProjectsAtmosphere";
 import kivoWorkcard from "../assets/KIVO_workcard_2.png";
 import kivoWorkcardTablet from "../assets/KIVO_workcard_tablet.png";
 import kivoWorkcardPhone from "../assets/KIVO_workcard_phone.png";
@@ -51,7 +51,6 @@ const items = [
 
 export default function Projects({ sectionId = "projects" }) {
   const sectionRef = useRef(null);
-  const bgRef = useRef(null);
   const headerRef = useRef(null);
   const railViewportRef = useRef(null);
   const railRef = useRef(null);
@@ -59,13 +58,12 @@ export default function Projects({ sectionId = "projects" }) {
 
   useEffect(() => {
     const section = sectionRef.current;
-    const bg = bgRef.current;
     const railViewport = railViewportRef.current;
     const rail = railRef.current;
     const header = headerRef.current;
     const cards = cardRefs.current.filter(Boolean);
 
-    if (!section || !bg || !railViewport || !rail || !header || !cards.length) return;
+    if (!section || !railViewport || !rail || !header || !cards.length) return;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -110,17 +108,6 @@ export default function Projects({ sectionId = "projects" }) {
           },
           0.08
         );
-
-      gsap.to(bg, {
-        y: -260,
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      });
 
       mm.add("(min-width: 1024px)", () => {
         const getEnd = () => {
@@ -186,20 +173,7 @@ export default function Projects({ sectionId = "projects" }) {
       ref={sectionRef}
       className="relative z-[2] bg-[color:var(--ink)] text-[color:var(--pearl)] min-h-screen border-t border-[color:var(--pearl)]/10 overflow-hidden app_work app_work_section"
       style={{ "--project-expand": 0 }}>
-      <div
-        ref={bgRef}
-        className="absolute inset-x-0 -top-[30%] -bottom-[30%] app_work_bg"
-        style={{
-          backgroundImage: `url(${workBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          transform: "translateY(0px) scale(1.25)",
-          willChange: "transform"
-        }}
-      />
-
-      <div className="absolute inset-0 bg-[color:var(--ink)]/72 app_work_overlay" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_38%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.08),transparent_42%)] opacity-80" />
+      <ProjectsAtmosphere sectionRef={sectionRef} />
 
       <div className="relative w-full flex justify-center app_work_container">
         <div
