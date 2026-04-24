@@ -10,14 +10,19 @@ export default function ProjectNavbar() {
             <Link
               to="/"
               state={{ scrollTo: "projects" }}
+              aria-label="Back to projects"
+              title="Back to projects"
               className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white app_work_nav_back_link">
-              
               Back
             </Link>
           </div>
 
           <div className="col-span-4 flex justify-center app_work_nav_logo">
-            <Link to="/" className="inline-flex items-center gap-2 app_work_nav_logo_link" aria-label="Home">
+            <Link
+              to="/"
+              state={{ scrollTo: "projects" }}
+              className="inline-flex items-center gap-2 app_work_nav_logo_link"
+              aria-label="Home">
               <div className="h-6 w-6 sm:h-8 sm:w-8 app_work_nav_logo_wrap">
                 <img
                   src={logoWhite}
